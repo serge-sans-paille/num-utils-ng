@@ -37,18 +37,18 @@
 
 enum {TYPE_ERROR=1, OPTION_ERROR };
 
-double sum ( FILE* fichier){		//this function calculates the sum of numbers from a file or stdin.
+static double sum ( FILE* stream){		//this function calculates the sum of numbers from a file or stdin.
   double sum=0.;
   double number=0.;
-  while (!feof(fichier)){
+  while (!feof(stream)){
     sum = sum + number ;					
-    if(fscanf (fichier,"%lf",&number)!=EOF);
+    if(fscanf (stream,"%lf",&number)!=EOF);
   }
  return sum;
 }
 
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 
@@ -62,12 +62,12 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
 }
 
 
-double column(FILE* file){     // this function print out the sum of each column.
+static double column(FILE* stream){     // this function print out the sum of each column.
 	int l=0,i,I,J;  
 	int C=0;
 	int car; 
 	if (file != NULL){
-	while ( (car= getc(file)) != EOF){
+	while ( (car= getc(stream)) != EOF){
 		if (car == '\n')
 		++l;	
 		if (car == ' ' && l==0)
@@ -76,7 +76,7 @@ double column(FILE* file){     // this function print out the sum of each column
 	int tableau[l][C+1];
 	int* tab=NULL;
 	tab=malloc(C*sizeof(int));
-	rewind(file);
+	rewind(stream);
 	for(i=0; i<l*(C+1); i++){
 		if(fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)])!=EOF);
 	    }
@@ -91,11 +91,10 @@ double column(FILE* file){     // this function print out the sum of each column
 	return 0;
 }
 
-double row(){                  // this function print ou the sum of each row.
+static double row(FILE* stream){                  // this function print ou the sum of each row.
 	char ligne[1024], *p, *e;
-	FILE* file = NULL;
 	long v, somme = 0;
-	while (fgets(ligne, sizeof(ligne), file)) {
+	while (fgets(ligne, sizeof(ligne), stream)) {
 		p = ligne;
 		for (p = ligne; ; p = e) {
 	        v = strtol(p, &e, 10);
@@ -112,15 +111,15 @@ double row(){                  // this function print ou the sum of each row.
 }
 
 
-double decimalPortion(FILE* file){     //this function calculates the decimal portion of the final sum 
-	double d = sum(file);
+static double decimalPortion(FILE* stream){     //this function calculates the decimal portion of the final sum 
+	double d = sum(stream);
 	int i = (int)d;
 	double res = d - (double)i;
 	return res;
 }
 
 int main(int argc,char *argv[]){
-	FILE* file = stdin;
+	FILE*stream = stdin;
 	int opt;
 	int m=0;				// for options (column, row).
 	int s=0;				// for options (normal, integer portion and decimal portion).;
@@ -158,20 +157,35 @@ int main(int argc,char *argv[]){
   	}
 	
 	if (argc>optind){
-		if (!(file = fopen(argv[optind], "r"))){
+		if (!(stream = fopen(argv[optind], "r"))){
 			perror("num-utils-ng"); 
 			exit(EXIT_FAILURE);
 		}
-    		if (typeIsWrong(file))
+    		if (typeIsWrong(stream))
 			return TYPE_ERROR;
 	}  
 	
+	if (m==0)
+		sum(stream) = sum(stream);
+	if (m==1)
+		sum(stream) = column(stream);
+	if (m==2)
+		sum(stream) = row(stream);
+
+  if (argc>1){
+    if (fclose(stream)!=0){
+      perror("num-utils-ng"); 
+      exit(EXIT_FAILURE);
+    }
+  }
+
+		
   if (s==0)
-  	printf("result : %lf\n",sum(file));
+  	printf("result : %lf\n",sum(stream));
   if (s==1)
-  	printf("result : %d\n",(int)sum(file));
+  	printf("result : %d\n",(int)sum(stream));
   if (s==2)
-  	printf("result : %lf\n",decimalPortion(file));
+  	printf("result : %lf\n",decimalPortion(stream));
   return EXIT_SUCCESS;
 
 }
