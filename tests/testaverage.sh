@@ -8,7 +8,6 @@ ERROR=0
 echo -e "\nTest results for the average function :\n" > finalmsg
 
 echo "1 2 3 4" 1> data
-
 average -blabla data &>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
@@ -36,34 +35,31 @@ then
   rm temp
 fi
 
-echo `seq 1 100000` 1> data
-/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" average data >/dev/null 
+echo `seq 1 100000` 1> data2
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" average data2 >/dev/null 
 
 echo -e "\t 2.Median option : " >> finalmsg
 
 if [ -e /usr/bin/valgrind ]
 then
-echo `seq 1 100` 1> data
-valgrind average -M data &>temp
-grep '\(leaks\|alloc\)' temp >> finalmsg 
-rm temp
+ valgrind average -M data &>temp
+ grep '\(leaks\|alloc\)' temp >> finalmsg 
+ rm temp
 fi
 
-echo `seq 1 10000` 1> data
-/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -M data >/dev/null 
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" average -M data2 >/dev/null 
 
 echo -e "\t 3.Mode option : " >> finalmsg
 
 if [ -e /usr/bin/valgrind ]
 then
-echo `seq 1 100` 1> data
-valgrind average -m data &>temp
-grep '\(leaks\|alloc\)' temp >> finalmsg 
-rm temp
+ valgrind average -m data &>temp
+ grep '\(leaks\|alloc\)' temp >> finalmsg 
+ rm temp
 fi
 
-echo `seq 1 10000` 1> data
-/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -m data >/dev/null 
+echo `seq 1 10000` 1> data2
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -m data2 >/dev/null 
 
 cat finalmsg
 if [ "$ERROR" -eq "0" ] 
@@ -73,4 +69,5 @@ fi
 
 rm finalmsg
 rm data
+rm data2
 exit
