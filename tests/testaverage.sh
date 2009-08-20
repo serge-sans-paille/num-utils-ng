@@ -28,30 +28,39 @@ fi
 
 echo -e "\t 1.Without options :" >> finalmsg
 
-echo `seq 1 100` 1> data
-valgrind average data &>temp
-grep '\(leaks\|alloc\)' temp >> finalmsg 
-rm temp
+if [ -e /usr/bin/valgrind ]
+then
+  echo `seq 1 100` 1> data
+  valgrind average data &>temp
+  grep '\(leaks\|alloc\)' temp >> finalmsg 
+  rm temp
+fi
 
 echo `seq 1 100000` 1> data
 /usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" average data >/dev/null 
 
 echo -e "\t 2.Median option : " >> finalmsg
 
+if [ -e /usr/bin/valgrind ]
+then
 echo `seq 1 100` 1> data
 valgrind average -M data &>temp
 grep '\(leaks\|alloc\)' temp >> finalmsg 
 rm temp
+fi
 
 echo `seq 1 10000` 1> data
 /usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -M data >/dev/null 
 
 echo -e "\t 3.Mode option : " >> finalmsg
 
+if [ -e /usr/bin/valgrind ]
+then
 echo `seq 1 100` 1> data
 valgrind average -m data &>temp
 grep '\(leaks\|alloc\)' temp >> finalmsg 
 rm temp
+fi
 
 echo `seq 1 10000` 1> data
 /usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -m data >/dev/null 
