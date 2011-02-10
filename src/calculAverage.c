@@ -1,3 +1,7 @@
+/* 
+ Calculate the average (the input is a file or stdin)
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
