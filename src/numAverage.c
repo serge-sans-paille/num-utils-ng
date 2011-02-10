@@ -4,26 +4,25 @@
 int main(int arg,char *argv[])
 {
     FILE *fp;
-    printf("Calculer une moyenne\n");
-    float nombre=0,moyenne=0;
+    float number=0,average=0;
     int count=0;
-    if(argv[1]==NULL)                       //cas où il n'y a pas d'argument
+    if(argv[1]==NULL)                       //not argument
     {
 
-        printf("Entrez le nombre de chiffre\n");
+        printf("How many numbers ?\n");
         scanf("%d",&count);
         int i;
-        printf("Entrez ces %d chiffre\n",count);
+        printf("Enter these %d numbers\n",count);
         for(i=0;i<count;i++)
         {
-            scanf("%f",&nombre);
-            moyenne+=nombre;
+            scanf("%f",&number);
+            average+=number;
         }
-        moyenne=moyenne/((float)count);
-        printf("La moyenne est egale a %f\n",moyenne);
+        average=average/((float)count);
+        printf("The average is %f\n",average);
     }
 
-    else                                //cac où il y a un argument
+    else                                //an only argument
     {
 
         if((fp=fopen(argv[1],"r")) != NULL)
@@ -31,22 +30,22 @@ int main(int arg,char *argv[])
             while(getc(fp)!=EOF)
             {
 
-                fscanf(fp,"%f",&nombre);
-                moyenne+=nombre;
+                fscanf(fp,"%f",&number);
+                average+=number;
                 count++;
             }
-            if(moyenne==0)
-                printf("Les donnees du fichier sont incorrectes ou le fichier est vide\n");
+            if(average==0)
+                printf("The file is empty or corrrupted\n");
             else
             {
-                moyenne=moyenne/((float)count);
-                printf("La moyenne est egale a %f\n",moyenne);
+                average=average/((float)count);
+                printf("The average is %f\n",average);
                 fclose(fp);
             }
         }
         else
         {
-            printf("impossible d'ouvrir le fichier\n");
+            printf("The file doesn't exist in this directory\n");
         }
     }
     return 0;
