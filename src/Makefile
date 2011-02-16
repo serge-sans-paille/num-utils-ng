@@ -1,40 +1,26 @@
 
 #	File : Makefile
-#	Compile the file "calculAverage.c"
+#	Compile the file "average"
 
-
+EXEC=average
 CC=gcc
 CFLAGS=-Wall 
 LIBS=-lm
 
-all: calculAverage
+all: $(EXEC) 
 
-calculAverage: calculAverage.o
-	$(CC) $(CFLAGS) -o numaverage calculAverage.o
+average: $(EXEC).o 
+	$(CC) $(CFLAGS) -o $(EXEC) $(EXEC).o
+average.o : average.c
+	$(CC) $(CFLAGS) -c $(EXEC).c
 
-calculAverage.o : calculAverage.c
-	$(CC) $(CFLAGS) -c calculAverage.c
+clean : 
+	$(RM) $(EXEC) $(EXEC).o
 
-clear : clean
-	$(RM) -f numaverage
+check : check1 check2
 
-clean :
-	$(RM) -f *.o
+check1 : 
+	./$(EXEC) ../tests/test1
 
-check : check1 check2 check3 check4
-
-check1: numaverage
-	./numaverage ../tests/test1
-#read the file and average output
-
-check2: numaverage
-	./numaverage ../tests/test2
-#this test must fail
-
-check3: numaverage
-	./numaverage ../tests/test3
-#this test must fail
-
-check4: numaverage
-	./numaverage
-#input stdin and average output
+check2 :
+	./$(EXEC) ../tests/test2
