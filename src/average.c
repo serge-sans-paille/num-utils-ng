@@ -3,6 +3,19 @@
 
 double mean(FILE*);
 int fileIsEmpty(FILE*);
+int typeIsWrong(FILE*);
+
+int typeIsWrong(FILE* stream){
+  char d;
+  while(!feof(stream)){
+    fscanf(stream, "%c",&d);
+    if ((d>57) || ((d<48) && (d>32) && (d!=46)))  
+  return 1;
+  }
+  rewind(stream);
+  return 0;
+}
+
 
 int fileIsEmpty(FILE* stream){
   long pos;
@@ -14,6 +27,7 @@ int fileIsEmpty(FILE* stream){
   else 
     return 0;
 }
+
 
 double mean(FILE *stream){
   double l=0;
@@ -33,10 +47,14 @@ int main(int argc,char *argv[]){
   if (argc > 1){
     tab = fopen(argv[1], "r");
     if (fileIsEmpty(tab)){
-      printf("The file is empty \n");
-      return 1;	
+      fprintf(stderr,"The file is empty \n");
+      return 0;	
     }
-    printf("The average number is %lf \n",mean(tab));
+    if (typeIsWrong(tab)){
+      fprintf(stderr,"the type of the file is wrong \n");
+      return 0;
+    }
+    fprintf(stderr,"The average number is %lf \n",mean(tab));
     fclose(tab);
   }
   else 
