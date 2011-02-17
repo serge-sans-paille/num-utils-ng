@@ -3,10 +3,8 @@
 #	Compile all files in each directory
 
 
-#all: makefilesrc
-
-#makefilesrc :
-#	./src/Makefile    problem for now with this instruction
+all:
+	$(MAKE) -C src $@
 
 clear : clean clearsrc
 
