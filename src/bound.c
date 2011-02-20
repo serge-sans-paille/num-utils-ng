@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+
 double bound(FILE*,int);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
