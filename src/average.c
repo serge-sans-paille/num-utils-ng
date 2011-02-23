@@ -6,10 +6,11 @@ double mean(FILE*);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
 int fileTest(FILE*);
-double median(FILE*);
+double median(FILE*,int);
 double mode(FILE*);
 
-double median(FILE* stream){ 				//this function calculates the median.
+
+double median(FILE* stream,int b){ 				//this function calculates the median.
   int l=0;
   double med;
   double *tab=NULL;
@@ -19,9 +20,16 @@ double median(FILE* stream){ 				//this function calculates the median.
     fscanf(stream,"%lf",&tab[l]);
     l++;
   }
-  med=tab[(int) ((l-1)/2)];
-  free(tab);
-return med;
+  if (b==0){
+    med=tab[(int) ((l-1)/2)];
+    free(tab);
+    return med;
+  }
+  else{
+    med=tab[(int) ((l-2)/2)];
+    free(tab);
+    return med;
+  }
 }
 
 double mode(FILE* stream){				//this functionn calculates the mode.
@@ -117,7 +125,7 @@ int main(int argc,char *argv[]){
   FILE* tab = NULL; 
   int opt;
   double d;                              //d is used to store any double which needs storage.
-  while((opt=getopt(argc,argv,"iIMm"))!=-1){
+  while((opt=getopt(argc,argv,"iIMml"))!=-1){
     switch(opt) {
 
     case 'i': 				// option "-i" (integer portion of the average)
@@ -153,11 +161,25 @@ int main(int argc,char *argv[]){
         tab = fopen(argv[optind], "r");
         if (fileTest(tab))
           return 0;
-        printf("The median is %lf \n",median(tab));
+        printf("The median is %lf \n",median(tab,0));
         fclose(tab);
         }
       else {
-        printf("The median is %lf \n",median(stdin));
+        printf("The median is %lf \n",median(stdin,0));
+      }			
+      return 0;
+      break;
+
+    case 'l':					//option "-l" (median)
+      if (argv[optind]!=NULL){
+        tab = fopen(argv[optind], "r");
+        if (fileTest(tab))
+          return 0;
+        printf("The median is %lf \n",median(tab,1));
+        fclose(tab);
+        }
+      else {
+        printf("The median is %lf \n",median(stdin,1));
       }			
       return 0;
       break;
