@@ -22,7 +22,7 @@ clean :
 	$(RM) $(EXEC) $(EXEC).o
 	$(RM) $(EXEC2) $(EXEC2).o
 
-check : check4 check1 check2 check3 check5 check6
+check : check4 check1 check2 check3 check5 check6 check7 check8
 
 check1 : 
 	./$(EXEC) ../tests/test1  #this test should work
@@ -45,3 +45,9 @@ check5 :
 
 check6 :
 	./$(EXEC2) -l ../tests/test1  #this test should work
+
+check7 :
+	./$(EXEC) -M ../tests/test1
+
+check8 :
+	./$(EXEC) -m ../tests/test1
