@@ -6,6 +6,62 @@ double mean(FILE*);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
 int fileTest(FILE*);
+double median(FILE*);
+double mode(FILE*);
+
+double median(FILE* stream){ 				//this function calculates the median.
+  int l=0;
+  double med;
+  double *tab=NULL;
+  tab=(double*) malloc(sizeof(double));
+  while(!feof(stream)){
+    tab=(double*) realloc(tab,(l+1)*sizeof(double));
+    fscanf(stream,"%lf",&tab[l]);
+    l++;
+  }
+  med=tab[(int) ((l-1)/2)];
+  free(tab);
+return med;
+}
+
+double mode(FILE* stream){				//this functionn calculates the mode.
+  int *nb=NULL;
+  double *tab=NULL;
+  double d;
+  int i =0;
+  int l =1;
+  int nbmod=0;
+  double mod;
+  tab=(double*) malloc(sizeof(double));
+  nb=(int*) malloc(sizeof(int));
+  while(!feof(stream)){
+    fscanf(stream,"%lf",&d);
+    i=0;
+    while(i<l){
+      if (d==tab[i])
+        nb[i]++;
+      else {
+        tab=(double*) realloc(tab,(l+2)*sizeof(double));
+        tab[l+1]=d;
+        nb=(int*) realloc(nb,(l+2)*sizeof(int));
+        nb[l+1]=1;
+        l++;
+      }
+    i++;
+    }
+  }
+  i=0;
+  while(i<l){
+    if (nb[i]>nb[nbmod])
+      nbmod=i;
+    i++;
+  }
+  mod=tab[nbmod];
+  free(tab);
+  free(nb);
+  return mod;
+}
+
 
 int fileTest(FILE* stream){				//this function triggers every tests on the file.
     if (fileIsEmpty(stream)){
@@ -61,7 +117,7 @@ int main(int argc,char *argv[]){
   FILE* tab = NULL; 
   int opt;
   double d;                              //d is used to store any double which needs storage.
-  while((opt=getopt(argc,argv,"iI"))!=-1){
+  while((opt=getopt(argc,argv,"iIMm"))!=-1){
     switch(opt) {
 
     case 'i': 				// option "-i" (integer portion of the average)
@@ -82,13 +138,41 @@ int main(int argc,char *argv[]){
         tab = fopen(argv[optind], "r");
         if (fileTest(tab))
           return 0;
-        fprintf(stderr,"The decimal portion of the average number is %lf \n",mean(tab) - (int) mean(tab));
+        printf("The decimal portion of the average number is %lf \n",mean(tab) - (int) mean(tab));
         fclose(tab);
         }
       else {
         d=mean(stdin);
         printf("The decimal portion of the average number is %lf \n",d - (int) d);
       }
+      return 0;
+      break;
+
+    case 'M':					//option "-M" (median)
+      if (argv[optind]!=NULL){
+        tab = fopen(argv[optind], "r");
+        if (fileTest(tab))
+          return 0;
+        printf("The median is %lf \n",median(tab));
+        fclose(tab);
+        }
+      else {
+        printf("The median is %lf \n",median(stdin));
+      }			
+      return 0;
+      break;
+
+    case 'm':					//option "-m" (mode)
+      if (argv[optind]!=NULL){
+        tab = fopen(argv[optind], "r");
+        if (fileTest(tab))
+          return 0;
+        printf("The mode is %lf \n",mode(tab));
+        fclose(tab);
+        }
+      else {
+        printf("The mode is %lf \n",mode(stdin));
+      }			
       return 0;
       break;
 
