@@ -8,7 +8,77 @@ int typeIsWrong(FILE*);
 int fileTest(FILE*);
 double median(FILE*,int);
 double mode(FILE*);
+double decimalPortion(double);
 
+int main(int argc,char *argv[]){
+  int opt;
+  int m=0;				// for options (average, median and mode).
+  int s=0;				// for options (normal, integer portion and decimal portion).
+  int low=0;
+  double res;
+  FILE *stream=stdin;				// input stream (stdin or file).
+  while((opt=getopt(argc,argv,"iIMml"))!=-1){
+    switch(opt) {
+    case 'i': 				// option "-i" (integer portion of the average)
+      s=1;
+    break;
+
+    case 'I': 				//option "-I" (decimal portion of the average)
+      s=2;
+    break;
+
+    case 'M':					//option "-M" (median)
+      m=1;
+    break;
+
+    case 'l':					//option "-l" (median)
+      low=1;
+    break;
+
+    case 'm':					//option "-m" (mode)
+      m=2;
+    break;
+
+    default :				//option fail.
+      printf("invalid option \n");
+      return 0;
+    break;
+    }
+  }
+  if (argc>optind){
+    stream = fopen(argv[optind], "r");
+      if (fileTest(stream))
+        return 0;
+  }   
+  if (m==0)
+  res=mean(stream);
+  if (m==1){
+    if (low==1)
+      res=median(stream,1);
+    else
+      res=median(stream,0);
+  }
+  if (m==2)
+  res=mode(stream);
+  if (argc>1)
+    fclose(stream);
+
+  if (s==0)
+  printf("result : %lf \n",res);
+  if (s==1)
+  printf("result : %d \n",(int) res);
+  if (s==2)
+  printf("result : %lf \n",decimalPortion(res));
+  return 0;
+}
+
+double decimalPortion(double d){
+  int i;
+  double res;
+  i= (int) d;
+  res= d- (double) i;
+  return res;
+}
 
 double median(FILE* stream,int b){ 				//this function calculates the median.
   int l=0;
@@ -119,99 +189,4 @@ double mean(FILE *stream){				//this function calculates the average from a File
   moyenne/=(l-1);
   rewind(stream);
   return moyenne;
-}
-
-int main(int argc,char *argv[]){
-  FILE* tab = NULL; 
-  int opt;
-  double d;                              //d is used to store any double which needs storage.
-  while((opt=getopt(argc,argv,"iIMml"))!=-1){
-    switch(opt) {
-
-    case 'i': 				// option "-i" (integer portion of the average)
-      if (argv[optind]!=NULL){
-        tab = fopen(argv[optind], "r");
-        if (fileTest(tab))
-          return 0;
-        fprintf(stderr,"The integer portion of the average number is %d \n",(int) mean(tab));
-        fclose(tab);
-        }
-      else 
-        printf("The integer portion of the average number is %d \n",(int) mean(stdin));
-      return 0;
-      break;
-
-    case 'I': 				//option "-I" (decimal portion of the average)
-      if (argv[optind]!=NULL){
-        tab = fopen(argv[optind], "r");
-        if (fileTest(tab))
-          return 0;
-        printf("The decimal portion of the average number is %lf \n",mean(tab) - (int) mean(tab));
-        fclose(tab);
-        }
-      else {
-        d=mean(stdin);
-        printf("The decimal portion of the average number is %lf \n",d - (int) d);
-      }
-      return 0;
-      break;
-
-    case 'M':					//option "-M" (median)
-      if (argv[optind]!=NULL){
-        tab = fopen(argv[optind], "r");
-        if (fileTest(tab))
-          return 0;
-        printf("The median is %lf \n",median(tab,0));
-        fclose(tab);
-        }
-      else {
-        printf("The median is %lf \n",median(stdin,0));
-      }			
-      return 0;
-      break;
-
-    case 'l':					//option "-l" (median)
-      if (argv[optind]!=NULL){
-        tab = fopen(argv[optind], "r");
-        if (fileTest(tab))
-          return 0;
-        printf("The median is %lf \n",median(tab,1));
-        fclose(tab);
-        }
-      else {
-        printf("The median is %lf \n",median(stdin,1));
-      }			
-      return 0;
-      break;
-
-    case 'm':					//option "-m" (mode)
-      if (argv[optind]!=NULL){
-        tab = fopen(argv[optind], "r");
-        if (fileTest(tab))
-          return 0;
-        printf("The mode is %lf \n",mode(tab));
-        fclose(tab);
-        }
-      else {
-        printf("The mode is %lf \n",mode(stdin));
-      }			
-      return 0;
-      break;
-
-    case '?':				//option fail.
-      printf("optionfail\n");
-      return 0;
-      break;
-    }
-  }
-    if (argv[optind]!=NULL){		//normal use of "average".
-      tab = fopen(argv[optind], "r");
-      if (fileTest(tab))
-        return 0;
-      fprintf(stderr,"The average number is %lf \n",mean(tab));
-      fclose(tab);
-      }
-    else 
-      printf("The average number is %lf \n",mean(stdin));
-  return 0;
 }
