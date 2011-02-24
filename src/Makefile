@@ -2,7 +2,7 @@
 #	File : Makefile
 #
 
-UTILS= average bound normalize
+UTILS= average bound normalize interval
 CC=gcc
 CFLAGS=-Wall 
 LIBS=-lm
@@ -16,8 +16,8 @@ $(UTILS).o:
 		$(CC) $(CFLAGS) -c $$util.c ; done
 
 clean : 
-	$(RM) $(EXEC) $(EXEC).o
-	$(RM) $(EXEC2) $(EXEC2).o
+	for util in $(UTILS) ; do \
+		$(RM) $$util $$util.o ; done
 
 check : check4 check1 check2 check3 check5 check6 check7 check8
 
