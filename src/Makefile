@@ -2,7 +2,7 @@
 #	File : Makefile
 #
 
-UTILS= average bound
+UTILS= average bound normalize
 CC=gcc
 CFLAGS=-Wall 
 LIBS=-lm
