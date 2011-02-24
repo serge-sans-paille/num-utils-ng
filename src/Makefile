@@ -1,22 +1,19 @@
-
+#
 #	File : Makefile
-#	Compile the file "average"
+#
 
-EXEC=average
-EXEC2=bound
+UTILS= average bound
 CC=gcc
 CFLAGS=-Wall 
 LIBS=-lm
 
-all: $(EXEC) $(EXEC2) 
+all: $(UTILS).o
+	for util in $(UTILS) ; do \
+		$(CC) $(CFLAGS) -o $$util $$util.o ; done
 
-average: $(EXEC).o 
-	$(CC) $(CFLAGS) -o $(EXEC) $(EXEC).o
-average.o : average.c
-	$(CC) $(CFLAGS) -c $(EXEC).c
-
-bound: $(EXEC2).o
-	$(CC) $(CFLAGS) -o $(EXEC2) $(EXEC2).o
+$(UTILS).o:
+	for util in $(UTILS) ; do \
+		$(CC) $(CFLAGS) -c $$util.c ; done
 
 clean : 
 	$(RM) $(EXEC) $(EXEC).o
