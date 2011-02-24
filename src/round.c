@@ -6,13 +6,14 @@ int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
 int fileTest(FILE*);
 double decimalPortion(double);
-int roundc(FILE*,int);
+int roundc(FILE*,int,int);
 
 int main(int argc,char *argv[]){
   int opt;
   int m=0;
+  int f=0;
   FILE* stream=stdin;
-    while((opt=getopt(argc,argv,"cfn"))!=-1){
+    while((opt=getopt(argc,argv,"cfn:"))!=-1){
       switch(opt) {
 
       case 'c': 				
@@ -21,6 +22,11 @@ int main(int argc,char *argv[]){
 
       case 'f': 				
         m=2;
+      break;
+
+      case 'n': 				
+        f=atoi(optarg);
+        m=3;
       break;
 
       default :				//option fail.
@@ -36,7 +42,9 @@ int main(int argc,char *argv[]){
         return 0;
   }   
   
-  roundc(stream, m);
+
+  roundc(stream, m,f);
+
 
   if (argc>1)
     fclose(stream);
@@ -53,7 +61,7 @@ double decimalPortion(double d){
   return res;
 }
 
-int roundc(FILE* stream,int m){
+int roundc(FILE* stream,int m,int n){
   double d;
   fscanf(stream, "%lf",&d);
   if (m==0){
@@ -78,6 +86,16 @@ int roundc(FILE* stream,int m){
     while(!feof(stream)){
       printf("result : %d \n", (int) d);  
       fscanf(stream, "%lf",&d);    
+    }
+  }
+  if (m==3){
+    while(!feof(stream)){     
+      d=d/(double)n;
+      if (decimalPortion(d)<0.5)
+        printf("result : %d \n", (int)d*n);
+      else
+        printf("result : %d \n", ((int)d+1)*n);
+     fscanf(stream, "%lf",&d);            
     }
   }
   return 0;
