@@ -12,10 +12,7 @@ int fileTest(FILE*);
 
 int main(int argc,char *argv[]){
 	FILE* fp = NULL;
-	double *tab=NULL;
-	int count=0;
 	int opt;
-	int i=0;
 	
 	while((opt=getopt(argc,argv,"R"))!=-1){
 		switch(opt){
