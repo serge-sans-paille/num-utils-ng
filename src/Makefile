@@ -2,7 +2,7 @@
 #	File : Makefile
 #
 
-UTILS= average bound normalize interval
+UTILS= average bound normalize interval round
 CC=gcc
 CFLAGS=-Wall 
 LIBS=-lm
