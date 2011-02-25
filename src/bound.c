@@ -17,7 +17,7 @@ int main(int argc,char *argv[]){
 		switch(opt){
 		
 		case 'l':
-			if (argv[optind]!=NULL){		//option "-l" (lower bound number)
+			if (argc>optind){		//option "-l" (lower bound number)
 				fp=fopen(argv[optind], "r");
 				if (fileTest(fp))
 					return 0;
@@ -35,7 +35,7 @@ int main(int argc,char *argv[]){
 		}
 	}
 
-	if (argv[optind]!=NULL){
+	if (argc>optind){
 		fp=fopen(argv[optind], "r");
 		if (fileTest(fp))
 			return 0;
