@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <math.h>
 
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
@@ -66,10 +67,14 @@ int roundc(FILE* stream,int m,int n){
   fscanf(stream, "%lf",&d);
   if (m==0){
     while(!feof(stream)){     
-      if (decimalPortion(d)<0.5)
+      if (fabs(decimalPortion(d))<0.5)
         printf("result : %d \n", (int) d);
-      else
-        printf("result : %d \n", (int) d+1);
+      else{
+        if (d>=0)
+          printf("result : %d \n", (int) d+1);
+        else
+          printf("result : %d \n", (int) d-1);
+      }
      fscanf(stream, "%lf",&d);      
     }
   }
@@ -77,24 +82,34 @@ int roundc(FILE* stream,int m,int n){
     while(!feof(stream)){
       if (d==(int)d)
         printf("result : %d \n", (int)d);
-      else
-        printf("result : %d \n", (int)d + 1);  
-      fscanf(stream, "%lf",&d);    
+      else{
+        if (d>=0)
+          printf("result : %d \n", (int) d+1);
+        else
+          printf("result : %d \n", (int) d);
+      }
+      fscanf(stream, "%lf",&d);      
     }
   }
   if (m==2){
     while(!feof(stream)){
-      printf("result : %d \n", (int) d);  
+      if (d>=0)
+        printf("result : %d \n", (int) d); 
+      else
+        printf("result : %d \n", (int) d-1);    
       fscanf(stream, "%lf",&d);    
     }
   }
   if (m==3){
     while(!feof(stream)){     
       d=d/(double)n;
-      if (decimalPortion(d)<0.5)
+      if (fabs(decimalPortion(d))<0.5)
         printf("result : %d \n", (int)d*n);
       else
-        printf("result : %d \n", ((int)d+1)*n);
+        if (d>=0)
+          printf("result : %d \n", (int) (d+1)*n);
+        else
+          printf("result : %d \n", (int) (d-1)*n);
      fscanf(stream, "%lf",&d);            
     }
   }
