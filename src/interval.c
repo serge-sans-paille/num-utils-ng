@@ -68,7 +68,7 @@ int interval(FILE* stream){
 
 int main(int argc,char *argv[]){
   FILE* tab = NULL; 
-  if (argv[1]!=NULL){
+  if (argc>optind){
     tab = fopen(argv[optind], "r");
     if (fileTest(tab))
       return 0;
