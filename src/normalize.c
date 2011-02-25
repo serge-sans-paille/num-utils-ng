@@ -18,7 +18,7 @@ int main(int argc,char *argv[]){
 		switch(opt){
 		
 		case 'R':
-			if (argv[optind]!=NULL){		// This allows you to specify a different normalized range instead of from 0 to 1
+			if (argc>optind){		// This allows you to specify a different normalized range instead of from 0 to 1
 				if((fp=fopen(argv[optind], "r"))==NULL){
 					printf("The file is protected or doesn't exist \n");
 					return 1;
@@ -41,7 +41,7 @@ int main(int argc,char *argv[]){
 		}
 	}
 
-	if (argv[optind]!=NULL){				 //normalized set of numbers between 0 and 1
+	if (argc>optind){				 //normalized set of numbers between 0 and 1
 		if((fp=fopen(argv[optind], "r"))==NULL){
 			printf("The file is protected or doesn't exist \n");
 			return 1;
