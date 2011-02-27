@@ -5,7 +5,7 @@ ERROR_NB=0
 LAST_ERROR=0
 
 
-../src/average ./test2 2>a
+../src/average ../tests/test2 2>a
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "1" ] 
 then
@@ -14,7 +14,7 @@ then
 fi
 
 
-../src/average ./test3 2>a
+../src/average ../tests/test3 2>a
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -22,7 +22,7 @@ then
   ERROR_NB=2
 fi
 
-../src/average -blabla ./test3 2>a
+../src/average -blabla ../tests/test3 2>a
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "3" ] 
 then
@@ -44,7 +44,7 @@ then
 fi
 
 
-../src/average ./test1 >a
+../src/average ../tests/test1 >a
 if [ "`cat a`" != "result : 4.220000" ] 
 then
   echo -e "The average function does not work properly with a file"
@@ -52,7 +52,7 @@ then
 fi
 
 
-../src/average -M ./test1 >a
+../src/average -M ../tests/test1 >a
 if [ "`cat a`" != "result : 4.220000" ] 
 then
   echo -e "The "-M" (median) option does not work properly"
@@ -60,7 +60,7 @@ then
 fi
 
 
-../src/average -Ml ./test1 >a
+../src/average -Ml ../tests/test1 >a
 if [ "`cat a`" != "result : 4.220000" ] 
 then
   echo -e "The "-Ml" (median) option does not work properly"
@@ -68,7 +68,7 @@ then
 fi
 
 
-../src/average -m ./test1 >a
+../src/average -m ../tests/test1 >a
 if [ "`cat a`" != "result : 4.220000" ] 
 then
   echo -e "The "-m" (mode) option does not work properly"
@@ -76,7 +76,7 @@ then
 fi
 
 
-../src/average -i ./test1 >a
+../src/average -i ../tests/test1 >a
 if [ "`cat a`" != "result : 4" ] 
 then
   echo -e "The "-i" (integer portion) option does not work properly"
@@ -84,7 +84,7 @@ then
 fi
 
 
-../src/average -I ./test1 >a
+../src/average -I ../tests/test1 >a
 if [ "`cat a`" != "result : 0.220000" ] 
 then
   echo -e "The "-I" (decimal portion) option does not work properly"
@@ -92,7 +92,7 @@ then
 fi
 
 
-../src/average -Mi ./test1 >a
+../src/average -Mi ../tests/test1 >a
 if [ "`cat a`" != "result : 4" ] 
 then
   echo -e "The "-Mi" (integer portion of median) option does not work properly"
@@ -100,7 +100,7 @@ then
 fi
 
 
-../src/average -MI ./test1 >a
+../src/average -MI ../tests/test1 >a
 if [ "`cat a`" != "result : 0.220000" ] 
 then
   echo -e "The "-MI" (decimal portion of median) option does not work properly"
@@ -108,7 +108,7 @@ then
 fi
 
 
-../src/average -mi ./test1 >a
+../src/average -mi ../tests/test1 >a
 if [ "`cat a`" != "result : 4" ] 
 then
   echo -e "The "-mi" (integer portion of mode) option does not work properly"
@@ -116,7 +116,7 @@ then
 fi
 
 
-../src/average -mI ./test1 >a
+../src/average -mI ../tests/test1 >a
 if [ "`cat a`" != "result : 0.220000" ] 
 then
   echo -e "The "-mI" (decimal portion of mode) option does not work properly"
