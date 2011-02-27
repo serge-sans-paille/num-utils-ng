@@ -46,11 +46,16 @@ int main(int argc,char *argv[]){
   }
   if (argc>optind){
     stream = fopen(argv[optind], "r");
-      if (typeIsWrong(stream))
-        return 2;
-      if (fileIsEmpty(stream))
-        return 1;
-  }   
+    if (stream==NULL){
+      fprintf(stderr,"the file can't be opened, see \"errno\" for more infromation");
+      return 4;
+    }
+    if (typeIsWrong(stream))
+      return 2;
+    if (fileIsEmpty(stream))
+      return 1;
+  }  
+  
   if (m==0)
   res=mean(stream);
   if (m==1){
@@ -61,8 +66,13 @@ int main(int argc,char *argv[]){
   }
   if (m==2)
   res=mode(stream);
-  if (argc>1)
-    fclose(stream);
+
+  if (argc>1){
+    if (fclose(stream)!=0){
+      fprintf(stderr,"the file can't be closed, see \"errno\" for more infromation");
+      return 5;
+    }
+  }
 
   if (s==0)
   printf("result : %lf\n",res);
@@ -86,8 +96,12 @@ double median(FILE* stream,int b){ 				//this function calculates the median.
   double med;
   double *tab=NULL;
   tab=(double*) malloc(sizeof(double));
+  if (tab==NULL)
+    fprintf(stderr, "malloc fail");
   while(!feof(stream)){
     tab=(double*) realloc(tab,(l+1)*sizeof(double));
+    if (tab==NULL)
+      fprintf(stderr, "realloc fail");
     fscanf(stream,"%lf",&tab[l]);
     l++;
   }
@@ -112,7 +126,11 @@ double mode(FILE* stream){				//this functionn calculates the mode.
   int nbmod=0;
   double mod;
   tab=(double*) malloc(sizeof(double));
+  if (tab==NULL)
+    fprintf(stderr, "malloc fail");
   nb=(int*) malloc(sizeof(int));
+  if (tab==NULL)
+    fprintf(stderr, "malloc fail");
   while(!feof(stream)){
     fscanf(stream,"%lf",&d);
     i=0;
@@ -121,8 +139,12 @@ double mode(FILE* stream){				//this functionn calculates the mode.
         nb[i]++;
       else {
         tab=(double*) realloc(tab,(l+2)*sizeof(double));
+        if (tab==NULL)
+          fprintf(stderr, "realloc fail");
         tab[l+1]=d;
         nb=(int*) realloc(nb,(l+2)*sizeof(int));
+        if (tab==NULL)
+          fprintf(stderr, "realloc fail");
         nb[l+1]=1;
         l++;
       }
