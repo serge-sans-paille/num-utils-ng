@@ -5,7 +5,6 @@
 double mean(FILE*);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
-int fileTest(FILE*);
 double median(FILE*,int);
 double mode(FILE*);
 double decimalPortion(double);
@@ -19,36 +18,38 @@ int main(int argc,char *argv[]){
   FILE *stream=stdin;				// input stream (stdin or file).
   while((opt=getopt(argc,argv,"iIMml"))!=-1){
     switch(opt) {
-    case 'i': 				// option "-i" (integer portion of the average)
-      s=1;
-    break;
+      case 'i': 				// option "-i" (integer portion of the average)
+        s=1;
+      break;
 
-    case 'I': 				//option "-I" (decimal portion of the average)
-      s=2;
-    break;
+      case 'I': 				//option "-I" (decimal portion of the average)
+        s=2;
+      break;
 
-    case 'M':					//option "-M" (median)
-      m=1;
-    break;
+      case 'M':					//option "-M" (median)
+        m=1;
+      break;
 
-    case 'l':					//option "-l" (median)
-      low=1;
-    break;
+      case 'l':					//option "-l" (median)
+        low=1;
+      break;
 
-    case 'm':					//option "-m" (mode)
-      m=2;
-    break;
+      case 'm':					//option "-m" (mode)
+        m=2;
+      break;
 
-    default :				//option fail.
-      printf("invalid option \n");
-      return 0;
-    break;
+      default :				//option fail.
+        fprintf(stderr, "invalid option\n");
+        return 3;
+      break;
     }
   }
   if (argc>optind){
     stream = fopen(argv[optind], "r");
-      if (fileTest(stream))
-        return 0;
+      if (typeIsWrong(stream))
+        return 2;
+      if (fileIsEmpty(stream))
+        return 1;
   }   
   if (m==0)
   res=mean(stream);
@@ -64,11 +65,11 @@ int main(int argc,char *argv[]){
     fclose(stream);
 
   if (s==0)
-  printf("result : %lf \n",res);
+  printf("result : %lf\n",res);
   if (s==1)
-  printf("result : %d \n",(int) res);
+  printf("result : %d\n",(int) res);
   if (s==2)
-  printf("result : %lf \n",decimalPortion(res));
+  printf("result : %lf\n",decimalPortion(res));
   return 0;
 }
 
@@ -141,24 +142,14 @@ double mode(FILE* stream){				//this functionn calculates the mode.
 }
 
 
-int fileTest(FILE* stream){				//this function triggers every tests on the file.
-    if (fileIsEmpty(stream)){
-      fprintf(stderr,"The file is empty \n");
-      return 1;	
-    }
-    if (typeIsWrong(stream)){
-      fprintf(stderr,"the type of the file is wrong \n");
-      return 1;
-    }
-    return 0;
-}
-
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char d;
   while(!feof(stream)){
     fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46)))  
+    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
+      fprintf(stderr,"The type of the file is wrong\n");
       return 1;
+    }
   }
   rewind(stream);
   return 0;
@@ -170,8 +161,10 @@ int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
   fseek(stream, 0L, SEEK_END);
   pos=ftell(stream);
   rewind(stream);
-  if (pos==0)
+  if (pos==0){
+    fprintf(stderr,"The file is empty\n");
     return 1;
+  }
   else 
     return 0;
 }
