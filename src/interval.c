@@ -2,31 +2,31 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int fileTest(FILE* stream);
 int typeIsWrong(FILE* stream);
 int fileIsEmpty(FILE* stream);
 int interval(FILE* stream);
 
-int fileTest(FILE* stream){				//this function triggers every tests on the file.
-    if (fileIsEmpty(stream)){
-      fprintf(stderr,"The file is empty \n");
-      return 1;	
-    }
-    if (typeIsWrong(stream)){
-      fprintf(stderr,"the type of the file is wrong \n");
-      return 1;
-    }
-    return 0;
-}
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46)))  
+int main(int argc,char *argv[]){
+  FILE* stream = NULL; 
+  if (argc>optind){
+    stream = fopen(argv[optind], "r");
+    if (stream==NULL){
+      fprintf(stderr,"the file can't be opened, see \"errno\" for more infromation");
+      return 4;
+    }
+    if (typeIsWrong(stream))
+      return 2;
+    if (fileIsEmpty(stream))
       return 1;
+    interval(stream);
+    if (fclose(stream)!=0){
+      fprintf(stderr,"the file can't be closed, see \"errno\" for more infromation");
+      return 5;
+    }
   }
-  rewind(stream);
+  else 
+    interval(stdin);
   return 0;
 }
 
@@ -36,10 +36,25 @@ int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
   fseek(stream, 0L, SEEK_END);
   pos=ftell(stream);
   rewind(stream);
-  if (pos==0)
+  if (pos==0){
+    fprintf(stderr,"The file is empty\n");
     return 1;
+  }
   else 
     return 0;
+}
+
+int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+  char d;
+  while(!feof(stream)){
+    fscanf(stream, "%c",&d);
+    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
+      fprintf(stderr,"The type of the file is wrong\n");
+      return 1;
+    }
+  }
+  rewind(stream);
+  return 0;
 }
 
 
@@ -50,8 +65,12 @@ int interval(FILE* stream){
   int l;
   fscanf(stream,"%lf",&o);
   tab=(double*) malloc(sizeof(double));
+  if (tab==NULL)
+    fprintf(stderr, "malloc fail");
   while(!feof(stream)){
     tab=(double*) realloc(tab,(i+1)*sizeof(double));
+    if (tab==NULL)
+      fprintf(stderr, "realloc fail");
     fscanf(stream,"%lf",&n);
     tab[i-1]=n-o;
     o=n;
@@ -59,23 +78,8 @@ int interval(FILE* stream){
   }
   l=i;
   for(i=0;i<l-2;i++){
-  printf("%lf \n",tab[i]);
+  printf("%lf\n",tab[i]);
   }
   free(tab);
-  return 0;
-}
-
-
-int main(int argc,char *argv[]){
-  FILE* tab = NULL; 
-  if (argc>optind){
-    tab = fopen(argv[optind], "r");
-    if (fileTest(tab))
-      return 0;
-    interval(tab);
-    fclose(tab);
-    }  
-  else 
-    interval(stdin);
   return 0;
 }
