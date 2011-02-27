@@ -19,8 +19,13 @@ clean :
 	for util in $(UTILS) ; do \
 		$(RM) $$util $$util.o ; done
 
-check : checkaverage
+check : checkaverage checkround checkinterval
 
 checkaverage :
 	../tests/testaverage.sh
 
+checkround :
+	../tests/testround.sh
+
+checkinterval :
+	../tests/testinterval.sh
