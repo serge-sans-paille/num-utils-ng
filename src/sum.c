@@ -1,5 +1,7 @@
+
 # include <stdlib.h>
 # include <stdio.h>
+#include <unistd.h>
 
 double sum (FILE*);
 int fileIsEmpty(FILE*);
@@ -7,11 +9,11 @@ int typeIsWrong(FILE*);
 	
 
 double sum ( FILE* fichier){		//this function calculates the sum of numbers from a file or stdin.
-	double sum=0;
-	double number=0;
+	double sum=0.;
+	double number=0.;
 	while (!feof(fichier)){
 		sum = sum + number ;					
-		fscanf (fichier,"%d",&number);
+		fscanf (fichier,"%lf",&number);
 	}
 return sum;
 }
@@ -21,7 +23,7 @@ int fileTest(FILE* fichier){		//this function triggers every tests on the file.
       fprintf(stderr,"The file is empty \n");
       return 1;	
     }
-    if (typeIsWrong(stream)){
+    if (typeIsWrong(fichier)){
       fprintf(stderr,"the type of the file is wrong \n");
       return 1;
     }
@@ -29,7 +31,7 @@ int fileTest(FILE* fichier){		//this function triggers every tests on the file.
 }
 
 
-int fileIsEmpty(FILE*){			//this function tests if the file is empty.
+int fileIsEmpty(FILE*fichier){			//this function tests if the file is empty.
   long position;
   fseek(fichier, 0L, SEEK_END);
   position=ftell(fichier);
@@ -40,22 +42,24 @@ int fileIsEmpty(FILE*){			//this function tests if the file is empty.
     return 0;
 }
 
-int typeIsWrong(FILE*){			//this function tests if there is letters in the file.
+int typeIsWrong(FILE*fichier){			//this function tests if there is letters in the file.	
 	char c ;
 	while (!feof(fichier)){
-		fscanf ( fichier, "%c", c );
-		if ( (d>57) || ((d<48) && (d>32) && (d!=46)))
+		fscanf ( fichier, "%c", &c );
+		if ( (c>57) || ((c<48) && (c>32) && (c!=46)))
 			return 1 ;
 	}
 	rewind (fichier);
 	return 0;
 }
 
-int main(){
-FILE* file = NULL
+int main(int argc,char *argv[]){
+FILE* file = NULL;
 int opt;
+double d;
+double r;
 	
-if((opt=getopt(argc,argv,"iI"))!=-1){
+while((opt = getopt(argc,argv,"iI"))!=-1){
 	switch(opt) {
 
 	case 'i':			// option "-i" (integer portion of the final sum)
@@ -63,11 +67,11 @@ if((opt=getopt(argc,argv,"iI"))!=-1){
         	file = fopen(argv[optind], "r");
         	if (fileTest(file))
           	return 0;
-        	fprintf(stderr,"The integer portion of the sum is %d \n",(int)sum(fichier));
-        	fclose(tab);
+        	fprintf(stderr,"The integer portion of the sum is %d \n",(int)sum(file));
+        	fclose(file);
         	}
 	else 
-        printf("The integer portion of the sum is %d \n",sum(stdin));
+        printf("The integer portion of the sum is %d \n",(int)sum(stdin));
 	return 0;
 	break;
 
@@ -76,8 +80,10 @@ if((opt=getopt(argc,argv,"iI"))!=-1){
         	file = fopen(argv[optind], "r");
         	if (fileTest(file))
           		return 0;
-        	fprintf(stderr,"The decimal portion of the sym is %lf \n",sum(file) - (int)sum(file));
-        fclose(tab);
+			r = (int)sum(file);		 
+			d = sum(file)-r; 
+		fprintf(stderr,"The decimal portion of the sum is %lf \n",d);
+        fclose(file);
         }
 	else {
         	printf("The decimal portion of the average number is %lf \n",sum(stdin) - (int)sum(stdin));
@@ -89,12 +95,28 @@ if((opt=getopt(argc,argv,"iI"))!=-1){
 	printf("optionfail\n");
 	return 0;
 	break;
+	
 	}
-}
+	}
+	
+	if (argv[optind]!=NULL){		
+		file=fopen(argv[optind], "r");		
+		if (fileTest(file))			
+			return 0;
+		fprintf(stderr,"The sum is %lf  \n",sum(file));
+		fclose(file);
+	}
+	else
+		printf("The sum is %lf \n",sum(stdin));
+	return 0;
 
+
+
+
+}
 	
 
-
+$
 
 				
 	
