@@ -74,7 +74,7 @@ int process(FILE* stream, char* expression){
     }
     fprintf(streamout,"%lf\n",res);
   }
-  if (stream!=stdout)
+  if (stream!=stdin)
     fclose(streamout);
   return 1;
 }
