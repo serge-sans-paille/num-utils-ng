@@ -196,12 +196,11 @@ double mean(FILE *stream){				//this function calculates the average from a File
   double l=0;
   double moyenne=0;
   double chiffre=0;
-  while(!feof(stream)){
+  while(fscanf(stream,"%lf",&chiffre)!=EOF){
     moyenne+=chiffre;
-    fscanf(stream,"%lf",&chiffre);
     l++;
   }
-  moyenne/=(l-1);
+  moyenne/=l;
   rewind(stream);
   return moyenne;
 }
