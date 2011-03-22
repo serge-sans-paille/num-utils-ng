@@ -9,7 +9,7 @@ LIBS=-lm
 
 all: $(UTILS).o
 	for util in $(UTILS) ; do \
-		$(CC) $(CFLAGS) -o $$util $$util.o ; done
+		$(CC) $(CFLAGS) $(LIBS) -o $$util $$util.o ; done
 
 $(UTILS).o:
 	for util in $(UTILS) ; do \
