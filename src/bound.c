@@ -10,42 +10,46 @@ int fileTest(FILE*);
 
 
 int main(int argc,char *argv[]){
-	FILE* fp = NULL;
-	int opt;
-	
-	while((opt=getopt(argc,argv,"l"))!=-1){
-		switch(opt){
-		
-		case 'l':
-			if (argc>optind){		//option "-l" (lower bound number)
-				fp=fopen(argv[optind], "r");
-				if (fileTest(fp))
-					return 0;
-				fprintf(stderr,"The lower bound is %lf \n",bound(fp,1));
-				fclose(fp);
-			}
-			else 
-				printf("The lower bound is %lf \n",bound(stdin,1));
+  FILE *stream=stdin;
+  int optch;
+  int m=0;
+  double res;
 
-			return 0;
+  while((optch=getopt(argc,argv,"l"))!=-1){
+    switch(optch){
+      case 'l':			//option "-l" (the lower bound number)
+        m=1;
+      break;
 
-		case '?':				//option fail
-			printf("option fail\n");
-      			return 1;
-		}
-	}
+      default :		  	//option fail.
+        fprintf(stderr, "invalid option\n");
+        return 3;
+      break;
+    }
+  }
+  if (argc>optind){
+    stream = fopen(argv[optind], "r");
+    if (stream==NULL){
+      fprintf(stderr,"the file can't be opened, see \"errno\" for more infromation");
+      return 4;
+    }
+    if (typeIsWrong(stream))
+      return 2;
+    if (fileIsEmpty(stream))
+      return 1;
+  }
 
-	if (argc>optind){
-		fp=fopen(argv[optind], "r");
-		if (fileTest(fp))
-			return 0;
-		fprintf(stderr,"The upper bound is %lf \n",bound(fp,2));
-		fclose(fp);
-	}
-	else
-		printf("The upper bound is %lf \n",bound(stdin,2));
-	return 0;
-			
+  res=bound(stream,m);
+
+  if (argc>1){
+    if (fclose(stream)!=0){
+      fprintf(stderr,"the file can't be closed, see \"errno\" for more infromation");
+      return 5;
+    }
+  }
+
+  printf("result : %lf\n",res);
+  return 0;			
 }
 
 
@@ -73,36 +77,28 @@ double bound(FILE* stream, int mode){		//this function calculates the upper or l
 }
 
 
-int fileTest(FILE* stream){				//this function triggers every tests on the file.
-    if (fileIsEmpty(stream)){
-      fprintf(stderr,"The file is empty \n");
-      return 1;	
-    }
-    if (typeIsWrong(stream)){
-      fprintf(stderr,"the type of the file is wrong \n");
-      return 1;
-    }
-    return 0;
-}
-
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char d;
   while(!feof(stream)){
     fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46)))  
+    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
+      fprintf(stderr,"The type of the file is wrong\n");
       return 1;
+    }
   }
   rewind(stream);
   return 0;
 }
 
 int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
-  long position;
+  long pos;
   fseek(stream, 0L, SEEK_END);
-  position=ftell(stream);
+  pos=ftell(stream);
   rewind(stream);
-  if (position==0)
+  if (pos==0){
+    fprintf(stderr,"The file is empty\n");
     return 1;
+  }
   else 
     return 0;
 }
