@@ -6,7 +6,6 @@
 double bound(FILE*,int);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
-int fileTest(FILE*);
 
 
 int main(int argc,char *argv[]){
