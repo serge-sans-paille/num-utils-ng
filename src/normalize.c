@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 
-void normalize(FILE*);
+void normalize(FILE*, int, int);
 void afficher(double *, int);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
@@ -13,6 +13,9 @@ int fileTest(FILE*);
 int main(int argc,char *argv[]){
 	FILE* fp = NULL;
 	int opt;
+	int numberL=0;
+	int numberH=1;
+	int f;
 	
 	while((opt=getopt(argc,argv,"R"))!=-1){
 		switch(opt){
@@ -26,12 +29,14 @@ int main(int argc,char *argv[]){
 				else{
 					if (fileTest(fp))
 						return 0;
-					normalize(fp);
+					f=atoi(optarg);
+					printf("f = %d",f);
+					normalize(fp,numberL,numberH);
 					fclose(fp);
 				}
 			}
 			else
-				normalize(fp);
+				normalize(fp,numberL,numberH);
 
 			return 0;
 
@@ -49,18 +54,18 @@ int main(int argc,char *argv[]){
 		else{
 			if (fileTest(fp))
 				return 0;
-			normalize(fp);
+			normalize(fp,numberL,numberH);
 			fclose(fp);
 		}
 	}
 	else
-		normalize(stdin);
+		normalize(stdin,numberL,numberH);
 	return 0;
 			
 }
 
 
-void normalize(FILE* stream){		//this function normalize
+void normalize(FILE* stream,int l, int h){		//this function normalize
 	double *tab=NULL;
 	double *numbersBis=NULL;
 	double number=0.;
@@ -81,7 +86,7 @@ void normalize(FILE* stream){		//this function normalize
 	}
 	sum-=number;
 	for(i=0; i<count;i++){
-		*(tab+i)=*(tab+i)/(double)sum;
+		*(tab+i)=*(tab+i)*(h-l)/(double)sum + l;
 	}
 	afficher(tab,count);
 	free(tab);
