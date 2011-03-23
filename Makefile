@@ -9,18 +9,13 @@ DIST	= $(PROJECT)
 TARFILE	= $(DIST).tar.gz
 
 all:
-	$(MAKE) -C src $@
+	$(MAKE) -C src all
 
-clear : clean clearsrc
+clean :
+	$(MAKE)	-C src clean
 
-clearsrc : cleansrc
-	$(RM) -f ./src/numaverage
-
-clean : cleansrc
-
-cleansrc :
-	$(RM) -f ./src/*.o
-
+check :
+	$(MAKE) -C tests check
 
 dist: $(TARFILE)
 
@@ -35,7 +30,6 @@ $(TARFILE):
 	mkdir $(DIST)/src
 	cd ..
 	cp ./src/*.c $(DIST)/src
-	cp ./src/*.gz $(DIST)/src
 	cp ./src/Makefile $(DIST)/src
 	cp -R ./docs $(DIST) 
 	tar zchf $(DIST).tar.gz $(DIST) --exclude CVS
