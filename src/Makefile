@@ -5,30 +5,10 @@
 UTILS= average bound normalize interval round process
 CC=gcc
 CFLAGS=-Wall 
-LIBS=-lm
+LDFLAGS=-lm
 
-all: $(UTILS).o
-	for util in $(UTILS) ; do \
-		$(CC) $(CFLAGS) $(LIBS) -o $$util $$util.o ; done
-
-$(UTILS).o:
-	for util in $(UTILS) ; do \
-		$(CC) $(CFLAGS) -c $$util.c ; done
+all: $(UTILS)
 
 clean : 
-	for util in $(UTILS) ; do \
-		$(RM) $$util $$util.o ; done
+	rm $(UTILS)
 
-check : checkaverage checkbound checkinterval checkround
-
-checkaverage :
-	../tests/testaverage.sh
-
-checkbound :
-	../tests/testbound.sh
-
-checkinterval :
-	../tests/testinterval.sh
-
-checkround :
-	../tests/testround.sh
