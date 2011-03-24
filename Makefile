@@ -21,8 +21,8 @@ dist: $(TARFILE)
 
 
 $(TARFILE):
-	rm -fr $(DIST)
-	rm -f $(TARFILE)
+	$(RM) -fr $(DIST)
+	$(RM) -f $(TARFILE)
 	mkdir $(DIST)
 	cp ./README $(DIST)
 	cp ./Makefile $(DIST)
@@ -33,6 +33,6 @@ $(TARFILE):
 	cp ./src/Makefile $(DIST)/src
 	cp -R ./docs $(DIST) 
 	tar zchf $(DIST).tar.gz $(DIST) --exclude CVS
-	rm -r $(DIST)
+	$(RM) -r $(DIST)
 
 
