@@ -51,8 +51,7 @@ int main(int argc,char *argv[]){
     switch(optch){
       case 'R':
         if(optarg){
-	  sscanf(optarg,"%d..%d",&numberL,&numberH);
-	  printf("%d..%d\n",numberL,numberH);  
+	  sscanf(optarg,"%d..%d",&numberL,&numberH); 
 	}
       break;
       

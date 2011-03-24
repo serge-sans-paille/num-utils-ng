@@ -32,6 +32,15 @@ then
 fi
 
 
+../src/bound ../tests/dsdsd 2>a
+LAST_ERROR=$?
+if [ "$LAST_ERROR" -ne "4" ] 
+then
+  echo -e "The detection of a file which can't be open does not work properly"
+  ERROR_NB=4
+fi
+
+
 ../src/bound >a << STOP 
 4.8
 1.4

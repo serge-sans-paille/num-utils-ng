@@ -24,13 +24,21 @@ fi
 
 
 ../src/normalize -bfr ../tests/test3 2>a
-LAST_ERROR=$?
+LAST_ERROR=$? 
 if [ "$LAST_ERROR" -ne "3" ] 
 then
   echo -e "The detection of option failure does not work properly"
   ERROR_NB=3
 fi
 
+
+../src/normalize ../tests/dsdsd 2>a
+LAST_ERROR=$?
+if [ "$LAST_ERROR" -ne "4" ] 
+then
+  echo -e "The detection of a file which can't be open does not work properly"
+  ERROR_NB=4
+fi
 
 
 if [ "$ERROR_NB" -eq "0" ] 
