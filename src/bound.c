@@ -29,7 +29,7 @@ int main(int argc,char *argv[]){
   if (argc>optind){
     stream = fopen(argv[optind], "r");
     if (stream==NULL){
-      fprintf(stderr,"the file can't be opened, see \"errno\" for more infromation");
+      fprintf(stderr,"the file can't be opened, see \"errno\" for more information");
       return 4;
     }
     if (typeIsWrong(stream))
@@ -42,7 +42,7 @@ int main(int argc,char *argv[]){
 
   if (argc>1){
     if (fclose(stream)!=0){
-      fprintf(stderr,"the file can't be closed, see \"errno\" for more infromation");
+      fprintf(stderr,"the file can't be closed, see \"errno\" for more information");
       return 5;
     }
   }
