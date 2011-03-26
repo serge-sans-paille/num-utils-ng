@@ -2,7 +2,7 @@
 #	File : Makefile
 #
 
-UTILS= average bound normalize interval round process
+UTILS= average bound normalize numgrep interval round process
 CC=gcc
 CFLAGS=-Wall 
 LDFLAGS=-lm
