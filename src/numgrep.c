@@ -39,6 +39,11 @@ int numgrep(FILE* stream, char* expression){
   int numberRead,number1,number2;
   int mode,count=0;
   int i,j;
+  char *token;
+  char *savestr;
+  char *str;
+  char **tab=NULL;
+
   for (i=0;i<strlen(expression);i++){
     switch(expression[i])
     {
@@ -66,34 +71,53 @@ int numgrep(FILE* stream, char* expression){
         mode=2;  
         break;
       case ',':
-	count++;
+        count++;
         break;
       default:
         return 0;
     }
-  printf("%d\n",count);
   }
+  tab =(char **)calloc(count+1,sizeof(char*));
+  for (i=0,str=expression;;i++,str=NULL) {
+    token=strtok_r(str,",", &savestr);
+    if (token == NULL)
+      break;
+    *(tab+i)=token;
+  }
+
   while(fscanf(stream,"%d",&numberRead)!=EOF ){
-    if(mode==1){
-      sscanf(expression,",f%d,",&number1);
-      if((number1>=numberRead)&&(number1%numberRead==0))
-        printf( "%d\n",numberRead);
-    }
-    if(mode==2){
-      sscanf(expression,",m%d,",&number1);
-      if((numberRead>=number1)&&(numberRead%number1==0))
-        printf( "%d\n",numberRead);
-    }
-    if(mode==3){
-      sscanf(expression,",%d..%d,",&number1,&number2);
-      if(number1<number2){
-        for(j=number1;j<=number2;j++){
-          if(numberRead==j)
-            printf( "%d\n",numberRead);
+    for(i=0;i<=count;i++){
+
+      if(strstr(*(tab+i),"f")!=NULL){
+        sscanf(*(tab+i),"f%d",&number1);
+        if((number1>=numberRead)&&(number1%numberRead==0))
+          printf( "%d\n",numberRead);
+      }
+
+      else if(strstr(*(tab+i),"m")!=NULL){
+        sscanf(*(tab+i),"m%d",&number1);
+        if((numberRead>=number1)&&(numberRead%number1==0))
+          printf( "%d\n",numberRead);
+      }
+
+      else if(strstr(*(tab+i),"..")!=NULL){
+        sscanf(*(tab+i),"%d..%d",&number1,&number2);
+        if(number1<number2){
+          for(j=number1;j<=number2;j++){
+            if(numberRead==j)
+              printf( "%d\n",numberRead);
+          }
         }
+      }
+
+      else{
+        sscanf(*(tab+i),"%d",&number1);
+        if(numberRead==number1)
+         printf( "%d\n",numberRead);
       }
     }
   }
+  free(tab);
   return 0;
 }
 
