@@ -35,6 +35,9 @@
 #include <unistd.h>
 #include <string.h>
 
+
+enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4};
+
 int numgrep(FILE* stream, char* expression){
   int numberRead,number1,number2;
   int mode,count=0;
@@ -74,7 +77,7 @@ int numgrep(FILE* stream, char* expression){
         count++;
         break;
       default:
-        return 0;
+        return EXIT_SUCCESS;
     }
   }
   if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
@@ -129,7 +132,7 @@ int main(int argc,char *argv[]){
   FILE* stream=NULL;
   if(argv[1][0]!='/'){
     perror("The expression is wrong\n");
-    return 2;
+    return ERROR_2;
   }
   if(argc==2)
     numgrep(stdin,argv[1]);
@@ -137,10 +140,10 @@ int main(int argc,char *argv[]){
     stream=fopen(argv[2],"r");
     if(!stream){
       perror("the file can't be opened, see \"errno\" for more informations");
-      return 1;
+      return ERROR_1;
     }
   numgrep(stream,argv[1]);
   fclose(stream);
   }
-  return 0;
+  return EXIT_SUCCESS;
 }

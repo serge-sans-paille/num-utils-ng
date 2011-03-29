@@ -35,6 +35,8 @@
 #include <unistd.h>
 
 
+enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4};
+
 void afficher(double *tab, int count){
   int i=0;
   for(i=0;i<count-1;i++){
@@ -83,25 +85,11 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
     fscanf(stream, "%c",&d);
     if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
       perror("The type of the file is wrong\n");
-      return 1;
+      return ERROR_1;
     }
   }
   rewind(stream);
-  return 0;
-}
-
-
-int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
-  long pos;
-  fseek(stream, 0L, SEEK_END);
-  pos=ftell(stream);
-  rewind(stream);
-  if (pos==0){
-    perror("The file is empty\n");
-    return 1;
-  }
-  else 
-    return 0;
+  return EXIT_SUCESS;
 }
 
 
@@ -115,30 +103,30 @@ int main(int argc,char *argv[]){
     switch(optch){
       case 'R':
         if(optarg){
-	  sscanf(optarg,"%d..%d",&numberL,&numberH); 
-	}
+	  if(!sscanf(optarg,"%d..%d",&numberL,&numberH)){
+            perror("invalid argument\n");
+            exit(EXIT_FAILURE);
+	  }
+        }
       break;
       
       default :		  	//option fail.
         perror("invalid option\n");
-        return 3;
+        return ERROR_3;
       break;
     }
   }
 
   if (argc>optind){
-    stream = fopen(argv[optind], "r");
-    if (stream==NULL){
+    if(!(stream = fopen(argv[optind], "r"))){
       perror("the file can't be opened, see \"errno\" for more information");
-      return 4;
+      return ERROR_4;
     }
     if (typeIsWrong(stream))
-      return 2;
-    if (fileIsEmpty(stream))
-      return 1;
+      return ERROR_2;
   }
   normalize(stream,numberL,numberH);
-  return 0;			
+  return EXIT_SUCCESS;			
 }
 
 

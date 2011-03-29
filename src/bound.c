@@ -35,6 +35,8 @@
 #include <unistd.h>
 
 
+enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4,ERROR_5};
+
 double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
 	double lowerBound=0.;
 	double upperBound=0.;
@@ -55,20 +57,6 @@ double bound(FILE* stream, int mode){		//this function calculates the upper or l
 		return lowerBound;
 	else
 		return upperBound;			
-}
-
-
-int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
-  long pos;
-  fseek(stream, 0L, SEEK_END);
-  pos=ftell(stream);
-  rewind(stream);
-  if (pos==0){
-    perror("The file is empty\n");
-    return 1;
-  }
-  else 
-    return 0;
 }
 
 
@@ -109,7 +97,7 @@ int main(int argc,char *argv[]){
 
       default :		  	//option fail.
         perror("invalid option\n");
-        return 3;
+        return ERROR_3;
       break;
     }
   }
@@ -117,12 +105,10 @@ int main(int argc,char *argv[]){
     stream = fopen(argv[optind], "r");
     if (stream==NULL){
       perror("the file can't be opened, see \"errno\" for more information");
-      return 4;
+      return ERROR_4;
     }
     if (typeIsWrong(stream))
-      return 2;
-    if (fileIsEmpty(stream))
-      return 1;
+      return ERROR_2;
   }
 
   res=bound(stream,m);
@@ -130,7 +116,7 @@ int main(int argc,char *argv[]){
   if (argc>1){
     if (fclose(stream)!=0){
       perror("the file can't be closed, see \"errno\" for more information");
-      return 5;
+      return ERROR_5;
     }
   }
 
