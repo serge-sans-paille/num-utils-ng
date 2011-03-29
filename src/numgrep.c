@@ -77,7 +77,10 @@ int numgrep(FILE* stream, char* expression){
         return 0;
     }
   }
-  tab =(char **)calloc(count+1,sizeof(char*));
+  if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
+    perror("memory allocation");
+    exit(EXIT_FAILURE); 
+  }
   for (i=0,str=expression;;i++,str=NULL) {
     token=strtok_r(str,",", &savestr);
     if (token == NULL)

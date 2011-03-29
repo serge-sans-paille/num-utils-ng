@@ -53,12 +53,18 @@ void normalize(FILE* stream,int l, int h){		//this function normalize
   while(!feof(stream)){
     fscanf(stream,"%lf",&number);
     sum+=number;
-    tab =(double*)calloc(count+1,sizeof(double));
+    if(!(tab =(double*)calloc(count+1,sizeof(double)))){
+      perror("memory allocation");
+      exit(EXIT_FAILURE); 
+    }
     tab[count]=number;
     for(i=0;i<count;i++)
       tab[i]=numbersBis[i];
       count++;
-      numbersBis =(double*)calloc(count,sizeof(double));
+      if(!(numbersBis =(double*)calloc(count,sizeof(double)))){
+        perror("memory allocation");
+        exit(EXIT_FAILURE); 
+      }
       for(i=0;i<count;i++)
         numbersBis[i]=tab[i];
   }
