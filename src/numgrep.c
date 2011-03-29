@@ -125,7 +125,7 @@ int numgrep(FILE* stream, char* expression){
 int main(int argc,char *argv[]){
   FILE* stream=NULL;
   if(argv[1][0]!='/'){
-    fprintf(stderr,"The expression is wrong\n");
+    perror("The expression is wrong\n");
     return 2;
   }
   if(argc==2)
@@ -133,7 +133,7 @@ int main(int argc,char *argv[]){
   else{
     stream=fopen(argv[2],"r");
     if(!stream){
-      fprintf(stderr,"the file can't be opened, see \"errno\" for more informations");
+      perror("the file can't be opened, see \"errno\" for more informations");
       return 1;
     }
   numgrep(stream,argv[1]);
