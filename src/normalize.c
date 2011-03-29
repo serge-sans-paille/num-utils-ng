@@ -89,7 +89,7 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
     }
   }
   rewind(stream);
-  return EXIT_SUCESS;
+  return EXIT_SUCCESS;
 }
 
 

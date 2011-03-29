@@ -129,21 +129,21 @@ int numgrep(FILE* stream, char* expression){
 
 
 int main(int argc,char *argv[]){
-  FILE* stream=NULL;
-  if(argv[1][0]!='/'){
+  FILE* stream=stdin;
+  char *arg=NULL;
+  if(argv[optind][0]=='/');
+      arg=argv[optind];
+  if(!arg){
     perror("The expression is wrong\n");
     return ERROR_2;
   }
-  if(argc==2)
-    numgrep(stdin,argv[1]);
-  else{
-    stream=fopen(argv[2],"r");
-    if(!stream){
+  if (argc>optind+1){
+    if(!(stream=fopen(argv[optind+1],"r"))){
       perror("the file can't be opened, see \"errno\" for more informations");
       return ERROR_1;
     }
-  numgrep(stream,argv[1]);
-  fclose(stream);
   }
+  numgrep(stream,arg);
+  fclose(stream);
   return EXIT_SUCCESS;
 }
