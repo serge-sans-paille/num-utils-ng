@@ -5,13 +5,6 @@ ERROR_NB=0
 LAST_ERROR=0
 
 
-../src/bound ../tests/test2 2>a
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "1" ] 
-then
-  echo -e "The detection of empty files does not work properly"
-  ERROR_NB=1
-fi
 
 
 ../src/bound ../tests/test3 2>a
