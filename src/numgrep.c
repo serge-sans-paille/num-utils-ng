@@ -140,7 +140,7 @@ int main(int argc,char *argv[]){
   if (argc>optind+1){
     if(!(stream=fopen(argv[optind+1],"r"))){
       perror("the file can't be opened, see \"errno\" for more informations");
-      return ERROR_1;
+      return ERROR_4;
     }
   }
   numgrep(stream,arg);

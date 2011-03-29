@@ -2,14 +2,14 @@
 #	File : Makefile
 #
 
-UTILS= average bound interval normalize round
+UTILS= average bound interval normalize numgrep round
 CC=gcc
 CFLAGS=-Wall 
 LDFLAGS=-lm
 
 all: check
 
-check : checkaverage checkbound checkinterval checknormalize checkround
+check : checkaverage checkbound checkinterval checknormalize checknumgrep checkround
 
 checkaverage : ../src/average
 	../tests/testaverage.sh
@@ -22,6 +22,9 @@ checkinterval : ../src/interval
 
 checknormalize : ../src/normalize
 	../tests/testnormalize.sh
+
+checknumgrep : ../src/numgrep
+	../tests/testnumgrep.sh
 
 checkround : ../src/round
 	../tests/testround.sh
