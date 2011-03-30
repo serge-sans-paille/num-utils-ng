@@ -91,6 +91,40 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 	return 0;
 	break;
 
+	case 'c':
+	if (argv[optind]!=NULL){
+        	file = fopen(argv[optind], "r");
+        	if (fileTest(file))
+          	return 0;
+			int l=0,i,j,I,J;
+			int C=0;
+			int car; 
+			if ( file != NULL){
+				while ( (car= getc(file)) != EOF){
+					if (car == '\n')
+					++l;	
+					if (car == ' ' && l==0)
+					++C;
+				}
+			int tableau[l][C+1];
+			int* tab=NULL;
+			tab=malloc(C*sizeof(int));
+			rewind(file);
+			for(i=0; i<l*(C+1); i++){
+			fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)]);
+			}
+			for (J=0;J<C+1;J++){
+				for (I=0;I<l;I++){
+					tab[J]=tab[J]+tableau[I][J];
+				}
+			printf("The sum of column %d is %d \n",J+1,tab[J]);
+			fclose(file);
+	}
+	return 0;
+	break;
+	
+			
+			
 	case '?':				//option fail.
 	printf("optionfail\n");
 	return 0;
