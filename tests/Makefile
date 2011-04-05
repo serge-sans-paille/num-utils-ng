@@ -2,14 +2,14 @@
 #	File : Makefile
 #
 
-UTILS= average bound interval round
+UTILS= average bound interval round process
 CC=gcc
 CFLAGS=-Wall 
 LDFLAGS=-lm
 
 all: check
 
-check : checkaverage checkbound checkinterval checkround
+check : checkaverage checkbound checkinterval checkround checkprocess
 
 checkaverage : ../src/average
 	../tests/testaverage.sh
@@ -23,6 +23,8 @@ checkinterval : ../src/interval
 checkround : ../src/round
 	../tests/testround.sh
 
+checkprocess : ../src/process
+	../tests/testprocess.sh
 
 ../src/$(UTILS):
 
