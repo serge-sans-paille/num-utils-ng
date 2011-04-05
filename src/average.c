@@ -46,34 +46,42 @@ double decimalPortion(double d){
   return res;
 }
 
+int isHigher(const void *a,const void *b){
+if(*(double const *) a > * (double const *) b)
+  return 1;
+else
+  return 0;
+}
+
 double median(FILE* stream,int b){ 				//this function calculates the median.
   int l=0;
   double med;
   double *tab=NULL;
-  tab=(double*) malloc(sizeof(double));
-  if (tab==NULL){
-    fprintf(stderr, "malloc fail");
-    return 15;
+  if(!(tab=(double*) malloc(sizeof(double)))){
+    perror("memory allocation"); 
+    exit(EXIT_FAILURE);
   }
-  while(!feof(stream)){
-    tab=(double*) realloc(tab,(l+1)*sizeof(double));
-    if (tab==NULL){
-      fprintf(stderr, "realloc fail");
-      return 16;
+  while(fscanf(stream,"%lf",&tab[l])!=EOF){
+    if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
+      perror("memory allocation"); 
+      exit(EXIT_FAILURE);
     }
-    fscanf(stream,"%lf",&tab[l]);
     l++;
   }
-  if (b==0){
-    med=tab[(int) ((l-1)/2)];
-    free(tab);
-    return med;
+
+  qsort(tab,l+1,sizeof(double),isHigher);
+
+  if (decimalPortion((float)l/2)==0){
+printf("even\n");
+    if (b==0)
+      med=tab[(int) (l/2 +1)];
+    else
+      med=tab[(int) (l/2)];
   }
-  else{
-    med=tab[(int) ((l-2)/2)];
-    free(tab);
-    return med;
-  }
+  else
+    med=tab[(int) (l/2) + 1];
+  free(tab);
+  return med;
 }
 
 double mode(FILE* stream){				//this functionn calculates the mode.
@@ -147,9 +155,9 @@ double mean(FILE *stream){				//this function calculates the average from a File
     average+=d;
     l++;
   }
-  d/=l;
+  average/=l;
   rewind(stream);
-  return d;
+  return average;
 }
 
 int main(int argc,char *argv[]){
@@ -159,7 +167,7 @@ int main(int argc,char *argv[]){
   int low=0;
   double res;
   FILE *stream=stdin;				// input stream (stdin or file).
-  while((opt=getopt(argc,argv,"iIMml"))!=-1){
+  while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     switch(opt) {
       case 'i': 				// option "-i" (integer portion of the average)
         s=1;
@@ -181,6 +189,11 @@ int main(int argc,char *argv[]){
         m=2;
       break;
 
+      case 'h':
+        printf("sorry, the help page is not yet available.\n");
+        return 0;
+      break;
+
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
         return ERROR_2;
@@ -188,7 +201,6 @@ int main(int argc,char *argv[]){
     }
   }
   if (argc>optind){
-    stream = fopen(argv[optind], "r");
     if (!(stream = fopen(argv[optind], "r"))){
       perror("memory allocation"); 
       exit(EXIT_FAILURE);
@@ -198,7 +210,7 @@ int main(int argc,char *argv[]){
   }  
   
   if (m==0)
-  res=mean(stream);
+    res=mean(stream);
   if (m==1){
     if (low==1)
       res=median(stream,1);
@@ -214,6 +226,7 @@ int main(int argc,char *argv[]){
       exit(EXIT_FAILURE);
     }
   }
+
   if (s==0)
   printf("result : %lf\n",res);
   if (s==1)
