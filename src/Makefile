@@ -12,3 +12,6 @@ all: $(UTILS)
 clean : 
 	rm $(UTILS)
 
+check :
+	$(MAKE) -C ../tests check
+
