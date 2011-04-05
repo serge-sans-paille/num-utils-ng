@@ -88,10 +88,7 @@ double mode(FILE* stream){				//this functionn calculates the mode.
   int *nb=NULL;                                         // nb is an array of occurences bound to tab.
   double *tab=NULL;					//tab keeps in memory everyr different number in the stream.
   double d;
-  int i =0;
-  int l =1;
-  int nbmod=0;
-  double mod;
+  int i,nbmod=0,done,l=0;
   if(!(tab=(double*) malloc(sizeof(double)))){
     perror("memory allocation"); 
     exit(EXIT_FAILURE);
@@ -100,12 +97,17 @@ double mode(FILE* stream){				//this functionn calculates the mode.
     perror("memory allocation");
     exit(EXIT_FAILURE);
   }
-  while(fscanf(stream,"%lf",&d)){
+  while(fscanf(stream,"%lf",&d)!=EOF){
     i=0;
-    while(i<l){
-      if (d==tab[i])
+    done=0;
+    while((i<l+1) && (done!=1)){
+      if (d==tab[i]){
         nb[i]++;
-      else {
+        done=1;
+      }
+    i++;
+    }
+    if(done==0){
         if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
           perror("memory allocation"); 
           exit(EXIT_FAILURE);
@@ -118,19 +120,17 @@ double mode(FILE* stream){				//this functionn calculates the mode.
         nb[l+1]=1;
         l++;
       }
-    i++;
-    }
   }
   i=0;
-  while(i<l){
+  while(i<l+1){
     if (nb[i]>nb[nbmod])
       nbmod=i;
     i++;
   }
-  mod=tab[nbmod];
+  d=tab[nbmod];
   free(tab);
   free(nb);
-  return mod;
+  return d;
 }
 
 
