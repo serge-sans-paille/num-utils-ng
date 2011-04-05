@@ -2,14 +2,16 @@
 #	File : Makefile
 #
 
-UTILS= average bound interval normalize numgrep round
+
+UTILS= average bound interval normalize numgrep round process
+
 CC=gcc
 CFLAGS=-Wall 
 LDFLAGS=-lm
 
 all: check
 
-check : checkaverage checkbound checkinterval checknormalize checknumgrep checkround
+check : checkaverage checkbound checkinterval checknormalize checknumgrep checkround checkprocess
 
 checkaverage : ../src/average
 	../tests/testaverage.sh
@@ -29,6 +31,8 @@ checknumgrep : ../src/numgrep
 checkround : ../src/round
 	../tests/testround.sh
 
+checkprocess : ../src/process
+	../tests/testprocess.sh
 
 ../src/$(UTILS):
 

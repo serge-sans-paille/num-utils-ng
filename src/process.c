@@ -1,3 +1,33 @@
+/**
+*
+*
+* ***** BEGIN GPL LICENSE BLOCK *****
+*
+* This file is part of num-utils-nv project
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 3
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program If not, see <http://www.gnu.org/licenses/>.
+*
+* The Original Code is Copyright (C) 2011 by num-utils-nv project.
+* All rights reserved.
+*
+* The Original Code is: all of this file.
+*
+* Contributor(s): none yet.
+*
+* ***** END GPL LICENSE BLOCK *****
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -5,31 +35,13 @@
 #include <math.h>
 #include <ctype.h>
 
-int typeIsWrong(FILE* stream);
-int fileIsEmpty(FILE* stream);
-int process(FILE*, char*);
-
-int main(int argc,char *argv[]){
-FILE* stream=NULL;
-  if(argv[1][0]!='/')
-    fprintf(stderr,"The expression is wrong\n");
-    return 2;
-  if(argc==2)    
-    process(stdin,argv[1]);
-  else{
-    stream=fopen(argv[2],"r");
-    if (stream==NULL){
-    fprintf(stderr,"the file can't be opened, see \"errno\" for more informations");
-    return 1;
-    }
-    process(stream,argv[1]);
-    fclose(stream);
-    remove(argv[2]);
-    rename("./temp",argv[2]);
-  }
-  return 0;
-}
-
+enum {
+	ERROR_1=1,
+	ERROR_2,
+	ERROR_3,
+	ERROR_4,
+	ERROR_5
+     };
 
 int process(FILE* stream, char* expression){
   double res,d,p;
@@ -107,7 +119,8 @@ int process(FILE* stream, char* expression){
         }
         break;
      default:
-        return 0;
+        exit(EXIT_FAILURE);
+        break;
       }
     }
     fprintf(streamout,"%lf\n",res);
@@ -115,19 +128,6 @@ int process(FILE* stream, char* expression){
   if (stream!=stdin)
     fclose(streamout);
   return 1;
-}
-
-int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
-  long pos;
-  fseek(stream, 0L, SEEK_END);
-  pos=ftell(stream);
-  rewind(stream);
-  if (pos==0){
-    fprintf(stderr,"The file is empty\n");
-    return 1;
-  }
-  else 
-    return 0;
 }
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
@@ -140,5 +140,50 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
     }
   }
   rewind(stream);
+  return 0;
+}
+
+
+int main(int argc,char *argv[]){
+FILE* stream=NULL;
+int opt;
+
+while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
+    switch(opt) {
+      case 'h':
+        printf("Sorry, the help page is not available yet.\n");
+        return 0;
+      break;
+
+      default :				//option fail.
+        fprintf(stderr, "Invalid option\n");
+        return ERROR_2;
+      break;
+    }
+}
+  if(argc==1){
+    fprintf(stderr,"I need an exression!\n");
+  return ERROR_3;
+  }
+  if(argv[1][0]!='/'){
+    fprintf(stderr,"The expression is wrong.\n");
+    return ERROR_4;
+  }
+  if(argc==(optind+1))    
+    process(stdin,argv[optind]);
+  else{
+    if (!(stream=fopen(argv[optind+1],"r"))){
+      perror("memory allocation"); 
+      exit(EXIT_FAILURE);
+    }
+    if(typeIsWrong(stream)){
+    fprintf(stderr, "The type of the file is wrong.");
+    return ERROR_1;
+    }
+    process(stream,argv[optind]);
+    fclose(stream);
+    remove(argv[optind+1]);
+    rename("./temp",argv[optind+1]);
+  }
   return 0;
 }
