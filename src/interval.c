@@ -1,48 +1,41 @@
+/**
+*
+*
+* ***** BEGIN GPL LICENSE BLOCK *****
+*
+* This file is part of num-utils-nv project
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 3
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program If not, see <http://www.gnu.org/licenses/>.
+*
+* The Original Code is Copyright (C) 2011 by num-utils-nv project.
+* All rights reserved.
+*
+* The Original Code is: all of this file.
+*
+* Contributor(s): none yet.
+*
+* ***** END GPL LICENSE BLOCK *****
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 
-int typeIsWrong(FILE* stream);
-int fileIsEmpty(FILE* stream);
-int interval(FILE* stream);
-
-
-int main(int argc,char *argv[]){
-  FILE* stream = NULL; 
-  if (argc>optind){
-    stream = fopen(argv[optind], "r");
-    if (stream==NULL){
-      fprintf(stderr,"the file can't be opened, see \"errno\" for more infromation");
-      return 4;
-    }
-    if (typeIsWrong(stream))
-      return 2;
-    if (fileIsEmpty(stream))
-      return 1;
-    interval(stream);
-    if (fclose(stream)!=0){
-      fprintf(stderr,"the file can't be closed, see \"errno\" for more infromation");
-      return 5;
-    }
-  }
-  else 
-    interval(stdin);
-  return 0;
-}
-
-
-int fileIsEmpty(FILE* stream){				//this function tests if the file is empty.
-  long pos;
-  fseek(stream, 0L, SEEK_END);
-  pos=ftell(stream);
-  rewind(stream);
-  if (pos==0){
-    fprintf(stderr,"The file is empty\n");
-    return 1;
-  }
-  else 
-    return 0;
-}
+enum {
+	ERROR_1=1,
+	ERROR_2,
+     };
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char d;
@@ -61,25 +54,58 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
 int interval(FILE* stream){ 	
   double o,n;
   double *tab=NULL;
-  int i=1;
-  int l;
+  int i,l=0;
   fscanf(stream,"%lf",&o);
-  tab=(double*) malloc(sizeof(double));
-  if (tab==NULL)
-    fprintf(stderr, "malloc fail");
-  while(!feof(stream)){
-    tab=(double*) realloc(tab,(i+1)*sizeof(double));
-    if (tab==NULL)
-      fprintf(stderr, "realloc fail");
-    fscanf(stream,"%lf",&n);
-    tab[i-1]=n-o;
-    o=n;
-    i++;
+  if(!(tab=(double*) malloc(sizeof(double)))){
+    perror("memory allocation"); 
+    exit(EXIT_FAILURE);
   }
-  l=i;
-  for(i=0;i<l-2;i++){
-  printf("%lf\n",tab[i]);
+  while(fscanf(stream,"%lf",&n)!=EOF){
+    if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
+      perror("memory allocation"); 
+      exit(EXIT_FAILURE);
+    }
+    tab[l]=n-o;
+    o=n;
+    l++;
+  }
+  for(i=0;i<l;i++){
+  fprintf(stdout,"%lf\n",tab[i]);
   }
   free(tab);
+  return 0;
+}
+
+int main(int argc,char *argv[]){
+  int opt;
+  FILE* stream = stdin;
+  while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
+    switch(opt) {
+      case 'h':
+        printf("Sorry, the help page is not available yet.\n");
+        return 0;
+      break;
+
+      default :				//option fail.
+        fprintf(stderr, "Invalid option\n");
+        return ERROR_2;
+      break;
+    }
+  }
+  if(argc>optind){
+    if (!(stream = fopen(argv[optind], "r"))){
+      perror("memory allocation"); 
+      exit(EXIT_FAILURE);
+    }
+    if (typeIsWrong(stream))
+      return ERROR_1;
+  }
+  interval(stream);
+  if(argc>optind){
+    if (fclose(stream)!=0){
+      perror("memory allocation"); 
+      exit(EXIT_FAILURE);
+    }
+  }
   return 0;
 }
