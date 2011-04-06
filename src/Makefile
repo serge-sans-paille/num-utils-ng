@@ -2,7 +2,7 @@
 #	File : Makefile
 #
 
-UTILS= average bound normalize numgrep interval round process
+UTILS= average bound normalize numgrep interval random round process
 CC=gcc
 CFLAGS=-Wall 
 LDFLAGS=-lm
@@ -11,4 +11,7 @@ all: $(UTILS)
 
 clean : 
 	rm $(UTILS)
+
+check :
+	$(MAKE) -C ../tests check
 

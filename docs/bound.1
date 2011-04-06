@@ -1,0 +1,24 @@
+
+.\"
+.TH BOUND 1 "February,2011" "" "man page"
+.SH NAME
+bound \- Find boundary numbers in files or STDIN.
+.SH SYNOPSIS
+.BI "bound "<file> " " [-l]
+.SH DESCRIPTION
+.B bound
+is a program that is part of the numeric utilities package.
+.B bound 
+will find boundary numbers (minimum and maximum) in files or STDIN. By default it 
+will find the upper bound in the set of numbers (the maximum number) in the files or on STDIN. 
+You can use the 
+.I -l 
+option for finding the lower bound (minumum number).
+.SH OPTIONS
+.TP
+.B \-l
+-- Return the lower bound number in the set  (the minimum number)
+.SH SEE ALSO
+.BR average(1),
+.BR sum(1)
+
