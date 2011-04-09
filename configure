@@ -558,6 +558,7 @@ PACKAGE_STRING='num-utils-nv VERSION1.0'
 PACKAGE_BUGREPORT='edern_hotte@telecom-bretagne.eu,flavien.moullec@telecom-bretagne.eu or reuven-benichou@telecom-bretagne.eu'
 PACKAGE_URL=''
 
+ac_unique_file="src/average.c"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -2583,6 +2584,7 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 ac_config_headers="$ac_config_headers config.h"
+
 
 
 
