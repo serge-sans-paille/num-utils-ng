@@ -80,7 +80,8 @@ int numberRandom(FILE* stream, char* expression){
         count++;
         break;
       default:
-        return EXIT_FAILURE;
+	perror("this argument isn't correct");
+        return ERROR_1;
     }
   }
   if(!(tab =(char **)calloc(count+1,sizeof(char*)))){

@@ -6,7 +6,7 @@ LAST_ERROR=0
 
 
 
-../src/normalize ../tests/test3 2>a
+../src/normalize ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -15,7 +15,7 @@ then
 fi
 
 
-../src/normalize -bfr ../tests/test3 2>a
+../src/normalize -bfr ../tests/test3 2>/dev/null
 LAST_ERROR=$? 
 if [ "$LAST_ERROR" -ne "3" ] 
 then
@@ -24,7 +24,7 @@ then
 fi
 
 
-../src/normalize ../tests/dsdsd 2>a
+../src/normalize ../tests/dsdsd 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "4" ] 
 then
@@ -37,7 +37,5 @@ if [ "$ERROR_NB" -eq "0" ]
 then
   echo -e "All tests on normalize went well"
 fi
-
-rm a
 
 exit $ERROR_NB

@@ -16,7 +16,7 @@ then
 fi
 
 
-../src/numgrep /1..10/ ../tests/dsdsd >a
+../src/numgrep /1..10/ ../tests/dsdsd >/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "4" ] 
 then

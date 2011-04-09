@@ -150,7 +150,7 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 }
 	
 
-$
+
 
 				
 	

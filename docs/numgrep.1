@@ -1,0 +1,66 @@
+.\"
+.TH NUMGREP 1 "April,2011" "" "man page"
+.SH NAME
+numgrep - This program is the numeric equivilent of the grep utility.
+.SH SYNOPSIS
+\&\fBnumgrep\fR [\-R] <\s-1FILE\s0>
+.PP
+| \fBnumgrep\fR [\-R]    (Input on \s-1STDIN\s0 from pipeline.)
+.PP
+\&\fBnumgrep\fR [\-R]      (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+.SH DESCRIPTION
+.B numgrep 
+searches for different occurances of numbers through the use of numeric expressions.
+.SH OPTIONS
+.SH EXPRESSIONS
+.IX Header EXPRESSIONS
+.B numgrep
+uses a special numeric expression matching system.  Basically,
+it searches for ranges, factors and sequences of numbers.  Here is a list
+of the syntax characters and some sample expressions that will get you
+going:
+.PP
+.Vb 3
+.B /<expression>/
+Put your expression or set of expressions between these two forward slashes.
+.PP
+.B ..   
+Range expression. A number must be used on the left
+and/or right of this expression to specify that numbers
+between, greater than or less than the numbers specified
+should be matched.
+.PP
+.B ,
+Expression separator. The comma sepearates one complete
+expression from another in a set enclosed by //.
+.PP
+.B m<n> Multiples of <n>.
+This operator, followed by a number
+<n> will match any number <x> that is an integer
+multiple of <n>.  Meaning that <x> = <n> times <y>,
+where <y> is any integer.
+.PP
+.B f<n> Factors of <n>.
+This operator, followed by a number <n>
+will match any number <x> that is an integer factor of <n>.
+Meaning that <x> = <n> divided by <y>, where <y> is any integer.
+.Ve
+
+.PP
+.B Examples
+.PP
+.Vb 1
+
+    /2..10/  Match any number between 2 and 10.
+.PP
+\&    /2..10,20..30/  Match any number between 2 and 10 or between 20 and 30.
+.PP
+\&    /56,34,512,45,67/  Match any of the numbers 56, 34, 512, 45 or 67.
+.PP
+\&    /m3/  Match any integer that is a multiple of 3.
+.PP
+\&    /f1024/  Match any integer that is a factor of 1024.
+\&
+.Ve
+.SH SEE ALSO
+\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)

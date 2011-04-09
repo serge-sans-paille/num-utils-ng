@@ -1,0 +1,23 @@
+
+.\"
+.TH NORMALIZE 1 "April,2011" "" "man page"
+.SH NAME
+normalize - Normalize a set of numbers. By default between 0 and 1.
+.SH SYNOPSIS
+\&\fBnormalize\fR [\-R] <\s-1FILE\s0>
+.PP
+| \fBnormalize\fR [\-R]    (Input on \s-1STDIN\s0 from pipeline.)
+.PP
+\&\fBnormalize\fR [\-R]      (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+.SH DESCRIPTION
+.B normalize 
+is a program that is part of the numeric utilities package. 
+.B normalize 
+will take a set of numbers on input and return that set as a normalized set of numbers between 0 and 1 by default. 
+Or you can use the -R option to specify a different normalized range.
+.SH OPTIONS
+.TP
+-R <range>   This allows you to specify a different normalized range instead of from 0 to 1. For example -R 0..5
+.SH SEE ALSO
+\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+

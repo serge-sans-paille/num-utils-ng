@@ -1,0 +1,38 @@
+.\"
+.TH RANDOM 1 "April,2011" "" "man page"
+.SH NAME
+random - Print out a random number.
+.SH SYNOPSIS
+\&\fBrandom\fR /[expression]/
+.SH DESCRIPTION
+.B random
+is a program that is part of the numeric utilities package.
+.B random 
+will print out a random number determined by the expression that you give. The syntax and program is nearly identical to the 
+.B range
+program, except that 
+.B random
+picks a number at random from the range expression. If no expression is specified, 
+.B random
+will print out a random integer between 1 and 100.
+.SH OPTIONS
+.SH EXAMPLES
+
+.Vb 3
+.PP
+Random number from 1 to 10 : $ random /1:10/
+.PP
+From 1 to 10 or from 15 to 20 : $ random /1:10,15:20/
+.PP
+An even number from 0 to 10 : $ random /0:10i2/
+.PP
+An odd number. Notice the starting number in the range : $ random /1:10i2/
+.PP
+A factor of 3 between 99 and 120 : $ random /99:120i3/
+.PP
+A decimal number : $ random /1.1:2.5i0.1/
+.PP
+A negative random number : $ random /0.0:\-2.0i0.3/
+.Ve
+.SH SEE ALSO
+\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
