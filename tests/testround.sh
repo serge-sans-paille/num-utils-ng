@@ -19,7 +19,7 @@ if [ "$LAST_ERROR" -ne "2" ]
 then
   echo -e "The detection of option failure does not work properly"
   ERROR_NB=2
-
+fi
 
 
 if [ "$ERROR_NB" -eq "0" ] 
