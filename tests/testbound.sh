@@ -5,9 +5,7 @@ ERROR_NB=0
 LAST_ERROR=0
 
 
-
-
-../src/bound ../tests/test3 2>a
+../src/bound ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -16,7 +14,7 @@ then
 fi
 
 
-../src/bound -bfr ../tests/test3 2>a
+../src/bound -bfr ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "3" ] 
 then
@@ -25,7 +23,7 @@ then
 fi
 
 
-../src/bound ../tests/dsdsd 2>a
+../src/bound ../tests/dsdsd 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "4" ] 
 then
@@ -34,36 +32,10 @@ then
 fi
 
 
-../src/bound >a << STOP 
-4.8
-1.4
-8.9
-STOP
-if [ "`cat a`" != "result : 8.900000" ] 
-then
-  echo -e "The bound function does not work properly"
-  ERROR_NB=10
-fi
-
-
-../src/bound -l >a << STOP 
-4.8
-1.4
-8.9
-STOP
-if [ "`cat a`" != "result : 1.400000" ] 
-then
-  echo -e "The option \"-l\" (lower number) does not work properly"
-  ERROR_NB=20
-fi
-
-
-
 if [ "$ERROR_NB" -eq "0" ] 
 then
   echo -e "All tests on bound went well"
 fi
 
-rm a
 
 exit $ERROR_NB
