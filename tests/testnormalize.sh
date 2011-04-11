@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #This script should gather all the tests for the function normalize.
+
 ERROR_NB=0
 LAST_ERROR=0
-
 
 
 ../src/normalize ../tests/test3 2>/dev/null

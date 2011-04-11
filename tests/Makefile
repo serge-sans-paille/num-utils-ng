@@ -74,7 +74,7 @@ MAKEINFO = ${SHELL} /home/flavien/Bureau/project11/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = num-utils-nv
-PACKAGE_BUGREPORT = edern_hotte@telecom-bretagne.eu,flavien.moullec@telecom-bretagne.eu or reuven-benichou@telecom-bretagne.eu
+PACKAGE_BUGREPORT = edern.hotte@telecom-bretagne.eu,flavien.moullec@telecom-bretagne.eu or reuven-benichou@telecom-bretagne.eu
 PACKAGE_NAME = num-utils-nv
 PACKAGE_STRING = num-utils-nv VERSION1.0
 PACKAGE_TARNAME = num-utils-nv
@@ -129,6 +129,7 @@ top_builddir = ..
 top_srcdir = ..
 check_SCRIPTS = testaverage.sh testbound.sh testinterval.sh testnormalize.sh testnumgrep.sh testprocess.sh testrandom.sh testround.sh
 TESTS = $(check_SCRIPTS)
+EXTRA_DIST = $(check_SCRIPTS)
 all: all-am
 
 .SUFFIXES:

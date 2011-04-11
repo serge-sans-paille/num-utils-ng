@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #This script should gather all the tests for the function bound.
+
 ERROR_NB=0
 LAST_ERROR=0
 
