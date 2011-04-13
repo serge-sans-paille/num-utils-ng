@@ -2,6 +2,19 @@
 Installation of num-utils-nv
 ==============================
 
+Quick Installation
+===================
+
+These applications must be installed on your system :
+  -automake
+  -autoconf
+
+Then, in a terminal :
+  $ aclocal
+  $ automake --add-missing
+  $ autoreconf
+and finally :
+  $ ./configure
 
 Basic Installation
 ==================
