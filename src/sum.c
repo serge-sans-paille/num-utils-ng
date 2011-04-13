@@ -33,6 +33,7 @@
 # include <stdio.h>
 #include <unistd.h>
 
+enum {ERROR_2};
 double sum (FILE*);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
@@ -89,7 +90,7 @@ int opt;
 double d;
 double r;
 	
-while((opt = getopt(argc,argv,"iI"))!=-1){
+while((opt = getopt(argc,argv,"iIcrh"))!=-1){
 	switch(opt) {
 
 	case 'i':			// option "-i" (integer portion of the final sum)
@@ -121,7 +122,7 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 	return 0;
 	break;
 
-	case 'c':
+	case 'c':			//option "-c" (Print out the sum of each column.)
 	if (argv[optind]!=NULL){
         	file = fopen(argv[optind], "r");
         	if (fileTest(file))
@@ -153,18 +154,22 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 	return 0;
 	break;
 	
-	case 'r':
-	if (argv[optind]!=NULL){
+	case 'r':			//option "-r" (Print out the sum of each row.)
+	if (rgv[optind]!=NULL){
         	file = fopen(argv[optind], "r");
         	if (fileTest(file))
           	return 0;
 
 			
-			
-	case '?':				//option fail.
-	printf("optionfail\n");
+	case 'h':
+	printf ( " sorry, the help page is not yet available.\n");
 	return 0;
 	break;
+					
+	default :				//option fail.
+        fprintf(stderr, "Invalid option\n");
+        return ERROR_2;
+      break;
 	
 	}
 	}
