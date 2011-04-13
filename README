@@ -3,7 +3,7 @@
 
 WHAT IS PROJECT11 ?
 
-The purpose of this project is to analyze and improve the conceptions choices used for the numutils library development. This library implement severals numbers of numeric algorithms from float data. 
+The purpose of this project is to analyze and improve the conceptions choices used for the num-utils library development. This library implement severals numbers of numeric algorithms from float data. 
 An important point of this project is the performances improvement.
 
 
@@ -29,10 +29,12 @@ Copyright (C) 2011 num-utils-nv project
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-AUTORS
+AUTHORS
 
-Benichou Reuven reuven.benichou@telecom-bretagne.eu
-Hotte Edern edern.hotte@telecom-bretagne.eu 
-Moullec Flavien flavien.moullec@telecom-bretagne.eu
+Reuven Benichou reuven.benichou@telecom-bretagne.eu
+Edern Hotte edern.hotte@telecom-bretagne.eu 
+Flavien Moullec flavien.moullec@telecom-bretagne.eu
+with advices from
+Serge Guelton serge.guelton@enst-bretagne.fr
 
 Please report any errors, updates, or suggestions to edern.hotte@telecom-bretagne.eu .
