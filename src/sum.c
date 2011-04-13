@@ -123,6 +123,12 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 	return 0;
 	break;
 	
+	case 'r':
+	if (argv[optind]!=NULL){
+        	file = fopen(argv[optind], "r");
+        	if (fileTest(file))
+          	return 0;
+
 			
 			
 	case '?':				//option fail.
