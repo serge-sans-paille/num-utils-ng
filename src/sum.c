@@ -1,8 +1,39 @@
+/**
+*
+*
+* ***** BEGIN GPL LICENSE BLOCK *****
+*
+* This file is part of num-utils-nv project
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 3
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program If not, see <http://www.gnu.org/licenses/>.
+*
+* The Original Code is Copyright (C) 2011 by num-utils-nv project.
+* All rights reserved.
+*
+* The Original Code is: all of this file.
+*
+* Contributor(s): none yet.
+*
+* ***** END GPL LICENSE BLOCK *****
+*/
+
 
 # include <stdlib.h>
 # include <stdio.h>
 #include <unistd.h>
 
+enum {ERROR_2};
 double sum (FILE*);
 int fileIsEmpty(FILE*);
 int typeIsWrong(FILE*);
@@ -59,7 +90,7 @@ int opt;
 double d;
 double r;
 	
-while((opt = getopt(argc,argv,"iI"))!=-1){
+while((opt = getopt(argc,argv,"iIcrh"))!=-1){
 	switch(opt) {
 
 	case 'i':			// option "-i" (integer portion of the final sum)
@@ -91,7 +122,7 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 	return 0;
 	break;
 
-	case 'c':
+	case 'c':			//option "-c" (Print out the sum of each column.)
 	if (argv[optind]!=NULL){
         	file = fopen(argv[optind], "r");
         	if (fileTest(file))
@@ -123,12 +154,22 @@ while((opt = getopt(argc,argv,"iI"))!=-1){
 	return 0;
 	break;
 	
+	case 'r':			//option "-r" (Print out the sum of each row.)
+	if (rgv[optind]!=NULL){
+        	file = fopen(argv[optind], "r");
+        	if (fileTest(file))
+          	return 0;
+
 			
-			
-	case '?':				//option fail.
-	printf("optionfail\n");
+	case 'h':
+	printf ( " sorry, the help page is not yet available.\n");
 	return 0;
 	break;
+					
+	default :				//option fail.
+        fprintf(stderr, "Invalid option\n");
+        return ERROR_2;
+      break;
 	
 	}
 	}
