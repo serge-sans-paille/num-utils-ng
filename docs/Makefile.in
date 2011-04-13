@@ -131,7 +131,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-man_MANS = bound.1 normalize.1 numgrep.1
+man_MANS = bound.1 normalize.1 numgrep.1 random.1
+EXTRA_DIST = $(man_MANS)
+LATEX = pdflatex
 all: all-am
 
 .SUFFIXES:
@@ -317,8 +319,6 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-generic
 
-pdf: pdf-am
-
 pdf-am:
 
 ps: ps-am
@@ -342,6 +342,11 @@ uninstall-man: uninstall-man1
 	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am uninstall \
 	uninstall-am uninstall-man uninstall-man1
 
+
+pdf : num-utils-nv.pdf
+
+num-utils-nv.pdf : num-utils-nv.tex
+	$(LATEX) $<
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
