@@ -81,7 +81,7 @@ int main(int argc,char *argv[]){
       case 'I':			//option "-I" (decimal portion of the final sum)
         if (argv[optind]!=NULL){
           file = fopen(argv[optind], "r");
-            if (fileTest(file))
+            if (typeIsWrong(file))
           		return 0;
 			r = (int)sum(file);		 
 			d = sum(file)-r; 
