@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#This script should gather all the tests for the function process.
+#This script should gather all the tests for the function numprocess.
 
 ERROR_NB=0
 LAST_ERROR=0
 
-../src/process /+1/ ../tests/test3 2>/dev/null
+../src/numprocess /+1/ ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "1" ] 
 then
@@ -13,7 +13,7 @@ then
   ERROR_NB=1
 fi
 
-../src/process -blabla ../tests/test3 2>/dev/null
+../src/numprocess -blabla ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -21,7 +21,7 @@ then
   ERROR_NB=2
 fi
 
-../src/process 2>/dev/null
+../src/numprocess 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "3" ] 
 then
@@ -29,7 +29,7 @@ then
   ERROR_NB=3
 fi
 
-../src/process rge ../tests/test3 2>/dev/null
+../src/numprocess rge ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "4" ] 
 then
@@ -39,7 +39,7 @@ fi
 
 if [ "$ERROR_NB" -eq "0" ] 
 then
-  echo -e "All tests on process went well"
+  echo -e "All tests on numprocess went well"
 fi
 
 exit $ERROR_NB

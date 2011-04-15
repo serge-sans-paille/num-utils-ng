@@ -114,8 +114,8 @@ int main(int argc,char *argv[]){
         return 0;
       break;
       
-      default :		  	//option fail.
-        perror("invalid option\n");
+      default :				//option fail.
+        fprintf(stderr, "Invalid option\n");
         return OPTION_ERROR;
       break;
     }
@@ -123,7 +123,7 @@ int main(int argc,char *argv[]){
 
   if (argc>optind){
     if(!(stream = fopen(argv[optind], "r"))){
-      perror("the file can't be opened, see \"errno\" for more information");
+      perror("num-utils-ng");
       return WRONG_FILE;
     }
     if (typeIsWrong(stream))
