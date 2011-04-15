@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -36,14 +36,14 @@
 #include <string.h>
 
 
-enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4};
+enum {ERROR_1=1,WRONG_ARG,ERROR_3,WRONG_FILE,OPTION_ERROR};
 
 int numgrep(FILE* stream, char* expression){
   int numberRead,number1,number2;
   int mode,count=0;
   int i,j;
   char *token;
-  char *savestr;
+  char *savestr=NULL;
   char *str;
   char **tab=NULL;
 
@@ -81,7 +81,7 @@ int numgrep(FILE* stream, char* expression){
     }
   }
   if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
-    perror("memory allocation");
+    perror("num-utils-ng");
     exit(EXIT_FAILURE); 
   }
   for (i=0,str=expression;;i++,str=NULL) {
@@ -131,16 +131,34 @@ int numgrep(FILE* stream, char* expression){
 int main(int argc,char *argv[]){
   FILE* stream=stdin;
   char *arg=NULL;
+  int optch;
+  
+  while((optch=getopt(argc,argv,"h"))!=-1){
+    switch(optch){
+
+      case 'h':
+        printf("Sorry, the help page is not available yet.\n");
+        return 0;
+      break;
+      
+      default :		  	//option fail.
+        perror("invalid option\n");
+        return OPTION_ERROR;
+      break;
+    }
+  }
+
+
   if(argv[optind][0]=='/');
       arg=argv[optind];
   if(!arg){
-    perror("The expression is wrong\n");
-    return ERROR_2;
+    perror("num-utils-ng");
+    return WRONG_ARG;
   }
   if (argc>optind+1){
     if(!(stream=fopen(argv[optind+1],"r"))){
-      perror("the file can't be opened, see \"errno\" for more informations");
-      return ERROR_4;
+      perror("num-utils-ng");
+      return WRONG_FILE;
     }
   }
   numgrep(stream,arg);

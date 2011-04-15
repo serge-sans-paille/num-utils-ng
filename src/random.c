@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -36,7 +36,7 @@
 #include <string.h>
 #include <time.h>
 
-enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4};
+enum {ERROR_ARG=1,OPTION_ERROR};
 
 int numberRandom(FILE* stream, char* expression){
   int number1,number2;
@@ -45,7 +45,7 @@ int numberRandom(FILE* stream, char* expression){
   double decimalPortion;
   int i,count=0,mode;
   char *token;
-  char *savestr;
+  char *savestr=NULL;
   char *str;
   char **tab=NULL;
   double *randomNumber=NULL;
@@ -81,23 +81,23 @@ int numberRandom(FILE* stream, char* expression){
         break;
       default:
 	perror("this argument isn't correct");
-        return ERROR_1;
+        return ERROR_ARG;
     }
   }
   if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
-    perror("memory allocation");
+    perror("num-utils-ng");
     exit(EXIT_FAILURE);
   }
   
   for (i=0,str=expression;;i++,str=NULL) {
     token=strtok_r(str,",", &savestr);
-    if (token == NULL)
+    if (!token)
       break;
     *(tab+i)=token;
   }
   
   if(!(randomNumber=(double *)calloc(count+1,sizeof(double)))){
-    perror("memory allocation");
+    perror("num-utils-ng");;
     exit(EXIT_FAILURE);
   }  
 
@@ -136,6 +136,22 @@ int numberRandom(FILE* stream, char* expression){
 
 int main(int argc,char *argv[]){
   char *arg;
+  int optch;
+  while((optch=getopt(argc,argv,"h"))!=-1){
+    switch(optch){
+
+      case 'h':
+        printf("Sorry, the help page is not available yet.\n");
+        return 0;
+      break;
+      
+      default :		  	//option fail.
+        perror("invalid option\n");
+        return OPTION_ERROR;
+      break;
+    }
+  }
+
   if((argc>1) && (argv[optind][0]=='/')){
     arg=argv[optind];
   }

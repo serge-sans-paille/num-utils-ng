@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -33,9 +33,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <ctype.h>
 
-
-enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4};
+enum {ERROR_1=1,TYPE_ERROR,OPTION_ERROR,WRONG_FILE};
 
 void afficher(double *tab, int count){
   int i=0;
@@ -53,10 +53,10 @@ void normalize(FILE* stream,int l, int h){		//this function normalize
   int count=0;
   int i;
   while(!feof(stream)){
-    fscanf(stream,"%lf",&number);
+    if(fscanf(stream,"%lf",&number)!=EOF);
     sum+=number;
     if(!(tab =(double*)calloc(count+1,sizeof(double)))){
-      perror("memory allocation");
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE); 
     }
     tab[count]=number;
@@ -64,7 +64,7 @@ void normalize(FILE* stream,int l, int h){		//this function normalize
       tab[i]=numbersBis[i];
       count++;
       if(!(numbersBis =(double*)calloc(count,sizeof(double)))){
-        perror("memory allocation");
+        perror("num-utils-ng"); 
         exit(EXIT_FAILURE); 
       }
       for(i=0;i<count;i++)
@@ -80,18 +80,17 @@ void normalize(FILE* stream,int l, int h){		//this function normalize
 
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
-      perror("The type of the file is wrong\n");
-      return ERROR_1;
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
     }
   }
   rewind(stream);
-  return EXIT_SUCCESS;
+  return 0;
 }
-
 
 int main(int argc,char *argv[]){
   FILE *stream=stdin;
@@ -99,7 +98,7 @@ int main(int argc,char *argv[]){
   int numberL=0;
   int numberH=1;
 	
-  while((optch=getopt(argc,argv,"R:"))!=-1){
+  while((optch=getopt(argc,argv,"R:h"))!=-1){
     switch(optch){
       case 'R':
         if(optarg){
@@ -109,10 +108,15 @@ int main(int argc,char *argv[]){
 	  }
         }
       break;
+
+      case 'h':
+        printf("Sorry, the help page is not available yet.\n");
+        return 0;
+      break;
       
       default :		  	//option fail.
         perror("invalid option\n");
-        return ERROR_3;
+        return OPTION_ERROR;
       break;
     }
   }
@@ -120,10 +124,10 @@ int main(int argc,char *argv[]){
   if (argc>optind){
     if(!(stream = fopen(argv[optind], "r"))){
       perror("the file can't be opened, see \"errno\" for more information");
-      return ERROR_4;
+      return WRONG_FILE;
     }
     if (typeIsWrong(stream))
-      return ERROR_2;
+      return TYPE_ERROR;
   }
   normalize(stream,numberL,numberH);
   return EXIT_SUCCESS;			

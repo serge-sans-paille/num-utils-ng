@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -33,16 +33,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <ctype.h>
 
 
-enum {ERROR_1=1,ERROR_2,ERROR_3,ERROR_4,ERROR_5};
+enum {ERROR_1=1,TYPE_ERROR,OPTION_ERROR,WRONG_FILE,CLOSE_ERROR};
 
 double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
 	double lowerBound=0.;
 	double upperBound=0.;
 	double number=0.;
 	if(!feof(stream)){
-		fscanf(stream,"%lf",&number);
+		if(fscanf(stream,"%lf",&number)!=EOF);
 		lowerBound=number;
 		upperBound=number;
 	}		
@@ -51,7 +52,7 @@ double bound(FILE* stream, int mode){		//this function calculates the upper or l
 			upperBound=number;
 		if (number<lowerBound)
 			lowerBound=number;
-		fscanf(stream,"%lf",&number);
+		if(fscanf(stream,"%lf",&number)!=EOF);
 	}
 	if (mode==1)
 		return lowerBound;
@@ -61,21 +62,16 @@ double bound(FILE* stream, int mode){		//this function calculates the upper or l
 
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
-      perror("The type of the file is wrong\n");
-      return 1;
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
     }
   }
   rewind(stream);
-  return EXIT_SUCCESS;
-}
-
-
-void help(){
-
+  return 0;
 }
 
 
@@ -92,31 +88,31 @@ int main(int argc,char *argv[]){
       break;
       
       case 'h':
-        help();
+        printf("Sorry, the help page is not available yet.\n");
+        return 0;
       break;
 
       default :		  	//option fail.
         perror("invalid option\n");
-        return ERROR_3;
+        return OPTION_ERROR;
       break;
     }
   }
   if (argc>optind){
-    stream = fopen(argv[optind], "r");
-    if (stream==NULL){
-      perror("the file can't be opened, see \"errno\" for more information");
-      return ERROR_4;
+    if (!(stream=fopen(argv[optind], "r"))){
+      perror("num-utils-ng");
+      return WRONG_FILE;
     }
     if (typeIsWrong(stream))
-      return ERROR_2;
+      return TYPE_ERROR;
   }
 
   res=bound(stream,m);
 
   if (argc>1){
     if (fclose(stream)!=0){
-      perror("the file can't be closed, see \"errno\" for more information");
-      return ERROR_5;
+      perror("num-utils-ng");
+      return CLOSE_ERROR;
     }
   }
 
