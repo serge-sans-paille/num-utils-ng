@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -36,15 +36,14 @@
 #include <ctype.h>
 
 enum {
-	ERROR_1=1,
-	ERROR_2,
-	ERROR_3,
-	ERROR_4,
-	ERROR_5
+	TYPE_ERROR=1,
+	OPTION_ERROR,
+        MISSEXPR_ERROR,
+	EXPR_ERROR,
      };
 
 int process(FILE* stream, char* expression){
-  double res,d,p;
+  double res,d,p=0;
   int i,j;
   FILE* streamout=NULL;
   if (stream==stdin)
@@ -131,12 +130,12 @@ int process(FILE* stream, char* expression){
 }
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
-      fprintf(stderr,"The type of the file is wrong\n");
-      return 1;
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
     }
   }
   rewind(stream);
@@ -157,28 +156,28 @@ while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
 
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
-        return ERROR_2;
+        return OPTION_ERROR;
       break;
     }
 }
   if(argc==1){
-    fprintf(stderr,"I need an exression!\n");
-  return ERROR_3;
+    fprintf(stderr,"The expression is missing.\n");
+  return MISSEXPR_ERROR;
   }
   if(argv[1][0]!='/'){
     fprintf(stderr,"The expression is wrong.\n");
-    return ERROR_4;
+    return EXPR_ERROR;
   }
   if(argc==(optind+1))    
     process(stdin,argv[optind]);
   else{
     if (!(stream=fopen(argv[optind+1],"r"))){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
     if(typeIsWrong(stream)){
     fprintf(stderr, "The type of the file is wrong.");
-    return ERROR_1;
+    return TYPE_ERROR;
     }
     process(stream,argv[optind]);
     fclose(stream);
