@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -32,18 +32,16 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <math.h>
+#include <ctype.h>
 
 enum {
-	ERROR_1=1,
-	ERROR_2,
+	TYPE_ERROR=1,
+	OPTION_ERROR,
      };
 
-
 double decimalPortion(double d){
-  int i;
-  double res;
-  i= (int) d;
-  res= d- (double) i;
+  int i= (int) d;
+  double res= d- (double) i;
   return res;
 }
 
@@ -97,20 +95,21 @@ int roundc(FILE* stream,int m,int n){
 }
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
-      fprintf(stderr,"The type of the file is wrong\n");
-      return 1;
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
     }
   }
   rewind(stream);
   return 0;
 }
 
+
 int main(int argc,char *argv[]){
-  int opt,m=0,f;
+  int opt=0,m=0,f=0;
   FILE* stream=stdin;
     while((opt=getopt(argc,argv,"cfn:"))!=-1){
       switch(opt) {
@@ -130,23 +129,23 @@ int main(int argc,char *argv[]){
 
       default :				//option fail.
         fprintf(stderr,"invalid option \n");
-        return ERROR_2;
+        return OPTION_ERROR;
       break;
       }
   }
 
   if (argc>optind){
     if (!(stream = fopen(argv[optind], "r"))){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
     if (typeIsWrong(stream))
-      return ERROR_1;
+      return TYPE_ERROR;
   }   
   roundc(stream, m,f);
   if (argc>optind){
     if (fclose(stream)!=0){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);      
     }
   }
