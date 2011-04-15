@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -31,19 +31,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <ctype.h>
+
 
 enum {
-	ERROR_1=1,
-	ERROR_2,
+	TYPE_ERROR=1,
+	OPTION_ERROR,
      };
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
-      fprintf(stderr,"The type of the file is wrong\n");
-      return 1;
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
     }
   }
   rewind(stream);
@@ -55,7 +57,8 @@ int interval(FILE* stream){
   double o,n;
   double *tab=NULL;
   int i,l=0;
-  fscanf(stream,"%lf",&o);
+  if (fscanf(stream,"%lf",&o)==EOF)
+    exit(EXIT_FAILURE);
   if(!(tab=(double*) malloc(sizeof(double)))){
     perror("memory allocation"); 
     exit(EXIT_FAILURE);
@@ -88,7 +91,7 @@ int main(int argc,char *argv[]){
 
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
-        return ERROR_2;
+        return OPTION_ERROR;
       break;
     }
   }
@@ -98,7 +101,7 @@ int main(int argc,char *argv[]){
       exit(EXIT_FAILURE);
     }
     if (typeIsWrong(stream))
-      return ERROR_1;
+      return TYPE_ERROR;
   }
   interval(stream);
   if(argc>optind){
