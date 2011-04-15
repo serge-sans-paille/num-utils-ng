@@ -3,7 +3,7 @@
 *
 * ***** BEGIN GPL LICENSE BLOCK *****
 *
-* This file is part of num-utils-nv project
+* This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -31,24 +31,25 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <ctype.h>
 
 enum {
-	ERROR_1=1,
-	ERROR_2,
+	TYPE_ERROR=1,
+	OPTION_ERROR,
      };
 
 
 double decimalPortion(double d){
-  int i;
-  double res;
-  i= (int) d;
-  res= d- (double) i;
+  int i= (int) d;
+  double res= d- (double) i;
   return res;
 }
 
 int isHigher(const void *a,const void *b){
 if(*(double const *) a > * (double const *) b)
   return 1;
+else if(*(double const *) a < * (double const *) b)
+  return -1;
 else
   return 0;
 }
@@ -58,12 +59,12 @@ double median(FILE* stream,int b){ 				//this function calculates the median.
   double med;
   double *tab=NULL;
   if(!(tab=(double*) malloc(sizeof(double)))){
-    perror("memory allocation"); 
+    perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }
   while(fscanf(stream,"%lf",&tab[l])!=EOF){
     if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
     l++;
@@ -71,13 +72,8 @@ double median(FILE* stream,int b){ 				//this function calculates the median.
 
   qsort(tab,l+1,sizeof(double),isHigher);
 
-  if (decimalPortion((float)l/2)==0){
-printf("even\n");
-    if (b==0)
-      med=tab[(int) (l/2 +1)];
-    else
-      med=tab[(int) (l/2)];
-  }
+  if (decimalPortion((float)l/2)==0)
+    med=tab[(int) ((l/2)-(b-1))];
   else
     med=tab[(int) (l/2) + 1];
   free(tab);
@@ -90,11 +86,11 @@ double mode(FILE* stream){				//this functionn calculates the mode.
   double d;
   int i,nbmod=0,done,l=0;
   if(!(tab=(double*) malloc(sizeof(double)))){
-    perror("memory allocation"); 
+    perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }
   if (!(nb=(int*) malloc(sizeof(int)))){
-    perror("memory allocation");
+    perror("num-utils-ng");
     exit(EXIT_FAILURE);
   }
   while(fscanf(stream,"%lf",&d)!=EOF){
@@ -109,12 +105,12 @@ double mode(FILE* stream){				//this functionn calculates the mode.
     }
     if(done==0){
         if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
-          perror("memory allocation"); 
+          perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
         tab[l+1]=d;
         if(!(nb=(int*) realloc(nb,(l+2)*sizeof(int)))){
-          perror("memory allocation"); 
+          perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
         nb[l+1]=1;
@@ -135,12 +131,12 @@ double mode(FILE* stream){				//this functionn calculates the mode.
 
 
 int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char d;
-  while(!feof(stream)){
-    fscanf(stream, "%c",&d);
-    if ((d>57) || ((d<48) && (d>32) && (d!=46))) { 
-      fprintf(stderr,"The type of the file is wrong\n");
-      return 1;
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
     }
   }
   rewind(stream);
@@ -165,7 +161,7 @@ int main(int argc,char *argv[]){
   int m=0;				// for options (average, median and mode).
   int s=0;				// for options (normal, integer portion and decimal portion).
   int low=0;
-  double res;
+  double res=0;
   FILE *stream=stdin;				// input stream (stdin or file).
   while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     switch(opt) {
@@ -196,17 +192,17 @@ int main(int argc,char *argv[]){
 
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
-        return ERROR_2;
+        return OPTION_ERROR;
       break;
     }
   }
   if (argc>optind){
     if (!(stream = fopen(argv[optind], "r"))){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
     if (typeIsWrong(stream))
-      return ERROR_1;
+      return TYPE_ERROR;
   }  
   
   if (m==0)
@@ -222,7 +218,7 @@ int main(int argc,char *argv[]){
 
   if (argc>1){
     if (fclose(stream)!=0){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
   }
