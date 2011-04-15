@@ -60,12 +60,12 @@ int interval(FILE* stream){
   if (fscanf(stream,"%lf",&o)==EOF)
     exit(EXIT_FAILURE);
   if(!(tab=(double*) malloc(sizeof(double)))){
-    perror("memory allocation"); 
+    perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }
   while(fscanf(stream,"%lf",&n)!=EOF){
     if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
     tab[l]=n-o;
@@ -97,7 +97,7 @@ int main(int argc,char *argv[]){
   }
   if(argc>optind){
     if (!(stream = fopen(argv[optind], "r"))){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
     if (typeIsWrong(stream))
@@ -106,7 +106,7 @@ int main(int argc,char *argv[]){
   interval(stream);
   if(argc>optind){
     if (fclose(stream)!=0){
-      perror("memory allocation"); 
+      perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
   }
