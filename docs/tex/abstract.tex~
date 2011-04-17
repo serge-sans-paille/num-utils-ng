@@ -1,0 +1,14 @@
+\markboth{}{}
+%\pagestyle{empty}
+%---------------------------%
+\section*{Résumé}
+
+Ecrire ici le résumé en Français
+
+\section*{Abstract}
+
+Write here the abstract in English
+
+
+\section*{Mots clés}
+Ecrire les mots clés du rapport ici (6 max).

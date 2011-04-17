@@ -1,15 +1,73 @@
-\documentclass[a4paper,10pt]{report}
-\usepackage[utf8x]{inputenc}
+\documentclass[11pt]{model1}
 
-% Title Page
-\title{}
-\author{}
+% packages
+\usepackage[dvips]{graphicx}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,bbm} % math, mathbb, mathbbm
+
+\usepackage{url} %% pour citer les url par \url
+\usepackage{natbib} %% pour plus de flexibilité dans les citations
+\usepackage{makeidx} %% index
+\usepackage{rotating} %% pour rotate
+\usepackage{multirow} %% pour regrouper un texte sur plusieurs lignes dans une table\usepackage{multirow}
+\usepackage{color} 
+
+%\usepackage{moreverb} %% pour le verbatim en boite
+%\usepackage{slashbox} %% pour couper les colonnes des tableaux en diagonale 
+%\usepackage{showkeys} %% pour voir les labels
+%\usepackage[all]{xy} %% pour la barre au dessus des symboles
+%\usepackage{shorttoc} %% pour plusieurs tables des matières par la commande \shorttableofcontents{Titre}{profondeur}.
+%\usepackage{textcomp} %% pour le symbol pour mille par \textperthousand.
+%\usepackage[dvips]{hyperref} % permet d'obtenir des liens sur les sections dans les PDF
+%\usepackage[right]{eurosym}
+%\usepackage{eurosans} %% pour le symbole \euro
+%\usepackage{epic,eepic}
+%\usepackage{times,palatino}  % fontes
+%\usepackage{mathptm}
+%\usepackage{comment} % pour cut
+
+\headheight = 13.6pt
+
+\input{tex/macro} 
+\makeindex 
+\graphicspath{{fig/}} 
 
 
 \begin{document}
-\maketitle
+\input{tex/title}
+%\maketitle
+\newpage\cleardoublepage
 
-\begin{abstract}
-\end{abstract}
+\input{tex/abstract}
+\newpage\cleardoublepage\thispagestyle{empty}
+\markboth{Table des matières}{Table des matières}
+\tableofcontents
 
-\end{document}          
+\input{tex/introduction} % chapitre 1
+
+% ajouter des chapitres ici
+
+\addcontentsline{toc}{chapter}{Conclusion}
+\input{tex/conclusion}
+\markboth{Conclusion}{Conclusion}
+
+
+\newpage\cleardoublepage
+\bibliographystyle{abbrvnat}\bibliography{bib/references}
+\addcontentsline{toc}{chapter}{References}
+
+\newpage\cleardoublepage\addcontentsline{toc}{chapter}{Glossaire}
+\input{tex/glossary}
+\markboth{Glossaire}{Glossaire}
+
+\appendix
+\input{tex/annexe1}
+
+\newpage
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Index}
+\markboth{Index}{Index}
+\printindex
+
+\end{document}
