@@ -31,9 +31,9 @@
 
 # include <stdlib.h>
 # include <stdio.h>
-#include <unistd.h>
+#include  <unistd.h>
 
-enum {ERROR_2};
+enum {TYPE_ERROR=1, OPTION_ERROR };
 
 double sum ( FILE* fichier){		//this function calculates the sum of numbers from a file or stdin.
   double sum=0.;
@@ -50,119 +50,133 @@ int typeIsWrong(FILE*fichier){			//this function tests if there is letters in th
   char c ;
     while (!feof(fichier)){
       fscanf ( fichier, "%c", &c );
-      if ( (c>57) || ((c<48) && (c>32) && (c!=46)))
-        return 1 ;
+      if ( (c>57) || ((c<48) && (c>32) && (c!=46))){
+        fprintf(stderr,"The type of the file is wrong.\n");
+		fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+		return 1 ;
       }
   rewind (fichier);
   return 0;
 }
 
-int main(int argc,char *argv[]){
-  FILE* file = NULL;
-  int opt;
-  double d,r;
-	
-  while((opt = getopt(argc,argv,"iIcrh"))!=-1){
-    switch(opt) {
 
-      case 'i':			// option "-i" (integer portion of the final sum)
-        if (argv[optind]!=NULL){
-          file = fopen(argv[optind], "r");
-          if (typeIsWrong(file))
-            return 1;
-          fprintf(stderr,"The integer portion of the sum is %d \n",(int)sum(file));
-          fclose(file);
-        }
-	else 
-          printf("The integer portion of the sum is %d \n",(int)sum(stdin));
-	  return 0;
-	break;
 
-      case 'I':			//option "-I" (decimal portion of the final sum)
-        if (argv[optind]!=NULL){
-          file = fopen(argv[optind], "r");
-            if (typeIsWrong(file))
-          		return 0;
-			r = (int)sum(file);		 
-			d = sum(file)-r; 
-		fprintf(stderr,"The decimal portion of the sum is %lf \n",d);
-        fclose(file);
-        }
-	else {
-        	printf("The decimal portion of the average number is %lf \n",sum(stdin) - (int)sum(stdin));
-	}
-	return 0;
-	break;
-
-      case 'c':			//option "-c" (Print out the sum of each column.)
-	if (argv[optind]!=NULL){
-          file = fopen(argv[optind], "r");
-          if (typeIsWrong(file))
-            return 1;
-          int l=0,i,I,J;
-          int C=0;
-          int car; 
-	  if (file != NULL){
-	    while ( (car= getc(file)) != EOF){
-	      if (car == '\n')
-	        ++l;	
-	      if (car == ' ' && l==0)
+double column ( FILE* file ){     // this function print out the sum of each column.
+	int l=0,i,I,J;  
+	int C=0;
+	int car; 
+	if (file != NULL){
+	while ( (car= getc(file)) != EOF){
+		if (car == '\n')
+		++l;	
+		if (car == ' ' && l==0)
 		++C;
 	    }
-	    int tableau[l][C+1];
-	    int* tab=NULL;
-	    tab=malloc(C*sizeof(int));
-	    rewind(file);
-	    for(i=0; i<l*(C+1); i++){
-	      fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)]);
+	int tableau[l][C+1];
+	int* tab=NULL;
+	tab=malloc(C*sizeof(int));
+	rewind(file);
+	for(i=0; i<l*(C+1); i++){
+		fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)]);
 	    }
-	    for (J=0;J<C+1;J++){
-	      for (I=0;I<l;I++){
-	        tab[J]=tab[J]+tableau[I][J];
-	      }
+	for (J=0;J<C+1;J++){
+		for (I=0;I<l;I++){
+			tab[J]=tab[J]+tableau[I][J];
+		}
 	      printf("The sum of column %d is %d \n",J+1,tab[J]);
-	    }
-	    fclose(file);
-	  }
-	  return 0;
-        }
-	break;
-	
-      case 'r':			//option "-r" (Print out the sum of each row.)
-	if (argv[optind]!=NULL){
-          file = fopen(argv[optind], "r");
-          if (typeIsWrong(file))
-            return 1;
 	}
-      break;
+	fclose(file);
+}
+}
+
+
+
+double decimalPortion(FILE* file){     //this function calculates the decimal portion of the final sum 
+	double r=0;
+	double d=0;
+	r = (int)(sum(file));
+	d= sum(file)-r; 
+	return d;
+	}
+
+	
+
+
+
+
+int main(int argc,char *argv[]){
+	FILE* file = stdin;
+	int opt;
+	int m=0;				// for options (column, row).
+	int s=0;				// for options (normal, integer portion and decimal portion).
+	double res,r;
+	while((opt = getopt(argc,argv,"iIcrh"))!=-1){
+		switch(opt) {
+
+		case 'i':			// option "-i" (integer portion of the final sum)
+		s=1;     
+		break;
+		
+		case 'I':			//option "-I" (decimal portion of the final sum)
+        s=2;
+		break;
+
+		case 'c':			//option "-c" (Print out the sum of each column.)
+		m=1;
+		break;
+	
+		case 'r':			//option "-r" (Print out the sum of each row.)
+		m=2;
+		break;
 
 			
-      case 'h':
-	printf ( " sorry, the help page is not yet available.\n");
-	return 0;
-      break;
+		case 'h':
+		printf ( " sorry, the help page is not yet available.\n");
+		return 0;
+		break;
 					
-      default :				//option fail.
+		default :				//option fail.
         fprintf(stderr, "Invalid option\n");
-        return ERROR_2;
-      break;
+        return OPTION_ERROR;
+		break;
 	
     }
   }
 	
-  if (argv[optind]!=NULL){		
-    file=fopen(argv[optind], "r");		
-    if (typeIsWrong(file))			
-      return 1;
-    fprintf(stderr,"The sum is %lf  \n",sum(file));
-    fclose(file);
-  }
-  else
-    printf("The sum is %lf \n",sum(stdin));
-  return 0;
-}
-	
+	if (argc>optind){
+		if (!(file = fopen(argv[optind], "r"))){
+		perror("num-utils-ng"); 
+		exit(EXIT_FAILURE);
+		}
+    if (typeIsWrong(file))
+	return TYPE_ERROR;
+	}  
+  
+	if (m==0)
+    res=mean(file);
+	if (m==1)
+	res=column(file);
+    if (m==2)
+	res=row(file);
 
+	if (argc>1){
+		if (fclose(file)!=0){
+		perror("num-utils-ng"); 
+		exit(EXIT_FAILURE);
+    }
+  }
+
+  if (s==0)
+  printf("result : %lf\n",sum(file));
+  if (s==1)
+  printf("result : %d\n",(int) sum(file));
+  if (s==2)
+  printf("result : %lf\n",decimalPortion(file));
+  return EXIT_SUCCESS;
+
+}
+}
+ 
 
 
 				
