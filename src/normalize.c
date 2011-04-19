@@ -35,7 +35,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
-enum {ERROR_1=1,TYPE_ERROR,OPTION_ERROR,WRONG_FILE};
+enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE};
 
 void afficher(double *tab, int count){
   int i=0;

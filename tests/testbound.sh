@@ -6,27 +6,28 @@ ERROR_NB=0
 LAST_ERROR=0
 
 
-../src/bound ../tests/test3 2>/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "2" ] 
-then
-  echo -e "The detection of type error does not work properly"
-  ERROR_NB=2
-fi
+#../src/bound ../tests/test3 2>/dev/null
+#LAST_ERROR=$?
+#if [ "$LAST_ERROR" -ne "1" ] 
+#then
+#  echo -e "The detection of type error does not work properly"
+#  ERROR_NB=3
+#fi
+
 
 
 ../src/bound -bfr ../tests/test3 2>/dev/null
 LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "3" ] 
+if [ "$LAST_ERROR" -ne "2" ] 
 then
   echo -e "The detection of option failure does not work properly"
-  ERROR_NB=3
+  ERROR_NB=2
 fi
 
 
 ../src/bound ../tests/dsdsd 2>/dev/null
 LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "4" ] 
+if [ "$LAST_ERROR" -ne "3" ] 
 then
   echo -e "The detection of a file which can't be open does not work properly"
   ERROR_NB=4

@@ -36,7 +36,7 @@
 #include <ctype.h>
 
 
-enum {ERROR_1=1,TYPE_ERROR,OPTION_ERROR,WRONG_FILE,CLOSE_ERROR};
+enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE,CLOSE_ERROR};
 
 double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
 	double lowerBound=0.;
