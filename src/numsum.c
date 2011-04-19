@@ -32,6 +32,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 #include  <unistd.h>
+#include <ctype.h>
+
 
 enum {TYPE_ERROR=1, OPTION_ERROR };
 
@@ -40,28 +42,27 @@ double sum ( FILE* fichier){		//this function calculates the sum of numbers from
   double number=0.;
   while (!feof(fichier)){
     sum = sum + number ;					
-    fscanf (fichier,"%lf",&number);
+    if(fscanf (fichier,"%lf",&number)!=EOF);
   }
  return sum;
 }
 
 
-int typeIsWrong(FILE*fichier){			//this function tests if there is letters in the file.	
-  char c ;
-    while (!feof(fichier)){
-      fscanf ( fichier, "%c", &c );
-      if ( (c>57) || ((c<48) && (c>32) && (c!=46))){
-        fprintf(stderr,"The type of the file is wrong.\n");
-		fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-		return 1 ;
-      }
-  rewind (fichier);
+int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+  char c;
+  while(fscanf(stream, "%c",&c)!=EOF){
+    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    fprintf(stderr,"The type of the file is wrong.\n");
+    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
+    return 1;
+    }
+  }
+  rewind(stream);
   return 0;
 }
 
 
-
-double column ( FILE* file ){     // this function print out the sum of each column.
+void column ( FILE* file ){     // this function print out the sum of each column.
 	int l=0,i,I,J;  
 	int C=0;
 	int car; 
@@ -77,7 +78,7 @@ double column ( FILE* file ){     // this function print out the sum of each col
 	tab=malloc(C*sizeof(int));
 	rewind(file);
 	for(i=0; i<l*(C+1); i++){
-		fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)]);
+		if(fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)])!=EOF);
 	    }
 	for (J=0;J<C+1;J++){
 		for (I=0;I<l;I++){
@@ -86,30 +87,22 @@ double column ( FILE* file ){     // this function print out the sum of each col
 	      printf("The sum of column %d is %d \n",J+1,tab[J]);
 	}
 	fclose(file);
+	}
+	return;
 }
-}
-
-
 
 double decimalPortion(FILE* file){     //this function calculates the decimal portion of the final sum 
-	double r=0;
-	double d=0;
-	r = (int)(sum(file));
-	d= sum(file)-r; 
-	return d;
-	}
-
-	
-
-
-
+	double d = sum(file);
+	int i = (int)d;
+	double res = d - (double)i;
+	return res;
+}
 
 int main(int argc,char *argv[]){
 	FILE* file = stdin;
 	int opt;
 	int m=0;				// for options (column, row).
-	int s=0;				// for options (normal, integer portion and decimal portion).
-	double res,r;
+	int s=0;				// for options (normal, integer portion and decimal portion).;
 	while((opt = getopt(argc,argv,"iIcrh"))!=-1){
 		switch(opt) {
 
@@ -118,7 +111,7 @@ int main(int argc,char *argv[]){
 		break;
 		
 		case 'I':			//option "-I" (decimal portion of the final sum)
-        s=2;
+        	s=2;
 		break;
 
 		case 'c':			//option "-c" (Print out the sum of each column.)
@@ -136,48 +129,28 @@ int main(int argc,char *argv[]){
 		break;
 					
 		default :				//option fail.
-        fprintf(stderr, "Invalid option\n");
-        return OPTION_ERROR;
+        	fprintf(stderr, "Invalid option\n");
+        	return OPTION_ERROR;
 		break;
 	
-    }
-  }
+    		}
+  	}
 	
 	if (argc>optind){
 		if (!(file = fopen(argv[optind], "r"))){
-		perror("num-utils-ng"); 
-		exit(EXIT_FAILURE);
+			perror("num-utils-ng"); 
+			exit(EXIT_FAILURE);
 		}
-    if (typeIsWrong(file))
-	return TYPE_ERROR;
+    		if (typeIsWrong(file))
+			return TYPE_ERROR;
 	}  
-  
-	if (m==0)
-    res=mean(file);
-	if (m==1)
-	res=column(file);
-    if (m==2)
-	res=row(file);
-
-	if (argc>1){
-		if (fclose(file)!=0){
-		perror("num-utils-ng"); 
-		exit(EXIT_FAILURE);
-    }
-  }
-
+	
   if (s==0)
-  printf("result : %lf\n",sum(file));
+  	printf("result : %lf\n",sum(file));
   if (s==1)
-  printf("result : %d\n",(int) sum(file));
+  	printf("result : %d\n",(int)sum(file));
   if (s==2)
-  printf("result : %lf\n",decimalPortion(file));
+  	printf("result : %lf\n",decimalPortion(file));
   return EXIT_SUCCESS;
 
 }
-}
- 
-
-
-				
-	
