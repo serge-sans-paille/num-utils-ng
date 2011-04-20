@@ -62,7 +62,7 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
 }
 
 
-void column ( FILE* file ){     // this function print out the sum of each column.
+double column(FILE* file){     // this function print out the sum of each column.
 	int l=0,i,I,J;  
 	int C=0;
 	int car; 
@@ -91,7 +91,7 @@ void column ( FILE* file ){     // this function print out the sum of each colum
 	return 0;
 }
 
-void row  main (){                  // this function print ou the sum of each row.
+double row(){                  // this function print ou the sum of each row.
 	char ligne[1024], *p, *e;
 	FILE* file = NULL;
 	long v, somme = 0;
