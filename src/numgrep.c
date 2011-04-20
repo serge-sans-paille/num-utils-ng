@@ -38,7 +38,7 @@
 
 enum {ERROR_1=1,WRONG_ARG,ERROR_3,WRONG_FILE,OPTION_ERROR};
 
-int numgrep(FILE* stream, char* expression){
+static int numgrep(FILE* stream, char* expression){
   int numberRead,number1,number2;
   int mode,count=0;
   int i,j;

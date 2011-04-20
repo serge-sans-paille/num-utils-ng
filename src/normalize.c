@@ -37,7 +37,7 @@
 
 enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE};
 
-void afficher(double *tab, int count){
+static void afficher(double *tab, int count){
   int i=0;
   for(i=0;i<count-1;i++){
     printf("%lf \n",tab[i]);
@@ -45,7 +45,7 @@ void afficher(double *tab, int count){
 }
 
 
-void normalize(FILE* stream,int l, int h){		//this function normalize
+static void normalize(FILE* stream,int l, int h){		//this function normalize
   double *tab=NULL;
   double *numbersBis=NULL;
   double number=0.;
@@ -79,7 +79,7 @@ void normalize(FILE* stream,int l, int h){		//this function normalize
 }
 
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 
@@ -132,6 +132,3 @@ int main(int argc,char *argv[]){
   normalize(stream,numberL,numberH);
   return EXIT_SUCCESS;			
 }
-
-
-

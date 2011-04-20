@@ -38,7 +38,7 @@
 
 enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE,CLOSE_ERROR};
 
-double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
+static double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
 	double lowerBound=0.;
 	double upperBound=0.;
 	double number=0.;
@@ -61,7 +61,7 @@ double bound(FILE* stream, int mode){		//this function calculates the upper or l
 }
 
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 

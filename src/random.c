@@ -38,7 +38,7 @@
 
 enum {ERROR_ARG=1,OPTION_ERROR};
 
-int numberRandom(FILE* stream, char* expression){
+static int numberRandom(FILE* stream, char* expression){
   int number1,number2;
   double numberL=0.,numberH=0, numberStep=0.;
   int integerPortion;
