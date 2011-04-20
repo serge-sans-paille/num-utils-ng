@@ -88,8 +88,29 @@ void column ( FILE* file ){     // this function print out the sum of each colum
 	}
 	fclose(file);
 	}
-	return;
+	return 0;
 }
+
+void row  main (){                  // this function print ou the sum of each row.
+	char ligne[1024], *p, *e;
+	FILE* file = NULL;
+	long v, somme = 0;
+	while (fgets(ligne, sizeof(ligne), file)) {
+		p = ligne;
+		for (p = ligne; ; p = e) {
+	        v = strtol(p, &e, 10);
+			if (p == e){
+				printf("%ld \n", somme); 
+				somme = 0; 
+				break; 
+			}
+			else 
+				somme += v;
+	    }
+	}
+	return 0;
+}
+
 
 double decimalPortion(FILE* file){     //this function calculates the decimal portion of the final sum 
 	double d = sum(file);
