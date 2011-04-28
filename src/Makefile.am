@@ -13,5 +13,3 @@ numsum_SOURCES = numsum.c
 random_SOURCES = random.c
 round_SOURCES = round.c
 range_SOURCES = range.c
-
-

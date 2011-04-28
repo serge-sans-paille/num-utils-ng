@@ -1,10 +1,10 @@
 Source: num-utils-ng
 Section: math
 Priority: extra
-Maintainer: flavien <flavien.moullec@telecom-bretagne.eu>
+Maintainer: flavien moullec <flavien.moullec@telecom-bretagne.eu>
 Build-Depends: cdbs, debhelper (>= 7.0.50~), autotools-dev
 Standards-Version: 3.8.4
-Homepage: <not yet>
+#Homepage: <not yet> à ajouter ici l'adresse du site quand il sera prêt
 #Vcs-Git: git://git.debian.org/collab-maint/num-utils-ng.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/num-utils-ng.git;a=summary
 
