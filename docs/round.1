@@ -1,39 +1,42 @@
 .IX Title "NUMROUND 1"
-.TH NUMROUND 1 "2 April,2011" "" "man page" Documentation"
+.TH NUMROUND 1 "April,2011" "" "man page" Documentation"
 .SH "NAME"
 numround \- A program that rounds off numbers it encounters.
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBnumround\fR [\-cdfhV] <\s-1FILE\s0>
+\fBnumround\fR [\-cfh] <\s-1FILE\s0>
 .PP
-| \fBnumround\fR [\-cdfhV]   (Input on \s-1STDIN\s0 from pipeline.)
+| \fBnumround\fR [\-cfh] (Input on \s-1STDIN\s0 from pipeline.)
 .PP
-\&\fBnumround\fR [\-cdfhV]     (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+\fBnumround\fR [\-cdfhV] (Input on \s-1STDIN\s0. Use Ctrl-D to stop.)
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBnumround\fR
+\fBnumround\fR
 will simply round decimal numbers to the nearest integer or to a factor of any
 number using the \-n option.  You can also force it to round up (ceiling) or
 round down(floor) using the \-c and \-f options.
 .SH "OPTIONS"
-.IX Header "OPTIONS"
-.Vb 3
-\&    \-c      Force the number to be rounded up. Ceiling.
-\&    \-f      Force the number to be rounded down. Floor.
-\&    \-n <n>  Round numbers to the nearest factor of <n>.
-\&
-\&    \-h      Print out some helpful information about numround.
-\&    \-V      Increase verbosity.  This will print out numbers as it finds them.
-\&    \-d      Debug mode.  For developers only.
-.Ve
-.SH AUTHOR
+.TP
+.B -c
+Force the number to be rounded up. Ceiling.
+.TP
+.B -f
+Force the number to be rounded down. Floor.
+.TP
+.B -n <n>
+Round numbers to the nearest factor of <n>.
+.TP
+.B -h
+Help: You are looking at it.
+
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).

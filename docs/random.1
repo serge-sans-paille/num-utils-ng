@@ -1,10 +1,10 @@
 .\"
 .TH RANDOM 1 "April,2011" "" "man page"
-.SH NAME
+.SH "NAME"
 random - Print out a random number.
-.SH SYNOPSIS
-\&\fBrandom\fR /[expression]/
-.SH DESCRIPTION
+.SH "SYNOPSIS"
+\fBrandom\fR /[expression]/
+.SH "DESCRIPTION"
 .B random
 is a program that is part of the numeric utilities package.
 .B random 
@@ -15,10 +15,12 @@ program, except that
 picks a number at random from the range expression. If no expression is specified, 
 .B random
 will print out a random integer between 1 and 100.
-.SH OPTIONS
-.SH EXAMPLES
+.SH "OPTIONS"
+.TP
+.B -h
+Help: You are looking at it.
+.SH "EXAMPLES"
 
-.Vb 3
 .PP
 Random number from 1 to 10 : $ random /1:10/
 .PP
@@ -33,15 +35,14 @@ A factor of 3 between 99 and 120 : $ random /99:120i3/
 A decimal number : $ random /1.1:2.5i0.1/
 .PP
 A negative random number : $ random /0.0:\-2.0i0.3/
-.Ve
-.SH AUTHOR
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).

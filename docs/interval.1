@@ -1,32 +1,31 @@
 .\"
-.TH INTERVAL 1 "2April,2011" "" "man page"
+.TH INTERVAL 1 "April,2011" "" "man page"
 .SH "NAME"
 numaverage \- Show the numeric intervals between each line in a file.
 .SH "SYNOPSIS"
-\&\fBinterval\fR [\-dhiIlmMV] <\s-1FILE\s0>
+\fBinterval\fR [\-h] <\s-1FILE\s0>
 .PP
-| \fBinterval\fR [\-dhiIlmMV]    (Input on \s-1STDIN\s0 from pipeline.)
+| \fBinterval\fR [\-h] (Input on \s-1STDIN\s0 from pipeline.)
 .PP
-\&\fBinterval\fR [\-dhiIlmMV]      (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+\fBinterval\fR [\-h] (Input on \s-1STDIN\s0. Use Ctrl-D to stop.)
 .SH "DESCRIPTION"
 By default 
-\&\fBinterval\fR is a program that is part of the numeric utilities package. interval will calculate and display the numeric interval between one number and the next on an input stream.
+\fBinterval\fR is a program that is part of the numeric utilities package. interval will calculate and display the numeric interval between one number and the next on an input stream.
 
 This can be quite useful for showing quantities of increase or decrease of data when the numbers themselves aren't providing you with what you want. For instance, I wrote this program after wanting to see the rate of change in box office ticket sales for movies on imdb.com. ;-)
 .SH "OPTIONS"
-.Vb 2
-\&    \-h  Help: You\*(Aqre looking at it.
-.Ve
-.SH "SEE ALSO"
-\&\fInumbound\fR\|(1), \fInuminterval\fR\|(1), \fInumnormalize\fR\|(1), \fInumgrep\fR\|(1), \fInumprocess\fR\|(1), \fInumsum\fR\|(1), \fInumrandom\fR\|(1), \fInumrange\fR\|(1), \fInumround\fR\|(1)
-.SH AUTHOR
+.TP
+.B -h
+Help: You are looking at it.
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).
+

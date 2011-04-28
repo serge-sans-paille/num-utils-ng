@@ -1,15 +1,14 @@
-
 .\"
 .TH BOUND 1 "February,2011" "" "man page"
-.SH NAME
+.SH "NAME"
 bound \- Find boundary numbers in files or STDIN.
-.SH SYNOPSIS
-\&\fBbound\fR [\-l] <\s-1FILE\s0>
+.SH "SYNOPSIS"
+\fBbound\fR [\-hl] <\s-1FILE\s0>
 .PP
-| \fBbound\fR [\-l]     (Input on \s-1STDIN\s0 from pipeline.)
+| \fBbound\fR [\-hl]     (Input on \s-1STDIN\s0 from pipeline.)
 .PP
-\&\fBbound\fR [\-]       (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
-.SH DESCRIPTION
+\fBbound\fR [\-hl]       (Input on \s-1STDIN\s0. Use Ctrl-D to stop.)
+.SH "DESCRIPTION"
 .B bound
 is a program that is part of the numeric utilities package.
 .B bound 
@@ -18,19 +17,22 @@ will find the upper bound in the set of numbers (the maximum number) in the file
 You can use the 
 .I -l 
 option for finding the lower bound (minumum number).
-.SH OPTIONS
+.SH "OPTIONS"
 .TP
-.B \-l
--- Return the lower bound number in the set  (the minimum number)
-.SH AUTHOR
+.B -l
+Return the lower bound number in the set (the minimum number).
+.TP
+.B -h
+Help: You are looking at it.
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).
 

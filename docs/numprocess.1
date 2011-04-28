@@ -1,78 +1,79 @@
 .IX Title "NUMPROCESS 1"
-.TH NUMPROCESS 1 "15 April,2011" "" "man page"
+.TH NUMPROCESS 1 "April,2011" "" "man page"
 .SH "NAME"
 numprocess \- This program mutates numbers as it encounters them.
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBnumprocess\fR [\-dhV] /<expression>/ [\s-1FILE\s0 or \s-1STDIN\s0]
+\fBnumprocess\fR [\-h] /<expression>/ [\s-1FILE\s0 or \s-1STDIN\s0]
 .PP
-| \fBnumprocess\fR [\-dhV] /<expression>/  (Input on \s-1STDIN\s0 from pipeline.)
+| \fBnumprocess\fR [\-h] /<expression>/ (Input on \s-1STDIN\s0 from pipeline.)
 .PP
-\&\fBnumprocess\fR [\-dhV] /<expression>/    (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+\fBnumprocess\fR [\-h] /<expression>/ (Input on \s-1STDIN\s0. Use Ctrl-D to stop.)
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBnumprocess\fR
+\fBnumprocess\fR
 will take as one argument, a list of operations to be performed on numbers that it
 encounters.  It will perform those operations on each number and return the result in place
 of the original number.
 .SH "USAGE EXAMPLES"
-.IX Header "USAGE EXAMPLES"
-.Vb 1
-\&  Add 1 to all numbers.
-\&
-\&   $ numprocess /+1/ file1
-\&
-\&  Convert all numbers from miles to kilometers.  Multiply by 8 and divide by 5.
-\&
-\&   $ cat file1 | numprocess /*8,%5/
-\&
-\&  Convert from celcius to fahreheit degrees.  Multiply by 9, divide by 5 and add 32.
-\&
-\&   $ numprocess /*9,%5,+32/ temperatures
-\&
-\&  Find the area of each circle from the given radius.
-\&
-\&   $ numprocess /^2,*pi/ radii
-.Ve
+
+.PP
+Add 1 to all numbers : $ numprocess /+1/ file1
+.PP
+Convert all numbers from miles to kilometers. Multiply by 8 and divide by 5 : $ cat file1 | numprocess /*8,%5/
+.PP
+Convert from celcius to fahreheit degrees. Multiply by 9, divide by 5 and add 32 : $ numprocess /*9,%5,+32/ temperatures
+.PP
+Find the area of each circle from the given radius : $ numprocess /^2,*pi/ radii
 .SH "KEYWORDS AND OPERATORS"
-.IX Header "KEYWORDS AND OPERATORS"
-.Vb 2
-\&   For operators, the modifying number goes directly after the operator, with
-\&   the exception of functions like sqrt, sin, cos, etc.
-\&
-\&   +     Addition
-\&   \-     Subtraction
-\&   *     Multiplication
-\&   %     Division
-\&   ^     Power function
-\&   sqrt  Square Root  (*)
-\&   sin   Sine function
-\&   cos   Cosine function
-\&
-\&   Constants and keywords that can be used
-\&
-\&    pi    3.141592654
-\&    e     2.718281828
-\&
-\&  (*) When using the sqrt operation on negative numbers, it will take the
-\&     absolute value of the number, sqrt it and then tack an i on the end
-\&     of the result to signify that the resulting number is imaginary.
-.Ve
+For operators, the modifying number goes directly after the operator, with the exception of functions like sqrt, sin, cos, etc.
+.PP
+.B + 
+Addition
+.PP
+.B -
+Subtraction
+.PP
+.B *
+Multiplication
+.PP
+.B %
+Division
+.PP
+.B ^
+Power function
+.PP
+.B sqrt
+Square Root  (*)
+.PP
+.B sin
+Sinus function
+.PP
+.B cos
+Cosinus function
+.PP
+Constants and keywords that can be used :
+
+.B pi
+3.141592654
+.PP
+.B e
+2.718281828
+.PP
+(*) When using the sqrt operation on negative numbers, it will take the absolute value of the number, sqrt it and then tack an i on the end of the result to signify that the resulting number is imaginary.
 .SH "OPTIONS"
-.IX Header "OPTIONS"
-.Vb 3
-\&    \-h  Help: You\*(Aqre looking at it.
-\&    \-V  Increase verbosity.
-\&    \-d  Debug mode.  For developers
-.Ve
-.SH AUTHOR
+.TP
+.B -h
+Help: You are looking at it.
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).
+

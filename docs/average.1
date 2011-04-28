@@ -1,39 +1,42 @@
 .\"
-.TH NUMAVERAGE 1 "2April,2011" "" "man page"
+.TH NUMAVERAGE 1 "April,2011" "" "man page"
 .SH "NAME"
 numaverage \- Find the average of a set of numbers.
 .SH "SYNOPSIS"
-\&\fBnumaverage\fR [\-dhiIlmMV] <\s-1FILE\s0>
+\fBnumaverage\fR [\-hiIlmM] <\s-1FILE\s0>
 .PP
-| \fBnumaverage\fR [\-dhiIlmMV]    (Input on \s-1STDIN\s0 from pipeline.)
+| \fBnumaverage\fR [\-hiIlmM] (Input on \s-1STDIN\s0 from pipeline.)
 .PP
-\&\fBnumaverage\fR [\-dhiIlmMV]      (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+\fBnumaverage\fR [\-hiIlmM] (Input on \s-1STDIN\s0. Use Ctrl-D to stop.)
 .SH "DESCRIPTION"
 By default 
-\&\fBnumaverage\fR will determine the average from all numbers on input.  Other
-options allow you to find the mode and median.
+\fBnumaverage\fR will determine the average from all numbers on input. Other options allow you to find the mode and median.
 .SH "OPTIONS"
-.Vb 2
-\&    \-i  Only return the integer portion of the final sum.
-\&    \-I  Only return the decimal portion of the final sum
-\&
-\&    \-m  Find the mode (most occuring) of the list of numbers,
-\&        or when there\*(Aqs more than one mode, the first completed mode.
-\&    \-M  Find the median (middle number) of the list of numbers.
-\&    \-l  When finding the median and the count of numbers in the set is even,
-\&        use the lower middle number instead of the upper middle number.
-\&    \-h  Help: You\*(Aqre looking at it.
-.Ve
-.SH "SEE ALSO"
-\&\fInumbound\fR\|(1), \fInuminterval\fR\|(1), \fInumnormalize\fR\|(1), \fInumgrep\fR\|(1), \fInumprocess\fR\|(1), \fInumsum\fR\|(1), \fInumrandom\fR\|(1), \fInumrange\fR\|(1), \fInumround\fR\|(1)
-.SH AUTHOR
+.TP
+.B -i
+Only return the integer portion of the final sum.
+.TP
+.B -I
+Only return the decimal portion of the final sum
+.TP
+.B -m
+Find the mode (most occuring) of the list of numbers, or when there are more than one mode, the first completed mode.
+.TP
+.B -M
+Find the median (middle number) of the list of numbers.
+.TP
+.B -l
+When finding the median and the count of numbers in the set is even, use the lower middle number instead of the upper middle number.
+.TP
+.B -h  Help: You are looking at it.
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).

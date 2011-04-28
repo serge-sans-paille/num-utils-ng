@@ -1,101 +1,69 @@
 .\"
-.TH NUMAVERAGE 1 "2April,2011" "" "man page"
+.TH NUMAVERAGE 1 "April,2011" "" "man page"
 .SH "NAME"
 numaverage \- Find the average of a set of numbers.
 .SH "SYNOPSIS"
-\&\fBnumsum\fR [-iIcdhrsvxy] <\s-1FILE\s0>
+\fBnumsum\fR [-iIchrsxy] <\s-1FILE\s0>
 .PP
-| \fBnumsum\fR [-iIcdhrsvxy]    (Input on \s-1STDIN\s0 from pipeline.)
+| \fBnumsum\fR [-iIchrsxy] (Input on \s-1STDIN\s0 from pipeline.)
 .PP
-\&\fBnumsum\fR [-iIcdhrsvxy]    (Input on \s-1STDIN\s0.  Use Ctrl-D to stop.)
+\fBnumsum\fR [-iIchrsxy] (Input on \s-1STDIN\s0. Use Ctrl-D to stop.)
 .SH "DESCRIPTION"
 By default 
-\&\fBnumsum\fR will take all the numbers on stdin and return the sum of those numbers. Currently it only processes the first number on each line. Besides positive numbers, it also handles negative numbers and numbers with decimals.  
+\fBnumsum\fR will take all the numbers on stdin and return the sum of those numbers. Currently it only processes the first number on each line. Besides positive numbers, it also handles negative numbers and numbers with decimals.  
 .SH "OPTIONS"
-.Vb 2
-\&    \-i  Only return the integer portion of the final sum.
-\&    \-I  Only return the decimal portion of the final sum
-\&
-\&    \-c  Print out the sum of each column.
-\&    \-r  rint out the sum of each row.
-\&
-\&    \-x <n>  Specify a comma seperated list of columns to print.
-\&    \-y <n>  Specify a comma seperated list of rows to print.
-\&
-\&    \-h  Help: You\*(Aqre looking at it.
-.Ve
+.TP
+.B -i
+Only return the integer portion of the final sum.
+.TP
+.B -I
+Only return the decimal portion of the final sum.
+.TP
+.B -c
+Print out the sum of each column.
+.TP
+.B -r
+Print out the sum of each row.
+.TP
+.B -x <n>
+Specify a comma seperated list of columns to print.
+.TP
+.B -y <n>
+Specify a comma seperated list of rows to print.
+.TP
+.B -s <string>
+Specify a string to use as a seperator for columns. This defaults to be consecutive whitespace (\\s+).
+.TP
+.B -h
+Help: You are looking at it.
 .SH "EXAMPLES"
-IX Header "EXAMPLES"
-.Vb 3
-\&   Simply add up the numbers in a file. 
-\&    $ numsum numbers.txt 
-\&    222
-\&
-\&   Enter your own numbers on STDIN. The last number is the answer
-\&    $ numsum 
-\&    10
-\&    3
-\&    22
-\&    33 
-\&    190
-\&    257
-\&
-\&   Use it in a command pipeline. 
-\&    $ ls -1s | grep .mp3 | numsum -c -x 5 
-\&    72288
-\&
-\&   Add up the total byte count in a http log file. 
-\&    $ cat access_log | awk {'print $10'} numsum
-\&
-\&    or
-\&   
-\&    numsum -c -x 10 access_log
-\&    
-\&
-\&   Add up the columns of numbers of a file.
-\&    $ cat columns
-\&    0 2 4 6 8 10
-\&
-\&   Odd numbers.  Notice the starting number in the range expression.
-\&    $ numrange /1..10i2/
-\&    1 6 11 16 21
-\&    2 7 12 17 22
-\&    3 8 13 18 23
-\&    4 9 14 19 24
-\&    5 10 15 20 25
-\&    $ numsum -c columns
-\&    15 40 65 90 115
-\&
-\&   Add up the 1st, 2nd and 5th columns only.
-\&    $ numsum -c -x 1,2,5 columns
-\&    15 40 115
-\&
-\&
-\&   Add up the rows of numbers of a file.
-\&     $ numsum -r columns
-\&     55
-\&     60
-\&     65
-\&     70
-\&     75
-\&
-\&
-\&   Add up the 2nd and 4th rows.
-\&     $ numsum -r -y 2,4 columns
-\&     60
-\&     70
-\&
-\&
-\& 
-.Ve
-.SH AUTHOR
+.PP
+Simply add up the numbers in a file : $ numsum numbers.txt
+.PP
+Enter your own numbers on STDIN. The last number is the answer : $ numsum 
+.PP
+Use it in a command pipeline : $ ls -1s | grep .mp3 | numsum -c -x 5 
+.PP
+Add up the total byte count in a http log file : $ cat access_log | awk {'print $10'} numsum
+.PP
+Add up the columns of numbers of a file : $ cat columns
+.PP
+Odd numbers. Notice the starting number in the range expression : $ numrange /1..10i2/ and then : $ numsum -c columns
+.PP
+Add up the 1st, 2nd and 5th columns only : $ numsum -c -x 1,2,5 columns
+.PP
+Add up the rows of numbers of a file : $ numsum -r columns
+.PP
+Add up the 2nd and 4th rows : $ numsum -r -y 2,4 columns
+
+.SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
 .PP
 Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
-.SH SEE ALSO
-\&\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1),  \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
-.SH THANKS
-This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/) 
+.SH "SEE ALSO"
+\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+.SH "THANKS"
+This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).
