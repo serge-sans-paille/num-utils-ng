@@ -39,7 +39,7 @@ enum {OPTION_ERROR=1,
       EXPR_ERROR,
       MISSEXPR_ERROR};
 
-int range(char* expression){
+static int range(char* expression){
   double numberL=0,numberH=0, numberStep=1,numberL2=0;
   int i,count=0,factorpresence=0;
   char *token=NULL;

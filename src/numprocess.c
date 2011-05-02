@@ -42,7 +42,7 @@ enum {
 	EXPR_ERROR,
      };
 
-int process(FILE* stream, char* expression){
+static int process(FILE* stream, char* expression){
   double res,d,p=0;
   int i,j;
   FILE* streamout=NULL;
@@ -129,7 +129,7 @@ int process(FILE* stream, char* expression){
   return 1;
 }
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 

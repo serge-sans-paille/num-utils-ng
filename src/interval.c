@@ -39,7 +39,7 @@ enum {
 	OPTION_ERROR,
      };
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 
@@ -53,7 +53,7 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
 }
 
 
-int interval(FILE* stream){ 	
+static int interval(FILE* stream){ 	
   double o,n;
   double *tab=NULL;
   int i,l=0;

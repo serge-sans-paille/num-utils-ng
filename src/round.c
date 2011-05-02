@@ -39,13 +39,13 @@ enum {
 	OPTION_ERROR,
      };
 
-double decimalPortion(double d){
+static double decimalPortion(double d){
   int i= (int) d;
   double res= d- (double) i;
   return res;
 }
 
-int roundc(FILE* stream,int m,int n){
+static int roundc(FILE* stream,int m,int n){
   double d;
   if (m==0){
     while(fscanf(stream, "%lf",&d)!=EOF){     
@@ -94,7 +94,7 @@ int roundc(FILE* stream,int m,int n){
   return 0;
 }
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 
