@@ -23,9 +23,9 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor: Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
-* ***** END GPL LICENSE BLOCK *****
+n***** END GPL LICENSE BLOCK *****
 */
 
 #include <stdlib.h>
@@ -39,13 +39,13 @@ enum {
      };
 
 
-double decimalPortion(double d){
+static double decimalPortion(double d){
   int i= (int) d;
   double res= d- (double) i;
   return res;
 }
 
-int isHigher(const void *a,const void *b){
+static int isHigher(const void *a,const void *b){
 if(*(double const *) a > * (double const *) b)
   return 1;
 else if(*(double const *) a < * (double const *) b)
@@ -54,7 +54,7 @@ else
   return 0;
 }
 
-double median(FILE* stream,int b){ 				//this function calculates the median.
+static double median(FILE* stream,int b){ 				//this function calculates the median.
   int l=0;
   double med;
   double *tab=NULL;
@@ -80,7 +80,7 @@ double median(FILE* stream,int b){ 				//this function calculates the median.
   return med;
 }
 
-double mode(FILE* stream){				//this functionn calculates the mode.
+static double mode(FILE* stream){				//this functionn calculates the mode.
   int *nb=NULL;                                         // nb is an array of occurences bound to tab.
   double *tab=NULL;					//tab keeps in memory everyr different number in the stream.
   double d;
@@ -130,7 +130,7 @@ double mode(FILE* stream){				//this functionn calculates the mode.
 }
 
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 
@@ -143,7 +143,7 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
   return 0;
 }
 
-double mean(FILE *stream){				//this function calculates the average from a File or stdin depending on the argument.
+static double mean(FILE *stream){				//this function calculates the average from a File or stdin depending on the argument.
   double l=0;
   double average=0;
   double d=0;
