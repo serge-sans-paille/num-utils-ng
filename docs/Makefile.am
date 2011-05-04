@@ -1,4 +1,4 @@
-man_MANS = average.1 numbound.1 numinterval.1 normalize.1 numgrep.1 numprocess.1 numsum.1 numrange.1 random.1 numround.1
+man_MANS = average.1 numbound.1 numinterval.1 numnormalize.1 numgrep.1 numprocess.1 numsum.1 numrange.1 random.1 numround.1
 EXTRA_DIST = $(man_MANS)
 
 pdf: ps
