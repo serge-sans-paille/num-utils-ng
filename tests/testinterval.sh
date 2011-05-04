@@ -35,7 +35,7 @@ then
   rm temp
 fi
 
-echo `seq 1 100000` 1> data2
+echo `seq 1 100000` 1> data
 /usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" interval data2 >/dev/null 
 
 cat finalmsg
@@ -44,5 +44,6 @@ then
   echo -e "\nAll tests on interval went well\n"
 fi
 
-
+rm data
+rm finalmsg
 exit
