@@ -66,7 +66,7 @@ static double column(FILE* stream){     // this function print out the sum of ea
 	int l=0,i,I,J;  
 	int C=0;
 	int car; 
-	if (file != NULL){
+	if (stream){
 	while ( (car= getc(stream)) != EOF){
 		if (car == '\n')
 		++l;	
@@ -78,7 +78,7 @@ static double column(FILE* stream){     // this function print out the sum of ea
 	tab=malloc(C*sizeof(int));
 	rewind(stream);
 	for(i=0; i<l*(C+1); i++){
-		if(fscanf(file,"%d",&tableau[i/(C+1)][i % (C+1)])!=EOF);
+		if(fscanf(stream,"%d",&tableau[i/(C+1)][i % (C+1)])!=EOF);
 	    }
 	for (J=0;J<C+1;J++){
 		for (I=0;I<l;I++){
@@ -86,7 +86,7 @@ static double column(FILE* stream){     // this function print out the sum of ea
 		}
 	      printf("The sum of column %d is %d \n",J+1,tab[J]);
 	}
-	fclose(file);
+	fclose(stream);
 	}
 	return 0;
 }
@@ -121,6 +121,7 @@ static double decimalPortion(FILE* stream){     //this function calculates the d
 int main(int argc,char *argv[]){
 	FILE*stream = stdin;
 	int opt;
+	double res=0;
 	int m=0;				// for options (column, row).
 	int s=0;				// for options (normal, integer portion and decimal portion).;
 	while((opt = getopt(argc,argv,"iIcrh"))!=-1){
@@ -166,11 +167,11 @@ int main(int argc,char *argv[]){
 	}  
 	
 	if (m==0)
-		sum(stream) = sum(stream);
+		res = sum(stream);
 	if (m==1)
-		sum(stream) = column(stream);
+		res = column(stream);
 	if (m==2)
-		sum(stream) = row(stream);
+		res = row(stream);
 
   if (argc>1){
     if (fclose(stream)!=0){
