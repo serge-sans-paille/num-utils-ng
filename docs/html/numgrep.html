@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Man page of NUMGREP</title></head><body>Content-type: text/html
+
+
+
+
+<h1>NUMGREP</h1>
+Section: man page (1)<br>Updated: April,2011<br><a href="#index">Index</a>
+<a href="index.html">Return to Main Contents</a><hr>
+
+<a name="lbAB">&nbsp;</a>
+<h2>NAME</h2>
+
+numgrep - This program is the numeric equivalent of the grep utility.
+<a name="lbAC">&nbsp;</a>
+<h2>SYNOPSIS</h2>
+
+<b>numgrep</b> [-hR] &lt;<font size="-1">FILE</font>&gt;
+<p>
+
+| <b>numgrep</b> [-hR] (Input on <font size="-1">STDIN</font> from pipeline.)
+</p><p>
+
+<b>numgrep</b> [-hR] (Input on <font size="-1">STDIN</font>. Use Ctrl-D to stop.)
+<a name="lbAD">&nbsp;</a>
+</p><h2>DESCRIPTION</h2>
+
+<b>numgrep </b>
+
+searches for different occurances of numbers through the use of numeric expressions.
+<a name="lbAE">&nbsp;</a>
+<h2>OPTIONS</h2>
+
+<dl compact="compact">
+<dt><b>-h</b>
+
+</dt><dd>
+Help: You are looking at it.
+</dd></dl>
+<a name="lbAF">&nbsp;</a>
+<h2>EXPRESSIONS</h2>
+
+<a name="ixAAB"></a>
+<b>numgrep</b>
+
+uses a special numeric expression matching system. Basically,
+it searches for ranges, factors and sequences of numbers. Here is a list
+of the syntax characters and some sample expressions that will get you
+going:
+<p>
+
+<b>/&lt;expression&gt;/</b>
+
+Put your expression or set of expressions between these two forward slashes.
+</p><p>
+
+<b>..   </b>
+
+Range expression. A number must be used on the left
+and/or right of this expression to specify that numbers
+between, greater than or less than the numbers specified
+should be matched.
+</p><p>
+
+<b>,</b>
+
+Expression separator. The comma sepearates one complete
+expression from another in a set enclosed by //.
+</p><p>
+
+<b>m&lt;n&gt; Multiples of &lt;n&gt;.</b>
+
+This operator, followed by a number
+&lt;n&gt; will match any number &lt;x&gt; that is an integer
+multiple of &lt;n&gt;.  Meaning that &lt;x&gt; = &lt;n&gt; times &lt;y&gt;,
+where &lt;y&gt; is any integer.
+</p><p>
+
+<b>f&lt;n&gt; Factors of &lt;n&gt;.</b>
+
+This operator, followed by a number &lt;n&gt;
+will match any number &lt;x&gt; that is an integer factor of &lt;n&gt;.
+Meaning that &lt;x&gt; = &lt;n&gt; divided by &lt;y&gt;, where &lt;y&gt; is any integer.
+</p><p>
+
+<b>Examples</b>
+
+</p><p>
+
+/2..10/  Match any number between 2 and 10.
+</p><p>
+
+/2..10,20..30/  Match any number between 2 and 10 or between 20 and 30.
+</p><p>
+
+/56,34,512,45,67/  Match any of the numbers 56, 34, 512, 45 or 67.
+</p><p>
+
+/m3/  Match any integer that is a multiple of 3.
+</p><p>
+
+/f1024/  Match any integer that is a factor of 1024.
+</p><p>
+<a name="lbAG">&nbsp;</a>
+</p><h2>AUTHORS</h2>
+
+<p>
+
+Edern Hotte (<a href="mailto:edern.hotte@telecom-bretagne.eu">edern.hotte@telecom-bretagne.eu</a>)
+</p><p>
+
+Flavien Moullec (<a href="mailto:flavien.moullec@telecom-bretagne.eu">flavien.moullec@telecom-bretagne.eu</a>)
+</p><p>
+
+Reuven Benichou (<a href="mailto:reuven.benichou@telecom-bretagne.eu">reuven.benichou@telecom-bretagne.eu</a>)
+<a name="lbAH">&nbsp;</a>
+</p><h2>SEE ALSO</h2>
+
+<b><a href="numaverage.html">numaverage</a></b>(1), <b><a href="numbound.html">numbound</a></b>(1), <b><a href="numinterval.html">numinterval</a></b>(1), <b><a href="numnormalize.html">numnormalize</a></b>(1), <b><a href="numprocess.html">numprocess</a></b>(1), <b><a href="numrandom.html">numrandom</a></b>(1), <b><a href="numrange.html">numrange</a></b>(1), <b><a href="numround.html">numround</a></b>(1), <b><a href="numsum.html">numsum</a></b>(1) 
+<a name="lbAI">&nbsp;</a>
+<h2>THANKS</h2>
+
+This man page is inspirated by the documentation of num-utils (<a href="http://suso.suso.org/programs/num-utils/">http://suso.suso.org/programs/num-utils/</a>).
+<p>
+</p><p>
+
+</p><hr>
+<a name="index">&nbsp;</a><h2>Index</h2>
+<dl>
+<dt><a href="#lbAB">NAME</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAC">SYNOPSIS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAD">DESCRIPTION</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAE">OPTIONS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAF">EXPRESSIONS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAG">AUTHORS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAH">SEE ALSO</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAI">THANKS</a></dt><dd>
+    <br>
+</dd></dl>
+<hr>
+This document was created by
+<a href="http://www.nongnu.org/man2html/">man2html</a>,
+using the manual pages.<br>
+Time: 21:00:42 GMT, May 04, 2011
+
+</body></html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Man page of NUMSUM</title></head><body>Content-type: text/html
+
+
+
+
+<h1>NUMSUM</h1>
+Section: man page (1)<br>Updated: April,2011<br><a href="#index">Index</a>
+<a href="index.html">Return to Main Contents</a><hr>
+
+<a name="lbAB">&nbsp;</a>
+<h2>NAME</h2>
+
+numsum - A program that returns the sum of numbers .
+<a name="lbAC">&nbsp;</a>
+<h2>SYNOPSIS</h2>
+
+<b>numsum</b> [-iIchrsxy] &lt;<font size="-1">FILE</font>&gt;
+<p>
+
+| <b>numsum</b> [-iIchrsxy] (Input on <font size="-1">STDIN</font> from pipeline.)
+</p><p>
+
+<b>numsum</b> [-iIchrsxy] (Input on <font size="-1">STDIN</font>. Use Ctrl-D to stop.)
+<a name="lbAD">&nbsp;</a>
+</p><h2>DESCRIPTION</h2>
+
+By default 
+<b>numsum</b> will take all the numbers on stdin and return the sum of
+those numbers. Currently it only processes the first number on each
+line. Besides positive numbers, it also handles negative numbers and
+numbers with decimals. <a name="lbAE">&nbsp;</a>
+<h2>OPTIONS</h2>
+
+<dl compact="compact">
+<dt><b>-i</b>
+
+</dt><dd>
+Only return the integer portion of the final sum.
+</dd><dt><b>-I</b>
+
+</dt><dd>
+Only return the decimal portion of the final sum.
+</dd><dt><b>-c</b>
+
+</dt><dd>
+Print out the sum of each column.
+</dd><dt><b>-r</b>
+
+</dt><dd>
+Print out the sum of each row.
+</dd><dt><b>-x &lt;n&gt;</b>
+
+</dt><dd>
+Specify a comma seperated list of columns to print.
+</dd><dt><b>-y &lt;n&gt;</b>
+
+</dt><dd>
+Specify a comma seperated list of rows to print.
+</dd><dt><b>-s &lt;string&gt;</b>
+
+</dt><dd>
+Specify a string to use as a seperator for columns. This defaults to be consecutive whitespace (\s+).
+</dd><dt><b>-h</b>
+
+</dt><dd>
+Help: You are looking at it.
+</dd></dl>
+<a name="lbAF">&nbsp;</a>
+<h2>EXAMPLES</h2>
+
+<p>
+
+Simply add up the numbers in a file : $ numsum numbers.txt
+</p><p>
+
+Enter your own numbers on STDIN. The last number is the answer : $ numsum 
+</p><p>
+
+Use it in a command pipeline : $ ls -1s | grep .mp3 | numsum -c -x 5 
+</p><p>
+
+Add up the total byte count in a http log file : $ cat access_log | awk {'print $10'} numsum
+</p><p>
+
+Add up the columns of numbers of a file : $ cat columns
+</p><p>
+
+Odd numbers. Notice the starting number in the range expression : $ numrange /1..10i2/ and then : $ numsum -c columns
+</p><p>
+
+Add up the 1st, 2nd and 5th columns only : $ numsum -c -x 1,2,5 columns
+</p><p>
+
+Add up the rows of numbers of a file : $ numsum -r columns
+</p><p>
+
+Add up the 2nd and 4th rows : $ numsum -r -y 2,4 columns
+</p><p>
+<a name="lbAG">&nbsp;</a>
+</p><h2>AUTHORS</h2>
+
+<p>
+
+Edern Hotte (<a href="mailto:edern.hotte@telecom-bretagne.eu">edern.hotte@telecom-bretagne.eu</a>)
+</p><p>
+
+Flavien Moullec (<a href="mailto:flavien.moullec@telecom-bretagne.eu">flavien.moullec@telecom-bretagne.eu</a>)
+</p><p>
+
+Reuven Benichou (<a href="mailto:reuven.benichou@telecom-bretagne.eu">reuven.benichou@telecom-bretagne.eu</a>)
+<a name="lbAH">&nbsp;</a>
+</p><h2>SEE ALSO</h2>
+
+<b><a href="numaverage.html">numaverage</a></b>(1), <b><a href="numbound.html">numbound</a></b>(1), <b><a href="numgrep.html">numgrep</a></b>(1), <b><a href="numinterval.html">numinterval</a></b>(1), <b><a href="numnormalize.html">numnormalize</a></b>(1), <b><a href="numprocess.html">numprocess</a></b>(1), <b><a href="numrandom.html">numrandom</a></b>(1), <b><a href="numround.html">numrange</a></b>(1), <b><a href="numround.html">numround</a></b>(1)
+<a name="lbAI">&nbsp;</a>
+<h2>THANKS</h2>
+
+This man page is inspirated by the documentation of num-utils (<a href="http://suso.suso.org/programs/num-utils/">http://suso.suso.org/programs/num-utils/</a>).
+<p>
+
+</p><hr>
+<a name="index">&nbsp;</a><h2>Index</h2>
+<dl>
+<dt><a href="#lbAB">NAME</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAC">SYNOPSIS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAD">DESCRIPTION</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAE">OPTIONS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAF">EXAMPLES</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAG">AUTHORS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAH">SEE ALSO</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAI">THANKS</a></dt><dd>
+    <br>
+</dd></dl>
+<hr>
+This document was created by
+<a href="http://www.nongnu.org/man2html/">man2html</a>,
+using the manual pages.<br>
+Time: 20:56:21 GMT, May 04, 2011
+
+</body></html>

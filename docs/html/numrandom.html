@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Man page of NUMRANDOM</title></head><body>Content-type: text/html
+
+
+
+
+<h1>NUMRANDOM</h1>
+Section: man page (1)<br>Updated: April,2011<br><a href="#index">Index</a>
+<a href="index.html">Return to Main Contents</a><hr>
+
+<a name="lbAB">&nbsp;</a>
+<h2>NAME</h2>
+
+numrandom - Print out a random number.
+<a name="lbAC">&nbsp;</a>
+<h2>SYNOPSIS</h2>
+
+<b>numrandom</b> /[expression]/
+<a name="lbAD">&nbsp;</a>
+<h2>DESCRIPTION</h2>
+
+<b>numrandom</b>
+
+is a program that is part of the numeric utilities package.
+<b>numrandom </b>
+
+will print out a random number determined by the expression that you give. The syntax and program is nearly identical to the 
+<b>range</b>
+
+program, except that 
+<b>numrandom</b>
+
+picks a number at random from the range expression. If no expression is specified, 
+<b>random</b>
+
+will print out a random integer between 1 and 100.
+<a name="lbAE">&nbsp;</a>
+<h2>OPTIONS</h2>
+
+<dl compact="compact">
+<dt><b>-h</b>
+
+</dt><dd>
+Help: You are looking at it.
+</dd></dl>
+<a name="lbAF">&nbsp;</a>
+<h2>EXAMPLES</h2>
+
+<p>
+</p><p>
+
+Random number from 1 to 10 : $ numrandom /1:10/
+</p><p>
+
+From 1 to 10 or from 15 to 20 : $ numrandom /1:10,15:20/
+</p><p>
+
+An even number from 0 to 10 : $ numrandom /0:10i2/
+</p><p>
+
+An odd number. Notice the starting number in the range : $ numrandom /1:10i2/
+</p><p>
+
+A factor of 3 between 99 and 120 : $ numrandom /99:120i3/
+</p><p>
+
+A decimal number : $ numrandom /1.1:2.5i0.1/
+</p><p>
+
+A negative random number : $ numrandom /0.0:-2.0i0.3/
+<a name="lbAG">&nbsp;</a>
+</p><h2>AUTHORS</h2>
+
+<p>
+
+Edern Hotte (<a href="mailto:edern.hotte@telecom-bretagne.eu">edern.hotte@telecom-bretagne.eu</a>)
+</p><p>
+
+Flavien Moullec (<a href="mailto:flavien.moullec@telecom-bretagne.eu">flavien.moullec@telecom-bretagne.eu</a>)
+</p><p>
+
+Reuven Benichou (<a href="mailto:reuven.benichou@telecom-bretagne.eu">reuven.benichou@telecom-bretagne.eu</a>)
+<a name="lbAH">&nbsp;</a>
+</p><h2>SEE ALSO</h2>
+
+<b><a href="numaverage.html">numaverage</a></b>(1), <b><a href="numbound.html">numbound</a></b>(1), <b><a href="numgrep.html">numgrep</a></b>(1), <b><a href="numinterval.html">numinterval</a></b>(1), <b><a href="numnormalize.html">numnormalize</a></b>(1), <b><a href="numprocess.html">numprocess</a></b>(1), <b><a href="numrange.html">numrange</a></b>(1), <b><a href="numround.html">numround</a></b>(1), <b><a href="numsum.html">numsum</a></b>(1)
+<a name="lbAI">&nbsp;</a>
+<h2>THANKS</h2>
+
+This man page is inspirated by the documentation of num-utils (<a href="http://suso.suso.org/programs/num-utils/">http://suso.suso.org/programs/num-utils/</a>).
+<p>
+
+</p><hr>
+<a name="index">&nbsp;</a><h2>Index</h2>
+<dl>
+<dt><a href="#lbAB">NAME</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAC">SYNOPSIS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAD">DESCRIPTION</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAE">OPTIONS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAF">EXAMPLES</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAG">AUTHORS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAH">SEE ALSO</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAI">THANKS</a></dt><dd>
+    <br>
+</dd></dl>
+<hr>
+This document was created by
+<a href="http://www.nongnu.org/man2html/">man2html</a>,
+using the manual pages.<br>
+Time: 20:52:14 GMT, May 04, 2011
+
+</body></html>

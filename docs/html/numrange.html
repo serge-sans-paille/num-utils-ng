@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Man page of NUMRANGE</title></head><body>Content-type: text/html
+
+
+
+
+<h1>NUMRANGE</h1>
+Section: man page (1)<br>Updated: April,2011<br><a href="#index">Index</a>
+<a href="index.html">Return to Main Contents</a><hr>
+
+<a name="lbAB">&nbsp;</a>
+<h2>NAME</h2>
+
+numrange - Print out a range of numbers for use in for loops and such.
+<a name="lbAC">&nbsp;</a>
+<h2>SYNOPSIS</h2>
+
+<a name="ixAAC"></a>
+<b>numrange</b> [-dhV] /&lt;expression&gt;/
+<a name="lbAD">&nbsp;</a>
+<h2>DESCRIPTION</h2>
+
+<a name="ixAAD"></a>
+<b>numrange</b>
+will print out a list of numbers based on an expression that you specify.  This
+is useful for making a list of numbers for use in for loops and so on.
+Ranges are inclusive.
+Ranges of
+numbers are specified using the .. operator, like this /20..50/, which means all
+integers from 20 to 50 inclusive.  More complex expressions can be generated using the commas
+and the 'i' increment operator.
+<a name="lbAE">&nbsp;</a>
+<h2>OPTIONS</h2>
+
+<a name="ixAAE"></a>
+<dl compact="compact">
+<dt><b>-e &lt;set&gt;</b>
+
+</dt><dd>
+Exclude the &lt;set&gt; of numbers from the range output. &lt;set&gt; is a set of numbers separated by commas.
+</dd><dt><b>-n &lt;n&gt;</b>
+
+</dt><dd>
+Use &lt;n&gt; as the separator between numbers. By default, it will use
+a space. Use '\n' or \\n for a newline character or use the -N option.
+</dd><dt><b>-N</b>
+
+</dt><dd>
+Just a quick option for using a newline as the separator.
+</dd><dt><b>-h</b>
+
+</dt><dd>
+Help: You are looking at it.
+</dd></dl>
+<a name="lbAF">&nbsp;</a>
+<h2>EXAMPLES</h2>
+
+<a name="ixAAF"></a>
+All numbers from 1 to 10 : $ numrange /1:10/
+<p>
+
+From 10 to 1. Counting down : $ numrange /10:1/
+</p><p>
+
+From 1 to 10 and from 15 to 20 : $ numrange /1:10,15:20/
+</p><p>
+
+Even numbers from 0 to 10 : $ numrange /0:10i2/
+</p><p>
+
+Odd numbers. Notice the starting number in the range expression : $ numrange /1:10i2/
+</p><p>
+
+Factors of 3 between 99 and 120 : $ numrange /99:120i3/
+</p><p>
+
+Decimal numbers : $ numrange /1.1:2.5i0.1/
+</p><p>
+
+And negative numbers too : $ numrange /1.0:-2.0i0.3/
+<a name="lbAG">&nbsp;</a>
+</p><h2>AUTHOR</h2>
+
+<p>
+
+Edern Hotte (<a href="mailto:edern.hotte@telecom-bretagne.eu">edern.hotte@telecom-bretagne.eu</a>)
+</p><p>
+
+Flavien Moullec (<a href="mailto:flavien.moullec@telecom-bretagne.eu">flavien.moullec@telecom-bretagne.eu</a>)
+</p><p>
+
+Reuven Benichou (<a href="mailto:reuven.benichou@telecom-bretagne.eu">reuven.benichou@telecom-bretagne.eu</a>)
+<a name="lbAH">&nbsp;</a>
+</p><h2>SEE ALSO</h2>
+
+<b><a href="numaverage.html">numaverage</a></b>(1), <b><a href="numbound.html">numbound</a></b>(1), <b><a href="numgrep.html">numgrep</a></b>(1), <b><a href="numinterval.html">numinterval</a></b>(1), <b><a href="numnormalize.html">numnormalize</a></b>(1), <b><a href="numprocess.html">numprocess</a></b>(1), <b><a href="numrandom.html">numrandom</a></b>(1), <b><a href="numround.html">numround</a></b>(1), <b><a href="numsum.html">numsum</a></b>(1)
+<a name="lbAI">&nbsp;</a>
+<h2>THANKS</h2>
+
+This man page is inspirated by the documentation of num-utils (<a href="http://suso.suso.org/programs/num-utils/%29.">http://suso.suso.org/programs/num-utils/).</a>
+<p>
+
+</p><hr>
+<a name="index">&nbsp;</a><h2>Index</h2>
+<dl>
+<dt><a href="#lbAB">NAME</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAC">SYNOPSIS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAD">DESCRIPTION</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAE">OPTIONS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAF">EXAMPLES</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAG">AUTHOR</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAH">SEE ALSO</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAI">THANKS</a></dt><dd>
+    <br>
+</dd></dl>
+<hr>
+This document was created by
+<a href="http://www.nongnu.org/man2html/">man2html</a>,
+using the manual pages.<br>
+Time: 20:53:40 GMT, May 04, 2011
+
+</body></html>

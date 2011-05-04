@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Man page of NUMPROCESS</title></head><body>Content-type: text/html
+
+
+
+
+<h1>NUMPROCESS</h1>
+Section: man page (1)<br>Updated: April,2011<br><a href="#index">Index</a>
+<a href="index.html">Return to Main Contents</a><hr>
+
+<a name="lbAB">&nbsp;</a>
+<h2>NAME</h2>
+
+numprocess - This program mutates numbers as it encounters them.
+<a name="lbAC">&nbsp;</a>
+<h2>SYNOPSIS</h2>
+
+<a name="ixAAC"></a>
+<b>numprocess</b> [-h] /&lt;expression&gt;/ [<font size="-1">FILE</font> or <font size="-1">STDIN</font>]
+<p>
+
+| <b>numprocess</b> [-h] /&lt;expression&gt;/ (Input on <font size="-1">STDIN</font> from pipeline.)
+</p><p>
+
+<b>numprocess</b> [-h] /&lt;expression&gt;/ (Input on <font size="-1">STDIN</font>. Use Ctrl-D to stop.)
+<a name="lbAD">&nbsp;</a>
+</p><h2>DESCRIPTION</h2>
+
+<a name="ixAAD"></a>
+<b>numprocess</b>
+will take as one argument, a list of operations to be performed on numbers that it
+encounters.  It will perform those operations on each number and return the result in place
+of the original number.
+<a name="lbAE">&nbsp;</a>
+<h2>USAGE EXAMPLES</h2>
+
+<p>
+</p><p>
+
+Add 1 to all numbers : $ numprocess /+1/ file1
+</p><p>
+
+Convert all numbers from miles to kilometers. Multiply by 8 and divide by 5 : $ cat file1 | numprocess /*8,%5/
+</p><p>
+
+Convert from celcius to fahreheit degrees. Multiply by 9, divide by 5 and add 32 : $ numprocess /*9,%5,+32/ temperatures
+</p><p>
+
+Find the area of each circle from the given radius : $ numprocess /^2,*pi/ radii
+<a name="lbAF">&nbsp;</a>
+</p><h2>KEYWORDS AND OPERATORS</h2>
+
+For operators, the modifying number goes directly after the operator, with the exception of functions like sqrt, sin, cos, etc.
+<p>
+
+<b>+ </b>
+
+Addition
+</p><p>
+
+<b>-</b>
+
+Subtraction
+</p><p>
+
+<b>*</b>
+
+Multiplication
+</p><p>
+
+<b>%</b>
+
+Division
+</p><p>
+
+<b>^</b>
+
+Power function
+</p><p>
+
+<b>sqrt</b>
+
+Square Root  (*)
+</p><p>
+
+<b>sin</b>
+
+Sinus function
+</p><p>
+
+<b>cos</b>
+
+Cosinus function
+</p><p>
+
+Constants and keywords that can be used :
+</p><p>
+<b>pi</b>
+
+3.141592654
+</p><p>
+
+<b>e</b>
+
+2.718281828
+</p><p>
+(*) When using the sqrt operation on negative numbers, it will take the
+absolute value of the number, sqrt it and then tack an i on the end of
+the result to signify that the resulting number is imaginary.
+<a name="lbAG">&nbsp;</a>
+</p><h2>OPTIONS</h2>
+
+<dl compact="compact">
+<dt><b>-h</b>
+
+</dt><dd>
+Help: You are looking at it.
+</dd></dl>
+<a name="lbAH">&nbsp;</a>
+<h2>AUTHORS</h2>
+
+<p>
+
+Edern Hotte (<a href="mailto:edern.hotte@telecom-bretagne.eu">edern.hotte@telecom-bretagne.eu</a>)
+</p><p>
+
+Flavien Moullec (<a href="mailto:flavien.moullec@telecom-bretagne.eu">flavien.moullec@telecom-bretagne.eu</a>)
+</p><p>
+
+Reuven Benichou (<a href="mailto:reuven.benichou@telecom-bretagne.eu">reuven.benichou@telecom-bretagne.eu</a>)
+<a name="lbAI">&nbsp;</a>
+</p><h2>SEE ALSO</h2>
+
+<b><a href="numaverage.html">numaverage</a></b>(1), <b><a href="numbound.html">numbound</a></b>(1), <b><a href="numgrep.html">numgrep</a></b>(1), <b><a href="numinterval.html">numinterval</a></b>(1), <b><a href="numnormalize.html">numnormalize</a></b>(1), <b><a href="numrandom.html">numrandom</a></b>(1), <b><a href="numrange.html">numrange</a></b>(1), <b><a href="numround.html">numround</a></b>(1), <b><a href="numsum.html">numsum</a></b>(1)
+<a name="lbAJ">&nbsp;</a>
+<h2>THANKS</h2>
+
+This man page is inspirated by the documentation of num-utils (<a href="http://suso.suso.org/programs/num-utils/">http://suso.suso.org/programs/num-utils/</a>).
+<p>
+</p><p>
+
+</p><hr>
+<a name="index">&nbsp;</a><h2>Index</h2>
+<dl>
+<dt><a href="#lbAB">NAME</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAC">SYNOPSIS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAD">DESCRIPTION</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAE">USAGE EXAMPLES</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAF">KEYWORDS AND OPERATORS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAG">OPTIONS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAH">AUTHORS</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAI">SEE ALSO</a></dt><dd>
+    <br>
+</dd><dt><a href="#lbAJ">THANKS</a></dt><dd>
+    <br>
+</dd></dl>
+<hr>
+This document was created by
+<a href="http://www.nongnu.org/man2html/">man2html</a>,
+using the manual pages.<br>
+Time: 20:58:42 GMT, May 04, 2011
+
+</body></html>
