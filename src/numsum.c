@@ -37,7 +37,7 @@
 
 enum {TYPE_ERROR=1, OPTION_ERROR };
 
-double sum ( FILE* fichier){		//this function calculates the sum of numbers from a file or stdin.
+static double sum ( FILE* fichier){		//this function calculates the sum of numbers from a file or stdin.
   double sum=0.;
   double number=0.;
   while (!feof(fichier)){
@@ -48,7 +48,7 @@ double sum ( FILE* fichier){		//this function calculates the sum of numbers from
 }
 
 
-int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
+static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
     if (!isdigit(c) && !isspace(c) && !(c==46)) { 
@@ -62,7 +62,7 @@ int typeIsWrong(FILE* stream){				//this function tests if there is letters in t
 }
 
 
-double column(FILE* file){     // this function print out the sum of each column.
+static double column(FILE* file){     // this function print out the sum of each column.
 	int l=0,i,I,J;  
 	int C=0;
 	int car; 
@@ -91,7 +91,7 @@ double column(FILE* file){     // this function print out the sum of each column
 	return 0;
 }
 
-double row(){                  // this function print ou the sum of each row.
+static double row(){                  // this function print ou the sum of each row.
 	char ligne[1024], *p, *e;
 	FILE* file = NULL;
 	long v, somme = 0;
@@ -112,7 +112,7 @@ double row(){                  // this function print ou the sum of each row.
 }
 
 
-double decimalPortion(FILE* file){     //this function calculates the decimal portion of the final sum 
+static double decimalPortion(FILE* file){     //this function calculates the decimal portion of the final sum 
 	double d = sum(file);
 	int i = (int)d;
 	double res = d - (double)i;
@@ -166,6 +166,7 @@ int main(int argc,char *argv[]){
 			return TYPE_ERROR;
 	}  
 	
+		
   if (s==0)
   	printf("result : %lf\n",sum(file));
   if (s==1)
