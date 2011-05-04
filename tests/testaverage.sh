@@ -61,13 +61,14 @@ fi
 echo `seq 1 10000` 1> data2
 /usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -m data2 >/dev/null 
 
-cat finalmsg
 if [ "$ERROR" -eq "0" ] 
 then
-  echo -e "\nAll tests on average went well\n"
+  echo -e "\nAll tests on average went well\n" >> finalmsg
 fi
+
+cat finalmsg
 
 rm finalmsg
 rm data
 rm data2
-exit
+exit $ERROR
