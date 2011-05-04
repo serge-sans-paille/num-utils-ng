@@ -1,17 +1,17 @@
 .\"
-.TH RANDOM 1 "April,2011" "" "man page"
+.TH NUMRANDOM 1 "April,2011" "" "man page"
 .SH "NAME"
 random - Print out a random number.
 .SH "SYNOPSIS"
-\fBrandom\fR /[expression]/
+\fBnumrandom\fR /[expression]/
 .SH "DESCRIPTION"
-.B random
+.B numrandom
 is a program that is part of the numeric utilities package.
-.B random 
+.B numrandom 
 will print out a random number determined by the expression that you give. The syntax and program is nearly identical to the 
 .B range
 program, except that 
-.B random
+.B numrandom
 picks a number at random from the range expression. If no expression is specified, 
 .B random
 will print out a random integer between 1 and 100.
@@ -22,19 +22,19 @@ Help: You are looking at it.
 .SH "EXAMPLES"
 
 .PP
-Random number from 1 to 10 : $ random /1:10/
+Random number from 1 to 10 : $ numrandom /1:10/
 .PP
-From 1 to 10 or from 15 to 20 : $ random /1:10,15:20/
+From 1 to 10 or from 15 to 20 : $ numrandom /1:10,15:20/
 .PP
-An even number from 0 to 10 : $ random /0:10i2/
+An even number from 0 to 10 : $ numrandom /0:10i2/
 .PP
-An odd number. Notice the starting number in the range : $ random /1:10i2/
+An odd number. Notice the starting number in the range : $ numrandom /1:10i2/
 .PP
-A factor of 3 between 99 and 120 : $ random /99:120i3/
+A factor of 3 between 99 and 120 : $ numrandom /99:120i3/
 .PP
-A decimal number : $ random /1.1:2.5i0.1/
+A decimal number : $ numrandom /1.1:2.5i0.1/
 .PP
-A negative random number : $ random /0.0:\-2.0i0.3/
+A negative random number : $ numrandom /0.0:\-2.0i0.3/
 .SH "AUTHORS"
 .PP
 Edern Hotte (edern.hotte@telecom-bretagne.eu)
@@ -43,6 +43,6 @@ Flavien Moullec (flavien.moullec@telecom-bretagne.eu)
 .PP
 Reuven Benichou (reuven.benichou@telecom-bretagne.eu)
 .SH "SEE ALSO"
-\fBaverage\fR\|(1), \fBbound\fR\|(1), \fBinterval\fR\|(1), \fBnormalize\fR\|(1), \fBprocess\fR\|(1), \fBsum\fR\|(1), \fBrandom\fR\|(1), \fBrange\fR\|(1), \fBround\fR\|(1)
+\fBaverage\fR\|(1), \fBnumbound\fR\|(1), \fBnuminterval\fR\|(1), \fBnumnormalize\fR\|(1), \fBnumprocess\fR\|(1), \fBnumsum\fR\|(1), \fBnumrandom\fR\|(1), \fBnumrange\fR\|(1), \fBnumround\fR\|(1)
 .SH "THANKS"
 This man page is inspirated by the documentation of num-utils (http://suso.suso.org/programs/num-utils/).
