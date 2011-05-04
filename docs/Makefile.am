@@ -1,6 +1,5 @@
-man_MANS = average.1 numbound.1 numinterval.1 numnormalize.1 numgrep.1 numprocess.1 numsum.1 numrange.1 numrandom.1 numround.1
+man_MANS = numaverage.1 numbound.1 numinterval.1 numnormalize.1 numgrep.1 numprocess.1 numrange.1 numrandom.1 numround.1 numsum.1 
 EXTRA_DIST = $(man_MANS)
-
 pdf: ps
 	ps2pdf num-utils-ng.ps
 
