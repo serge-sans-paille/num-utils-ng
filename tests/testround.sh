@@ -5,7 +5,7 @@
 ERROR=0
 LAST_ERROR=0
 
-echo -e "\nTest results for the numround function :\n" > finalmsg
+echo -e "===========================================================================\nTest results for the numround function :\n" > finalmsg
 
 echo -e "azeref \n efsef ef\n er" 1>data
 numround data &>/dev/null

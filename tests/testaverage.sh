@@ -5,7 +5,7 @@
 LAST_ERROR=0
 ERROR=0
 
-echo -e "\nTest results for the average function :\n" > finalmsg
+echo -e "===========================================================================\nTest results for the average function :\n" > finalmsg
 
 echo "1 2 3 4" 1> data
 average -blabla data &>/dev/null
