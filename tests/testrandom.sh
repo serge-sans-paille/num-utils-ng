@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#This script should gather all the tests for the function random.
+#This script should gather all the tests for the function numrandom.
 ERROR_NB=0
 LAST_ERROR=0
 
 
-../src/average /1hjh/ 2>/dev/null
+../src/numrandom /1hjh/ 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "1" ] 
 then
@@ -16,7 +16,7 @@ fi
 
 if [ "$ERROR_NB" -eq "0" ] 
 then
-  echo -e "All tests on random went well"
+  echo -e "All tests on numrandom went well"
 fi
 
 exit $ERROR_NB

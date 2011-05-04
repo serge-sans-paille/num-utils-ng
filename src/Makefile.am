@@ -1,7 +1,7 @@
 AM_CPPFLAGS=-Wall
 AM_LDFLAGS=-lm
 
-bin_PROGRAMS = average numbound numinterval numnormalize numgrep numprocess numsum bumrandom numround numrange
+bin_PROGRAMS = average numbound numinterval numnormalize numgrep numprocess numsum numrandom numround numrange
 average_LDFLAGS = $(AM_LDFLAGS)
 average_SOURCES = average.c
 numbound_SOURCES = numbound.c

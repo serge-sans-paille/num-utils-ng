@@ -27,7 +27,7 @@ fi
 
 if [ "$ERROR_NB" -eq "0" ] 
 then
-  echo -e "All tests on normalize went well"
+  echo -e "All tests on numgrep went well"
 fi
 
 rm a

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#This script should gather all the tests for the function bound.
+#This script should gather all the tests for the function numbound.
 
 ERROR_NB=0
 LAST_ERROR=0
 
 
-#../src/bound ../tests/test3 2>/dev/null
+#../src/numbound ../tests/test3 2>/dev/null
 #LAST_ERROR=$?
 #if [ "$LAST_ERROR" -ne "1" ] 
 #then
@@ -16,7 +16,7 @@ LAST_ERROR=0
 
 
 
-../src/bound -bfr ../tests/test3 2>/dev/null
+../src/numbound -bfr ../tests/test3 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -25,7 +25,7 @@ then
 fi
 
 
-../src/bound ../tests/dsdsd 2>/dev/null
+../src/numbound ../tests/dsdsd 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "3" ] 
 then
@@ -36,7 +36,7 @@ fi
 
 if [ "$ERROR_NB" -eq "0" ] 
 then
-  echo -e "All tests on bound went well"
+  echo -e "All tests on numbound went well"
 fi
 
 

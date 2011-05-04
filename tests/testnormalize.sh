@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#This script should gather all the tests for the function normalize.
+#This script should gather all the tests for the function numnormalize.
 
 ERROR_NB=0
 LAST_ERROR=0
@@ -15,7 +15,7 @@ LAST_ERROR=0
 #fi
 
 
-../src/normalize -bfr ../tests/test3 2>/dev/null
+../src/numnormalize -bfr ../tests/test3 2>/dev/null
 LAST_ERROR=$? 
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -24,7 +24,7 @@ then
 fi
 
 
-../src/normalize ../tests/dsdsd 2>/dev/null
+../src/numnormalize ../tests/dsdsd 2>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "3" ] 
 then
@@ -35,7 +35,7 @@ fi
 
 if [ "$ERROR_NB" -eq "0" ] 
 then
-  echo -e "All tests on normalize went well"
+  echo -e "All tests on numnormalize went well"
 fi
 
 exit $ERROR_NB
