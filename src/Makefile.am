@@ -1,7 +1,7 @@
 AM_CPPFLAGS=-Wall
 AM_LDFLAGS=-lm
 
-bin_PROGRAMS = average bound interval normalize numgrep numprocess numsum random round range
+bin_PROGRAMS = average bound interval normalize numgrep numprocess numsum random round numrange
 average_LDFLAGS = $(AM_LDFLAGS)
 average_SOURCES = average.c
 bound_SOURCES = bound.c
@@ -12,4 +12,4 @@ numprocess_SOURCES = numprocess.c
 numsum_SOURCES = numsum.c
 random_SOURCES = random.c
 round_SOURCES = round.c
-range_SOURCES = range.c
+numrange_SOURCES = numrange.c
