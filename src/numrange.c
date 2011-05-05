@@ -150,7 +150,7 @@ int main(int argc,char *argv[]){
   while((opt=getopt(argc,argv,"he:Nn:"))!=-1){
     switch(opt) {
       case 'h':
-        printf("Sorry, the help page is not available yet.\n");
+        system("/usr/bin/man numrange");
         return 0;
       break;
 
