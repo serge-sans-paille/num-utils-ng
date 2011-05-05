@@ -2,42 +2,66 @@
 
 #This script should gather all the tests for the function numbound.
 
-ERROR_NB=0
 LAST_ERROR=0
+ERROR=0
+
+echo -e "===========================================================================\nTest results for the numbound function :\n" > finalmsg
 
 
-#../src/numbound ../tests/test3 2>/dev/null
-#LAST_ERROR=$?
-#if [ "$LAST_ERROR" -ne "1" ] 
-#then
-#  echo -e "The detection of type error does not work properly"
-#  ERROR_NB=3
-#fi
-
-
-
-../src/numbound -bfr ../tests/test3 2>/dev/null
+echo "1 2 3 4" 1>data
+numbound -blabla data &>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
-  echo -e "The detection of option failure does not work properly"
-  ERROR_NB=2
+  echo -e "/!\ The detection of option failure does not work properly" >>finalmsg
+  ERROR=1
 fi
 
-
-../src/numbound ../tests/dsdsd 2>/dev/null
+echo -e "azeref \n efsef ef\n er" 1>data
+numbound data &>/dev/null
 LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "3" ] 
+if [ "$LAST_ERROR" -ne "1" ] 
 then
-  echo -e "The detection of a file which can't be open does not work properly"
-  ERROR_NB=4
+  echo -e "/!\ The detection of type error does not work properly" >>finalmsg
+  ERROR=1
 fi
 
 
-if [ "$ERROR_NB" -eq "0" ] 
+echo -e "\t 1.Without options :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
 then
-  echo -e "All tests on numbound went well"
+  echo `seq 1 100` 1> data
+  valgrind numbound data &>temp
+  grep '\(leaks\|alloc\)' temp >> finalmsg 
+  rm temp
 fi
 
+echo `seq 1 100000` 1> data2
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numbound data2 >/dev/null
 
-exit $ERROR_NB
+
+echo -e "\t 2.Lower bound number option : " >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
+then
+ valgrind numbound -M data &>temp
+ grep '\(leaks\|alloc\)' temp >> finalmsg 
+ rm temp
+fi
+
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numbound -l data2 >/dev/null 
+
+
+if [ "$ERROR" -eq "0" ] 
+then
+  echo -e "\nAll tests on average went well\n" >> finalmsg
+fi
+
+cat finalmsg
+
+rm finalmsg
+rm data
+rm data2
+exit $ERROR
+
