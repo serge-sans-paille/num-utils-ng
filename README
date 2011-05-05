@@ -1,4 +1,4 @@
-﻿Num-utils README 
+﻿Num-utils-ng README 
 	
 
 WHAT IS PROJECT11 ?
@@ -9,11 +9,11 @@ An important point of this project is the performances improvement.
 
 HOW TO USE IT 
 
-The sources for Project 11 are available from https://projet11efr@github.com/projet11efr/project11.git
+The sources for num-utils-ng are available from https://projet11efr@github.com/projet11efr/project11.git
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2011 num-utils-nv project
+Copyright (C) 2011 num-utils-ng project
 
   num-utils-nv is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -37,4 +37,4 @@ Flavien Moullec flavien.moullec@telecom-bretagne.eu
 with advices from
 Serge Guelton serge.guelton@enst-bretagne.fr
 
-Please report any errors, updates, or suggestions to edern.hotte@telecom-bretagne.eu .
+Please report any errors, updates, or suggestions to serge.guelton@enst-bretagne.fr .
