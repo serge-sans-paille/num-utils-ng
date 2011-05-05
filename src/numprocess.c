@@ -83,15 +83,42 @@ static int process(FILE* stream, char* expression){
         res= res*p;
         break;
       case '%':
-        p= atoi(expression+i+1);
+        if(isdigit(expression[i+1]))
+          p= atoi(expression+i+1);
+        if(expression[i+1]=='e'){
+          p=2.718282;
+          i++;
+        }
+        if((expression[i+1]=='p') && (expression[i+2]=='i')){
+          p=3.141593;
+          i=i+2;
+        }
         res= res/p;
         break;
       case '+':
-        p= atoi(expression+i+1);
+        if(isdigit(expression[i+1]))
+          p= atoi(expression+i+1);
+        if(expression[i+1]=='e'){
+          p=2.718282;
+          i++;
+        }
+        if((expression[i+1]=='p') && (expression[i+2]=='i')){
+          p=3.141593;
+          i=i+2;
+        }
         res= res+p;
         break;
       case '-':
-        p= atoi(expression+i+1);
+        if(isdigit(expression[i+1]))
+          p= atoi(expression+i+1);
+        if(expression[i+1]=='e'){
+          p=2.718282;
+          i++;
+        }
+        if((expression[i+1]=='p') && (expression[i+2]=='i')){
+          p=3.141593;
+          i=i+2;
+        }
         res= res-p;
         break;
       case '^':
