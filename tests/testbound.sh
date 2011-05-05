@@ -45,7 +45,7 @@ echo -e "\t 2.Lower bound number option : " >> finalmsg
 
 if [ -e /usr/bin/valgrind ]
 then
- valgrind numbound -M data &>temp
+ valgrind numbound -l data &>temp
  grep '\(leaks\|alloc\)' temp >> finalmsg 
  rm temp
 fi
