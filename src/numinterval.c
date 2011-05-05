@@ -42,7 +42,7 @@ enum {
 static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
     fprintf(stderr,"The type of the file is wrong.\n");
     fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
     return 1;
@@ -85,7 +85,10 @@ int main(int argc,char *argv[]){
   while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     switch(opt) {
       case 'h':
-        system("/usr/bin/man numinterval");
+        if (system("/usr/bin/man numinterval")!=0){
+          perror("num-utils-ng"); 
+          exit(EXIT_FAILURE);
+        }
         return 0;
       break;
 

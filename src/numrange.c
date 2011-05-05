@@ -150,7 +150,10 @@ int main(int argc,char *argv[]){
   while((opt=getopt(argc,argv,"he:Nn:"))!=-1){
     switch(opt) {
       case 'h':
-        system("/usr/bin/man numrange");
+        if (system("/usr/bin/man numrange")!=0){
+          perror("num-utils-ng"); 
+          exit(EXIT_FAILURE);
+        }
         return 0;
       break;
 
