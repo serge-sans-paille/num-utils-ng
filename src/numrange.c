@@ -39,13 +39,25 @@ enum {OPTION_ERROR=1,
       EXPR_ERROR,
       MISSEXPR_ERROR};
 
-static int range(char* expression,char separator){
-  double numberL=0,numberH=0, numberStep=0,numberL2=0;
-  int i,count=0;
+static int range(char* expression,char separator, char* exceptions){
+  double numberL=0,numberH=0, numberStep=0;
+  int i=0,count=0,j,isException=0,l=0;
   char *token=NULL;
   char *savestr=NULL;
   char *str=NULL;
   char **tab=NULL;
+  double *exceptiontab=NULL;
+  if(!(exceptiontab=(double*)malloc((int) strlen(exceptions)*sizeof(double)))){
+    perror("num-utils-ng");
+    exit(EXIT_FAILURE);
+  } 
+  for (j=0,str=exceptions;;j++,str=NULL) {
+    token=strtok_r(str,",", &savestr);
+    if (token == NULL)
+      break;
+    sscanf(token,"%lf",&exceptiontab[j]);
+    l++;
+  }  
   for (i=0;i<strlen(expression);i++){
     switch(expression[i])
     {
@@ -93,25 +105,40 @@ static int range(char* expression,char separator){
      numberStep=0;
       sscanf(*(tab+i),"%lf:%lfi%lf",&numberL,&numberH,&numberStep);       
      if (numberL>numberH){
-          if (numberStep==0) 
-	    numberStep=-1;    
-        numberL2=numberL;
-        while(numberL2>=numberH){
-          fprintf(stdout,"%lf%c",numberL2,separator);
-          numberL2+=numberStep;
+        if (numberStep==0) 
+	  numberStep=-1;    
+        while(numberL>=numberH){
+          for (j=0;j<=l-1;j++){
+            if (numberL==exceptiontab[j]){
+               isException=1;
+               j=l;
+            }
+	  }
+	  if (isException==0)
+            fprintf(stdout,"%lf%c",numberL,separator);
+          isException=0;
+          numberL+=numberStep;
         }
       }
-      if (numberL<numberH){
+      else {
           if (numberStep==0) 
 	    numberStep=1;   
-        numberL2=numberL;
-        while(numberL2<=numberH){
-          fprintf(stdout,"%lf%c",numberL2,separator);
-          numberL2+=numberStep;
+        while(numberL<=numberH){
+          for (j=0;j<=l-1;j++){
+            if (numberL==exceptiontab[j]){
+               isException=1;
+               j=l;
+            }
+	  }
+          if (isException==0)
+            fprintf(stdout,"%lf%c",numberL,separator);
+	  isException=0;
+          numberL+=numberStep;
         }
       }
   } 
   free(tab);
+  free(exceptiontab);
   return 0;
 }
 
@@ -119,7 +146,8 @@ static int range(char* expression,char separator){
 int main(int argc,char *argv[]){
   int opt;
   char separator=' ';
-  while((opt=getopt(argc,argv,"heNn:"))!=-1){
+  char *exceptions=NULL;
+  while((opt=getopt(argc,argv,"he:Nn:"))!=-1){
     switch(opt) {
       case 'h':
         printf("Sorry, the help page is not available yet.\n");
@@ -133,6 +161,10 @@ int main(int argc,char *argv[]){
       case 'n':       
         separator=*optarg;
       break;
+      
+      case 'e':
+        exceptions=optarg;
+      break;
 
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
@@ -145,7 +177,7 @@ int main(int argc,char *argv[]){
       fprintf(stderr,"The expression is wrong.\n");
       return EXPR_ERROR;
     }
-    if(range(argv[optind],separator)==1){
+    if(range(argv[optind],separator,exceptions)==1){
       fprintf(stderr,"The expression is wrong.\n");
       return EXPR_ERROR;
     }
