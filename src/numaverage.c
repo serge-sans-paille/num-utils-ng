@@ -186,7 +186,7 @@ int main(int argc,char *argv[]){
       break;
 
       case 'h':
-        printf("sorry, the help page is not yet available.\n");
+        system("/usr/bin/man numaverage");
         return 0;
       break;
 

@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor: Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -111,8 +111,13 @@ static int typeIsWrong(FILE* stream){				//this function tests if there is lette
 int main(int argc,char *argv[]){
   int opt=0,m=0,f=0;
   FILE* stream=stdin;
-    while((opt=getopt(argc,argv,"cfn:"))!=-1){
+    while((opt=getopt(argc,argv,"hcfn:"))!=-1){
       switch(opt) {
+
+      case 'h':
+        system("/usr/bin/man numround");
+        return 0;
+      break;
 
       case 'c': 				
         m=1;

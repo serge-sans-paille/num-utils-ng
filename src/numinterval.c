@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor: Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -85,7 +85,7 @@ int main(int argc,char *argv[]){
   while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     switch(opt) {
       case 'h':
-        printf("Sorry, the help page is not available yet.\n");
+        system("/usr/bin/man numinterval");
         return 0;
       break;
 
