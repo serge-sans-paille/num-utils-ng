@@ -137,7 +137,10 @@ int main(int argc,char *argv[]){
     switch(optch){
 
       case 'h':
-        printf("Sorry, the help page is not available yet.\n");
+        if (system("/usr/bin/man numgrep")!=0){
+          perror("num-utils-ng"); 
+          exit(EXIT_FAILURE);
+        }
         return 0;
       break;
       

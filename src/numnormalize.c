@@ -110,7 +110,10 @@ int main(int argc,char *argv[]){
       break;
 
       case 'h':
-        printf("Sorry, the help page is not available yet.\n");
+        if (system("/usr/bin/man numnormalize")!=0){
+          perror("num-utils-ng"); 
+          exit(EXIT_FAILURE);
+        }
         return 0;
       break;
       
