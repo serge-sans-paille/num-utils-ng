@@ -1,22 +1,26 @@
 #!/bin/bash
 
 #This script should gather all the tests for the function numrandom.
-ERROR_NB=0
+
+ERROR=0
 LAST_ERROR=0
 
+echo -e "===========================================================================\nTest results for the numrandom function :\n" > finalmsg
 
-../src/numrandom /1hjh/ 2>/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "1" ] 
+if [ -e /usr/bin/valgrind ]
 then
-  echo -e "The detection of bad argument does not work properly"
-  ERROR_NB=1
+  valgrind numrandom /1:1000/ &>tempo
+  grep '\(leaks\|alloc\)' tempo >> finalmsg 
+  rm tempo
 fi
 
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numrandom /1:100000/ >/dev/null 
 
-if [ "$ERROR_NB" -eq "0" ] 
+if [ "$ERROR" -eq "0" ] 
 then
-  echo -e "All tests on numrandom went well"
+  echo -e "\nAll tests on numrandom went well\n" >> finalmsg
 fi
 
-exit $ERROR_NB
+cat finalmsg
+rm finalmsg
+exit $ERROR
