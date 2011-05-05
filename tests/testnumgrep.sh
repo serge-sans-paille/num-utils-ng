@@ -1,35 +1,37 @@
 #!/bin/bash
 
 #This script should gather all the tests for the function numgrep.
-ERROR_NB=0
+
+ERROR=0
 LAST_ERROR=0
 
+echo -e "===========================================================================\nTest results for the numgrep function :\n" > finalmsg
 
-../src/numgrep >a << STOP 
-8
-STOP
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "2" ] 
+
+echo -e "\t 1.Without options :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
 then
-  echo -e "The detection of a wrong expression does not work properly"
-  ERROR_NB=2
+  echo `seq 1 100` 1> data
+  valgrind numgrep /1..100/ data &>temp
+  grep '\(leaks\|alloc\)' temp >> finalmsg 
+  rm temp
 fi
 
+echo `seq 1 100000` 1> data2
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numgrep /1.100/ data2 >/dev/null
 
-../src/numgrep /1..10/ ../tests/dsdsd >/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "4" ] 
+
+
+if [ "$ERROR" -eq "0" ] 
 then
-  echo -e "The detection of a file which can't be open does not work properly"
-  ERROR_NB=4
+  echo -e "\nAll tests on numgrep went well\n" >> finalmsg
 fi
 
+cat finalmsg
 
-if [ "$ERROR_NB" -eq "0" ] 
-then
-  echo -e "All tests on numgrep went well"
-fi
+rm finalmsg
+rm data
+rm data2
+exit $ERROR
 
-rm a
-
-exit $ERROR_NB
