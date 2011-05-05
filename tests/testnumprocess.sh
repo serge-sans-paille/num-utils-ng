@@ -86,6 +86,62 @@ then
 fi
 
 /usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numprocess /%2/ data2 >/dev/null 
+
+echo -e "\t 5.Power :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
+then
+  valgrind numprocess /^2/ data &>tempo
+  grep '\(leaks\|alloc\)' tempo>> finalmsg 
+  rm tempo
+fi
+
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numprocess /^2/ data2 >/dev/null 
+
+echo -e "\t 6.Square root :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
+then
+  valgrind numprocess /sqrt/ data &>tempo
+  grep '\(leaks\|alloc\)' tempo>> finalmsg 
+  rm tempo
+fi
+
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numprocess /sqrt/ data2 >/dev/null 
+
+echo -e "\t 7.Cosinus :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
+then
+  valgrind numprocess /cos/ data &>tempo
+  grep '\(leaks\|alloc\)' tempo>> finalmsg 
+  rm tempo
+fi
+
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numprocess /cos/ data2 >/dev/null 
+
+echo -e "\t 8.Sinus :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
+then
+  valgrind numprocess /sin/ data &>tempo
+  grep '\(leaks\|alloc\)' tempo>> finalmsg 
+  rm tempo
+fi
+
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numprocess /sin/ data2 >/dev/null 
+
+echo -e "\t 9.Use of constants :" >> finalmsg
+
+if [ -e /usr/bin/valgrind ]
+then
+  valgrind numprocess /*pi/ data &>tempo
+  grep '\(leaks\|alloc\)' tempo>> finalmsg 
+  rm tempo
+fi
+
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numprocess /*pi/ data2 >/dev/null 
+
 if [ "$ERROR" -eq "0" ] 
 then
   echo -e "\nAll tests on numprocess went well\n" >> finalmsg
