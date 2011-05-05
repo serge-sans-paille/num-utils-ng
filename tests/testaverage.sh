@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#This script should gather all the tests for the function average.
+#This script should gather all the tests for the function numaverage.
 
 LAST_ERROR=0
 ERROR=0
 
-echo -e "===========================================================================\nTest results for the average function :\n" > finalmsg
+echo -e "===========================================================================\nTest results for the numaverage function :\n" > finalmsg
 
 echo "1 2 3 4" 1> data
-average -blabla data &>/dev/null
+numaverage -blabla data &>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "2" ] 
 then
@@ -17,7 +17,7 @@ then
 fi
 
 echo -e "azeref \n efsef ef\n er" 1>data
-average data &>/dev/null
+numaverage data &>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "1" ] 
 then
@@ -30,36 +30,36 @@ echo -e "\t 1.Without options :" >> finalmsg
 if [ -e /usr/bin/valgrind ]
 then
   echo `seq 1 100` 1> data
-  valgrind average data &>temp
+  valgrind numaverage data &>temp
   grep '\(leaks\|alloc\)' temp >> finalmsg 
   rm temp
 fi
 
 echo `seq 1 100000` 1> data2
-/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" average data2 >/dev/null 
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numaverage data2 >/dev/null 
 
 echo -e "\t 2.Median option : " >> finalmsg
 
 if [ -e /usr/bin/valgrind ]
 then
- valgrind average -M data &>temp
+ valgrind numaverage -M data &>temp
  grep '\(leaks\|alloc\)' temp >> finalmsg 
  rm temp
 fi
 
-/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" average -M data2 >/dev/null 
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numaverage -M data2 >/dev/null 
 
 echo -e "\t 3.Mode option : " >> finalmsg
 
 if [ -e /usr/bin/valgrind ]
 then
- valgrind average -m data &>temp
+ valgrind numaverage -m data &>temp
  grep '\(leaks\|alloc\)' temp >> finalmsg 
  rm temp
 fi
 
 echo `seq 1 10000` 1> data2
-/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" average -m data2 >/dev/null 
+/usr/bin/time -a -o ./finalmsg -f "time taken for 10000 numbers : %e seconds\nused memory : %K" numaverage -m data2 >/dev/null 
 
 if [ "$ERROR" -eq "0" ] 
 then
