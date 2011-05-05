@@ -47,17 +47,19 @@ static int range(char* expression,char separator, char* exceptions){
   char *str=NULL;
   char **tab=NULL;
   double *exceptiontab=NULL;
-  if(!(exceptiontab=(double*)malloc((int) strlen(exceptions)*sizeof(double)))){
-    perror("num-utils-ng");
-    exit(EXIT_FAILURE);
-  } 
-  for (j=0,str=exceptions;;j++,str=NULL) {
-    token=strtok_r(str,",", &savestr);
-    if (token == NULL)
-      break;
-    sscanf(token,"%lf",&exceptiontab[j]);
-    l++;
-  }  
+  if (exceptions!=NULL){
+    if(!(exceptiontab=(double*)malloc((int) strlen(exceptions)*sizeof(double)))){
+      perror("num-utils-ng");
+      exit(EXIT_FAILURE);
+    }
+    for (j=0,str=exceptions;;j++,str=NULL) {
+      token=strtok_r(str,",", &savestr);
+      if (token == NULL)
+        break;
+      sscanf(token,"%lf",&exceptiontab[j]);
+      l++;
+    }  
+  }
   for (i=0;i<strlen(expression);i++){
     switch(expression[i])
     {
@@ -108,12 +110,14 @@ static int range(char* expression,char separator, char* exceptions){
         if (numberStep==0) 
 	  numberStep=-1;    
         while(numberL>=numberH){
-          for (j=0;j<=l-1;j++){
-            if (numberL==exceptiontab[j]){
-               isException=1;
-               j=l;
-            }
-	  }
+          if (exceptions!=NULL){
+            for (j=0;j<=l-1;j++){
+              if (numberL==exceptiontab[j]){
+                 isException=1;
+                 j=l;
+              }
+	    }
+          }
 	  if (isException==0)
             fprintf(stdout,"%lf%c",numberL,separator);
           isException=0;
@@ -124,12 +128,14 @@ static int range(char* expression,char separator, char* exceptions){
           if (numberStep==0) 
 	    numberStep=1;   
         while(numberL<=numberH){
-          for (j=0;j<=l-1;j++){
-            if (numberL==exceptiontab[j]){
-               isException=1;
-               j=l;
-            }
-	  }
+          if (exceptions!=NULL){
+            for (j=0;j<=l-1;j++){
+              if (numberL==exceptiontab[j]){
+                 isException=1;
+                 j=l;
+              }
+	    }
+          }
           if (isException==0)
             fprintf(stdout,"%lf%c",numberL,separator);
 	  isException=0;
@@ -176,15 +182,12 @@ int main(int argc,char *argv[]){
     }
   }
   if(argc>optind){
-    if(argv[optind][0]!='/'){
-      fprintf(stderr,"The expression is wrong.\n");
-      return EXPR_ERROR;
-    }
     if(range(argv[optind],separator,exceptions)==1){
       fprintf(stderr,"The expression is wrong.\n");
       return EXPR_ERROR;
     }
-    fprintf(stdout,"\n");
+    if(separator!='\n')
+      fprintf(stdout,"\n");
   }
   else{
     fprintf(stderr,"The expression is missing.\n");
