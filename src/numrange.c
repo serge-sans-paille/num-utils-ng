@@ -23,7 +23,7 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): none yet.
+* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
 * ***** END GPL LICENSE BLOCK *****
 */
@@ -39,9 +39,9 @@ enum {OPTION_ERROR=1,
       EXPR_ERROR,
       MISSEXPR_ERROR};
 
-static int range(char* expression){
-  double numberL=0,numberH=0, numberStep=1,numberL2=0;
-  int i,count=0,factorpresence=0;
+static int range(char* expression,char separator){
+  double numberL=0,numberH=0, numberStep=0,numberL2=0;
+  int i,count=0;
   char *token=NULL;
   char *savestr=NULL;
   char *str=NULL;
@@ -69,8 +69,7 @@ static int range(char* expression){
       case '8':
       case '9':
         break;
-      case 'i':
-	factorpresence=1;             
+      case 'i':          
 	break;
       case ',':
         count++;
@@ -91,25 +90,26 @@ static int range(char* expression){
     *(tab+i)=token;
   }  
   for(i=0;i<=count;i++){
-    if(factorpresence==1){  
-      /* a decimal number between numberL and number with a step of numberStep */
-      sscanf(*(tab+i),"%lf:%lfi%lf",&numberL,&numberH,&numberStep);
-      numberL2 =numberL;
-      while(numberL2<=numberH){
-        fprintf(stdout,"%lf\n",numberL2);
-        numberL2+=numberStep;
+     numberStep=0;
+      sscanf(*(tab+i),"%lf:%lfi%lf",&numberL,&numberH,&numberStep);       
+     if (numberL>numberH){
+          if (numberStep==0) 
+	    numberStep=-1;    
+        numberL2=numberL;
+        while(numberL2>=numberH){
+          fprintf(stdout,"%lf%c",numberL2,separator);
+          numberL2+=numberStep;
+        }
       }
-    }
-
-    /* an integer between number1 and number2 */
-    else{
-      sscanf(*(tab+i),"%lf:%lf",&numberL,&numberH);
-      numberL2=numberL;
-      while(numberL2<=numberH){
-        fprintf(stdout,"%lf\n",numberL2);
-        numberL2+=numberStep;
+      if (numberL<numberH){
+          if (numberStep==0) 
+	    numberStep=1;   
+        numberL2=numberL;
+        while(numberL2<=numberH){
+          fprintf(stdout,"%lf%c",numberL2,separator);
+          numberL2+=numberStep;
+        }
       }
-    }
   } 
   free(tab);
   return 0;
@@ -118,11 +118,20 @@ static int range(char* expression){
 
 int main(int argc,char *argv[]){
   int opt;
-  while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
+  char separator=' ';
+  while((opt=getopt(argc,argv,"heNn:"))!=-1){
     switch(opt) {
       case 'h':
         printf("Sorry, the help page is not available yet.\n");
         return 0;
+      break;
+
+      case 'N':
+        separator='\n';
+      break;
+
+      case 'n':       
+        separator=*optarg;
       break;
 
       default :				//option fail.
@@ -136,11 +145,15 @@ int main(int argc,char *argv[]){
       fprintf(stderr,"The expression is wrong.\n");
       return EXPR_ERROR;
     }
-    range(argv[optind]);
+    if(range(argv[optind],separator)==1){
+      fprintf(stderr,"The expression is wrong.\n");
+      return EXPR_ERROR;
+    }
+    fprintf(stdout,"\n");
   }
   else{
-    char arg2[]="/1:100/";
-    range(arg2);
+    fprintf(stderr,"The expression is missing.\n");
+    return MISSEXPR_ERROR; 
   }
   return 0;
 }
