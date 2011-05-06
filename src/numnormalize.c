@@ -49,7 +49,7 @@ static void normalize(FILE* stream,int l, int h){		//this function normalize
   double *tab=NULL;
   double number=0.;
   double sum=0.;
-  int count=0;
+  int count=0,lengthTab=1;
   int i;
 
   if(!(tab=(double*) malloc(sizeof(double)))){
@@ -57,15 +57,18 @@ static void normalize(FILE* stream,int l, int h){		//this function normalize
     exit(EXIT_FAILURE);
   }
 
-  while((fscanf(stream,"%lf",&number)!=EOF)){
+  while(!feof(stream)){
+    if(fscanf(stream,"%lf",&number)!=EOF);
     sum+=number;
     tab[count] = number;
-    if(!(tab =(double*)realloc(tab,(count+2)*sizeof(double)))){
-      perror("num-utils-ng"); 
-      printf("ddd\n");
-      exit(EXIT_FAILURE);
-    }
     count++;
+    if(count ==lengthTab){
+      lengthTab*=2;
+      if(!(tab =(double*)realloc(tab,(lengthTab)*sizeof(double)))){
+        perror("num-utils-ng"); 
+        exit(EXIT_FAILURE);
+      }
+    }
   }
   sum-=number;
   for(i=0; i<count;i++){
