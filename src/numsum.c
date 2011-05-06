@@ -111,8 +111,7 @@ static double row(FILE* stream){                  // this function print ou the 
 }
 
 
-static double decimalPortion(FILE* stream){     //this function calculates the decimal portion of the final sum 
-	double d = sum(stream);
+static double decimalPortion(double d){     //this function calculates the decimal portion of the final sum 
 	int i = (int)d;
 	double res = d - (double)i;
 	return res;
@@ -182,11 +181,11 @@ int main(int argc,char *argv[]){
 
 		
   if (s==0)
-  	printf("result : %lf\n",sum(stream));
+  	printf("result : %lf\n",res);
   if (s==1)
-  	printf("result : %d\n",(int)sum(stream));
+  	printf("result : %d\n",(int)res);
   if (s==2)
-  	printf("result : %lf\n",decimalPortion(stream));
+  	printf("result : %lf\n",decimalPortion(res));
   return EXIT_SUCCESS;
 
 }
