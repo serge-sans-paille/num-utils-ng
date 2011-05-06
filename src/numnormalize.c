@@ -79,7 +79,7 @@ static void normalize(FILE* stream,int l, int h){		//this function normalize
 static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
   char c;
   while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
+    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
     fprintf(stderr,"The type of the file is wrong.\n");
     fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
     return 1;

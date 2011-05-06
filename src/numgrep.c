@@ -67,6 +67,8 @@ static int numgrep(FILE* stream, char* expression){
       case '8':
       case '9':
         break;
+      case '-':
+	break;
       case 'f':                
         mode=1;
 	break;
