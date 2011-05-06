@@ -47,28 +47,25 @@ static void afficher(double *tab, int count){
 
 static void normalize(FILE* stream,int l, int h){		//this function normalize
   double *tab=NULL;
-  double *numbersBis=NULL;
   double number=0.;
   double sum=0.;
   int count=0;
   int i;
-  while(!feof(stream)){
-    if(fscanf(stream,"%lf",&number)!=EOF);
+
+  if(!(tab=(double*) malloc(sizeof(double)))){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+
+  while((fscanf(stream,"%lf",&number)!=EOF)){
     sum+=number;
-    if(!(tab =(double*)calloc(count+1,sizeof(double)))){
+    tab[count] = number;
+    if(!(tab =(double*)realloc(tab,(count+2)*sizeof(double)))){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE); 
+      printf("ddd\n");
+      exit(EXIT_FAILURE);
     }
-    tab[count]=number;
-    for(i=0;i<count;i++)
-      tab[i]=numbersBis[i];
-      count++;
-      if(!(numbersBis =(double*)calloc(count,sizeof(double)))){
-        perror("num-utils-ng"); 
-        exit(EXIT_FAILURE); 
-      }
-      for(i=0;i<count;i++)
-        numbersBis[i]=tab[i];
+    count++;
   }
   sum-=number;
   for(i=0; i<count;i++){
@@ -100,7 +97,7 @@ int main(int argc,char *argv[]){
 	
   while((optch=getopt(argc,argv,"R:h"))!=-1){
     switch(optch){
-      case 'R':
+      case 'R':                                                //Specify a different normalization 
         if(optarg){
 	  if(!sscanf(optarg,"%d..%d",&numberL,&numberH)){
             perror("invalid argument\n");
