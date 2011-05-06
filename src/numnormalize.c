@@ -133,5 +133,6 @@ int main(int argc,char *argv[]){
       return TYPE_ERROR;
   }
   normalize(stream,numberL,numberH);
+  fclose(stream);
   return EXIT_SUCCESS;			
 }
