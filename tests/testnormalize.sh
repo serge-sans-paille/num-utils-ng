@@ -37,8 +37,8 @@ then
   rm temp
 fi
 
-echo `seq 1 100` 1> data2
-/usr/bin/time -a -o ./finalmsg -f "time taken for 100 numbers : %e seconds\nused memory : %K" numnormalize data2 >/dev/null
+echo `seq 1 100000` 1> data2
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numnormalize data2 >/dev/null
 
 
 echo -e "\t 2.Different normalization option : " >> finalmsg
@@ -50,7 +50,7 @@ then
  rm temp
 fi
 
-/usr/bin/time -a -o ./finalmsg -f "time taken for 100 numbers : %e seconds\nused memory : %K" numnormalize -R 0..5 data2 >/dev/null 
+/usr/bin/time -a -o ./finalmsg -f "time taken for 100000 numbers : %e seconds\nused memory : %K" numnormalize -R 0..5 data2 >/dev/null 
 
 
 if [ "$ERROR" -eq "0" ] 
