@@ -32,6 +32,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 #include  <unistd.h>
+#include <string.h>
 #include <ctype.h>
 
 
@@ -62,7 +63,11 @@ static int typeIsWrong(FILE* stream){				//this function tests if there is lette
 }
 
 
-static double column(FILE* stream){     // this function print out the sum of each column.
+static double column(FILE* stream,int *tab,int count){     // this function print out the sum of each column.
+	if(!tab) { }//not argument  mettre un else dans l'autre cas
+	int a=0;
+	for(a=0;a<count;a++)
+		 printf("%d\n",*(tab+a));
 	int l=0,i,I,J;  
 	int C=0;
 	int car; 
@@ -122,8 +127,18 @@ int main(int argc,char *argv[]){
 	int opt;
 	double res=0;
 	int m=0;				// for options (column, row).
-	int s=0;				// for options (normal, integer portion and decimal portion).;
-	while((opt = getopt(argc,argv,"iIcrh"))!=-1){
+	int s=0;
+
+	int *tab = NULL;                        // tab for expression after -x
+	char *numColumn=NULL;
+	char *token;
+  	char *savestr=NULL;
+  	char *str; 
+	int count=0;
+	int i;
+
+						// for options (normal, integer portion and decimal portion).;
+	while((opt = getopt(argc,argv,"iIcx:rh"))!=-1){
 		switch(opt) {
 
 		case 'i':			// option "-i" (integer portion of the final sum)
@@ -137,7 +152,13 @@ int main(int argc,char *argv[]){
 		case 'c':			//option "-c" (Print out the sum of each column.)
 		m=1;
 		break;
-	
+
+		case 'x':
+		m=1;
+		numColumn = optarg;
+		printf("%s\n",numColumn);                    
+		break;
+
 		case 'r':			//option "-r" (Print out the sum of each row.)
 		m=2;
 		break;
@@ -156,6 +177,42 @@ int main(int argc,char *argv[]){
     		}
   	}
 	
+	if(numColumn){
+	for (i=0;i<strlen(numColumn);i++){
+   	  switch(numColumn[i])
+    	  {
+	    case '0':
+      	    case '1':
+      	    case '2':
+     	    case '3':
+      	    case '4':
+     	    case '5':
+     	    case '6':
+      	    case '7':
+      	    case '8':
+      	    case '9':
+            break;
+	    case ',':
+	      count++;      
+	    break;
+	    default:
+	      perror("this argument isn't correct");
+              return 1;
+	  }
+	}
+		
+	if(!(tab =(int *)calloc(count+1,sizeof(int)))){
+    	  perror("num-utils-ng");
+    	  exit(EXIT_FAILURE);
+  	}
+	for (i=0,str=numColumn;;i++,str=NULL) {
+    	  token=strtok_r(str,",", &savestr);
+    	  if (!token)
+     	    break;
+    	  *(tab+i)=atoi(token);
+ 	}
+	}
+	
 	if (argc>optind){
 		if (!(stream = fopen(argv[optind], "r"))){
 			perror("num-utils-ng"); 
@@ -168,7 +225,7 @@ int main(int argc,char *argv[]){
 	if (m==0)
 		res = sum(stream);
 	if (m==1)
-		res = column(stream);
+		res = column(stream,tab,count+1); // argument 2 : number of column , argument 3 : 
 	if (m==2)
 		res = row(stream);
 
