@@ -1,4 +1,75 @@
 \chapter{Outils utilis\'es}
 \label{chap:outils utilises}
 
-\section{Section }
+\section{Le gestionnaire de version }
+\subsection{Pr\'esentation}
+
+La r\'ealisation de notre projet informatique a en premier lieu n\'ecessit\'e la mise en place d'une interface centralisant tous nos
+documents en temps r\'eel. Pour cela nous avons utilis\'e ce que l'on appelle un gestionnaire de version. Plusieurs logiciels de gestions 
+de versions existent aujourd'hui : CVS, Subversion, Mercurial, Bazar et enfin Git, ayant chacun leurs avantages et inconv\'enients. 
+
+Ils permettent d'archiver et de conserver les diff\'erentes \'etapes de d\'eveloppement d'un projet. Ainsi il est possible de pouvoir revenir
+\`a une version ant\'erieure \`a tout moment. Ils permettent \'egalement de visualiser les diff\'erences entre les r\'evisions. Cela permet un  
+travail collaboratif tr\`es efficace : chaque d\'eveloppeur dispose du projet en local et peut quand il le souhaite les partager sur un serveur.
+
+Nous avons utilis\'e pour notre projet, le logiciel Git.
+
+\subsection{Pr\'esentation}
+
+Git est un logiciel libre cr\'ee par Linus Torvalds, le fondateur de Linux. C'est un logiciel de version distribu\'e c'est \`a dire qu'il n'est
+ pas n\'ecessaire d'utiliser un serveur pour partager nos documents : on peut chacun se synchroniser entre nous.
+
+Au premier abord l'utilisation de git n'est pas \'evidente : toutes les manipulations se font \`a travers la console et le vocabulaire utilis\'e 
+est totalement nouveau. 
+
+Apr\`es l'installation de git, il est n\'ecessaire de s'enregistrer (mail et nom) et de cr\'eer un dossier de travail dans lequel nous 
+initialisons git en utilisant la commande
+\begin{verbatim} git init \end{verbatim}
+Ce dossier de travail sera le d\'ep\^ot de notre projet informatique. L'ajout d'un fichier dans le dossier reconnu par git se r\'ealise
+ \`a travers la commande
+\begin{verbatim} git add <nom du fichier> \end{verbatim}
+La commande
+\begin{verbatim} git commit <nom du fichier> \end{verbatim} permet d'enregistrer la modification effectu\'ee dans le dossier de travail.
+Ces 2 commandes furent utilis\'ees maintes fois lors de notre projet. 
+
+Cependant tout cela reste local : il faudra utiliser la commande
+\begin{verbatim} git push \end{verbatim}
+pour rajouter au dossier centrale, contenant tous le travail des diff\'erents membres du projet, nos nouveaux fichiers. 
+De m\^eme pour t\'el\'echarger ce qui fut r\'ealis\'e par les autres membres 
+du projet nous avons utilis\'es la commande
+\begin{verbatim} git pull \end{verbatim}
+
+Ceci constituent les commandes de bases utilis\'es lors de notre projet. Une fois le principe assimil\'e git devient tr\`es simple d'utilisation,
+ tr\`es rapide mais surtout tr\`es efficace.
+
+Enfin une des particularit\'es de Git est l'existence de sites web collaboratifs bas\'es sur Git comme  Github ou Gitorious. 
+
+\subsection{Pr\'esentation}
+
+Github peut \^etre consid\'er\'e comme un r\'eseau social pour les programmeurs. En effet c'est un << entrep\^ot >> de projet utilisant git comme 
+gestionnaire de version. Ainsi Github permet \`a un quelconque utilisateur d'intervenir dans un projet , d'utiliser ces codes sources etc.
+GitHub cr\'ee une page de profil simple o\`u appara\^it notre nom, email, etc. Cette page affiche \'egalement notre activit\'e (commit, ajout de suivi,...)
+ et nos d\'ep\^ots. De m\^eme nous pouvons recevoir si on le souhaite les mise \`a  jour ( commit, comment) li\'es \`a un projet quelconque.
+
+Les pages d'un projet commencent par une s\'erie d'onglets permettant de parcourir les sources (page par d\'efaut), d'acc\'eder \`a la liste des
+ commits, le network, les demandes de pull, les probl\`emes et les wikis.
+La page source, qui est la plus importante, contient toute l'arborescence de notre projet, l'adresse SSH et HTTP et permet une vue simple
+ de l'avancement de notre travail.
+Les autres pages furent moins utilis\'ees car secondaire. 
+
+Cette collaboration entre Git et Github a \'et\'e essentielle pour notre projet et a permis un suivi clair et pr\'ecis de son avancement.
+\newline
+\newline
+\newline
+\newline
+ajouter dans la biblio :
+\newline
+https://github.com/
+
+http://www.crunchbase.com/company/github
+
+http://fr.wikipedia.org/wiki/GitHub
+
+http://www.siteduzero.com/tutoriel-3-254198-gerez-vos-codes-source-avec-git.html
+
+http://www.unixgarden.com/index.php/administration-systeme/git-it
