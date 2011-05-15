@@ -1,4 +1,82 @@
 \chapter{La biblioth\`eque num-utils}
 \label{chap:La bibliotheque num-utils}
 
-\section{Section }
+\section{Pr\'esentation}
+
+La biblioth\`eque de calcul num\'erique qu'il nous fallait am\'eliorer s'appelle num-utils. Elle est \'ecrite dans un langage
+interpr\'et\'e, le Perl.
+Elle impl\'emente un certain nombre d'algorithmes num\'eriques travaillant sur des flots de donn\'ees.
+Ces algorithmes sont r\'epartis dans dix programmes diff\'erents s'intitulant : numaverage, numbound, numgrep, numinterval, numnormalize,
+numprocess, numrandom, numrange, numround et numsum.
+
+La premi\`ere am\'elioration que l'on pouvait apporter \`a la biblioth\`eque \'etait de passer d'un langage interpr\'et\'e en un langage compil\'e.
+Nous avons ainsi cod\'e, en langage C, l'ensemble de ces utilitaires.
+
+
+\section{Fonctionnalit\'es propos\'ees par ces dix programmes}
+
+Cette partie explique en d\'etail les fonctionnalit\'es propos\'es par ces diff\'erents programmes.
+Les dix programmes constituant la biblioth\`eque num-utils-ng s'ex\'ecutent en ligne de commande dans un terminal Unix (shell).
+Pour chacun de ces programmes, except\'e numrandom qui ne prend aucune donn\'ee en entr\'ee, les donn\'ees sont lues \`a partir 
+de l'entr\'ee standard (stdin) ou \`a partir d'un fichier.
+\newline
+\begin{itemize}
+ \item[\textbullet] \textbf{numaverage :} numaverage retourne la moyenne des nombres relatifs pass\'es en entr\'ee.
+Ce programme propose cinq options :
+\begin{itemize}
+  \item << \textbf{-i} >> : retourne la partie enti\`ere de la moyenne.
+  \item << \textbf{-I} >> : retourne la partie d\'ecimale de la moyenne.
+  \item << \textbf{-m} >> : retourne le nombre qui appara\^it le plus souvent.
+  \item << \textbf{-M} >> : retourne le nombre m\'edian.
+  \item << \textbf{-l} >> : retourne le nombre m\'edian le plus petit (utile quand le nombre total d\'el\'ements est pair).
+\newline
+\end{itemize}
+
+ \item[\textbullet] \textbf{numbound :} numbound renvoie le plus grand nombre pass\'e en entr\'ee.
+Ce programme propose une seule option :
+\begin{itemize}
+  \item << \textbf{-l} >> : retourne le plus petit nombre pass\'e en entr\'ee.
+\newline
+\end{itemize}
+
+ \item[\textbullet] \textbf{numgrep :} 
+ \newline
+ \item[\textbullet] \textbf{numinterval :} numinterval calcule et affiche l'intervalle entre un nombre et le suivant du flux d'entr\'ee. 
+ \newline
+ \item[\textbullet] \textbf{numnormalize :} numnormalize prend un ensemble de nombres en entr\'ee et retourne l'ensemble de ces nombres, 
+normalis\'es entre 0 et 1 par d\'efaut.
+ \newline
+ \item[\textbullet] \textbf{numprocess :} numprocess effectue une liste d'op\'erations sur l'ensemble des nombres pass\'es en entr\'e.
+Les op\'erations possibles sont :
+\newline
+\newline
+\begin{tabular}{|l|c|r|}
+  \hline
+  Symbole &  Op\'eration\\
+  \hline
+  << \textbf{+} >> & Addition \\
+  << \textbf{-} >> & Soustraction \\
+  << \textbf{*} >> & Multiplication \\
+  << \textbf{\%} >> & Division \\
+  << \textbf{\^} >> & Puissance \\
+  << \textbf{sqrt} >> & Racine carr\'ee \\
+  << \textbf{sin} >> & Sinus \\
+  << \textbf{cos} >> & Cosinus \\
+  \hline
+\end{tabular}
+\newline
+ \item[\textbullet] \textbf{numrandom :}
+ \newline
+ \item[\textbullet] \textbf{numrange :}
+ \newline
+ \item[\textbullet] \textbf{numround :}
+ \newline
+ \item[\textbullet] \textbf{numsum :}
+ \newline
+\end{itemize}
+
+Ces dix programmes proposent chacun une option << \textbf{-h} >> permettant \`a l'utilisateur d'obtenir une aide sur le fonctionnement du 
+programme sous la forme d'une page de manuel (man pages en anglais) .
+
+\section{Utilit\'e de ces programmes}
+
