@@ -12,7 +12,7 @@ Ils permettent d'archiver et de conserver les diff\'erentes \'etapes de d\'evelo
 \`a une version ant\'erieure \`a tout moment. Ils permettent \'egalement de visualiser les diff\'erences entre les r\'evisions. Cela permet un  
 travail collaboratif tr\`es efficace : chaque d\'eveloppeur dispose du projet en local et peut quand il le souhaite les partager sur un serveur.
 
-Nous avons utilis\'e pour notre projet, le logiciel Git.
+Nous avons utilis\'e pour notre projet, le logiciel Git\cite{git}.
 
 \subsection{Le logiciel Git}
 \index{git@Git}
@@ -25,24 +25,22 @@ est totalement nouveau.
 Apr\`es l'installation de git, il est n\'ecessaire de s'enregistrer (mail et nom) et de cr\'eer un dossier de travail dans lequel nous 
 initialisons git en utilisant la commande
 \begin{verbatim} git init \end{verbatim}
-Ce dossier de travail sera le d\'ep\^ot de notre projet informatique. L'ajout d'un fichier dans le dossier reconnu par git se r\'ealise
- \`a travers la commande
+Ce dossier de travail sera le d\'ep\^ot de notre projet informatique. L'ajout d'un fichier dans le dossier reconnu par git s'effectue en tapant
 \begin{verbatim} git add <nom du fichier> \end{verbatim}
 La commande
 \begin{verbatim} git commit <nom du fichier> \end{verbatim} permet d'enregistrer la modification effectu\'ee dans le dossier de travail.
 Ces 2 commandes furent utilis\'ees maintes fois lors de notre projet. 
 
-Cependant tout cela reste local : il faudra utiliser la commande
+Cependant tout cela reste local : il faut mettre \`a jour le git en utilisant
 \begin{verbatim} git push \end{verbatim}
-pour rajouter au dossier centrale, contenant tous le travail des diff\'erents membres du projet, nos nouveaux fichiers. 
-De m\^eme pour t\'el\'echarger ce qui fut r\'ealis\'e par les autres membres 
-du projet nous avons utilis\'es la commande
+pour rajouter dans le dossier racine, contenant tous le travail des diff\'erents membres du projet, nos nouveaux fichiers. 
+De m\^eme pour t\'el\'echarger ce qui fut r\'ealis\'e par les autres membres du projet nous avons utilis\'es la commande
 \begin{verbatim} git pull \end{verbatim}
 
 Ceci constituent les commandes de bases utilis\'es lors de notre projet. Une fois le principe assimil\'e git devient tr\`es simple d'utilisation,
  tr\`es rapide mais surtout tr\`es efficace.
 
-Enfin une des particularit\'es de Git est l'existence de sites web collaboratifs bas\'es sur Git comme  Github ou Gitorious. 
+Enfin une des particularit\'es de Git est l'existence de sites web collaboratifs bas\'es sur Git comme Github ou Gitorious. 
 
 \subsection{Github}
 
@@ -85,7 +83,7 @@ La compilation d'un fichier s'effectue en langage C s'effectue de la mani\`ere s
 La premi\`ere \'etape correspondant \`a la transformation en code binaire, la seconde \`a l'\'edition des liens.
 
 Pour chaque ex\'ecutable, \`a chaque modification du code source, il faut \'ecrire ces quelques lignes dans un terminal.
-Nous avons donc utilis\'e le Makefile pour compiler notre code (voir \ref{fig:exemple_makefile}), afin d'automatiser cett \'etape.
+Nous avons donc utilis\'e le Makefile pour compiler notre code (cf. figure \ref{fig:exemple_makefile}), afin d'automatiser cett \'etape.
 En effect, la commande << \textbf{make} >> cr\'ee l'ex\'ecutable pour tous les fichiers d\'efinis dans le makefile. La commande
 << \textbf{make clean} >> supprimer tous les fichiers temporaires.
 \newline
@@ -94,20 +92,19 @@ En effect, la commande << \textbf{make} >> cr\'ee l'ex\'ecutable pour tous les f
 
 \begin{minipage}[|c|]{0.7\linewidth}
 \begin{verbatim}
-UTILS = numaverage numbound
-CC = gcc CFlAGS = -WALL
-LIBS = -lm
-all : $(UTILS).o
-  for util in $(UTILS) ; do \
-    $$(CC) $(CFLAGS) -o $$util $$util.o ; done
+  UTILS = numaverage numbound
+  CC = gcc CFlAGS = -WALL
+  LIBS = -lm
+  all : $(UTILS).o
+    for util in $(UTILS) ; do \
+      $$(CC) $(CFLAGS) -o $$util $$util.o ; done
 
-$(UTILS).o:
-  for util in $(UTILS) ; do \
-    $$(CC) $(CFLAGS) -c $$util.c ; done
+  $(UTILS).o:
+    for util in $(UTILS) ; do \
+      $$(CC) $(CFLAGS) -c $$util.c ; done
 
-clean :
-  $(RM) $(EXEC).o
-
+  clean :
+    $(RM) $(EXEC).o
 \end{verbatim}
 \end{minipage}
 \end{center}
@@ -126,6 +123,36 @@ d'exploitation de l'utlisateur.
 \subsection{G\'en\'eration automatique de Makefiles : utilisation des autotools}
 
 L'utilisation d'autotools n\'ecessite de suivre une d\'emarche sp\'ecifique afin de cr\'eer nos Makefiles. Nous avons utilis\'e pour
-cela trois outils : automake, autoconf et aclocal.
+cela trois outils : automake\citep{automake}, autoconf\citep{tuto_autotool} et aclocal, des logiciels open source, disponibles sur les serveurs debian.
+\begin{figure}[h]
+ \centerline{\includegraphics[width=0.45\textwidth]{autotool.eps}}
+\caption{\'Etapes n\'ecessaires pour obtenir un Makefile avec un autotools (source : Wikip\'edia)} \label{fig:autotool}
+\end{figure}
+Le sch\'ema \ref{fig:autotool} illustre les diff\'erentes \'etapes que nous avons suivies pour obtenir les Makefiles.
+Nous constatons qu'un certain nombre de fichiers est g\'en\'er\'e lors de l'ex\'ecution des diff\'erents programmes.
+Nous allons d\'etailler le r\^ole de ces principaux fichiers :
+\newline
+\begin{itemize}
+ \item [\textbullet] \textbf{ configure.ac :} Le fichier configure.ac est g\'en\'er\'e lors de l'ex\'cution de la commande << autoscan >>
+qui va ajouter l'ensemble des macros n\'ecessaires pour autoconf. C'est ce fichier qui permet de r\'esoudre les probl\^emes de portabilit\'e du code.
+\newline
+ \item [\textbullet] \textbf{ Makefile.am :} Le fichier Makefile.am contient ce que l'ancien Makefile << statique >> contenait sauf que la syntaxe est 
+plus simple et plus efficace (il existe notamment de nombreuses variables pr\'ed\'efinies comme << bin\_DIRS >> ou << man\_MANS >> qui permettent l'installation
+dans le bon r\'epertoire des ex\'ecutables ou des pages du manuel).  
+\newline
+\newline
+\textbf{Remarque importante} : un des avantages des autotools est que le d\'eveloppeur a peu de texte \`a \'ecrire. Nous avons seulement eu \`a \'ecrire dans
+deux fichiers : configure.ac et dans chaque fichier Makefile.am. Tous les autres fichiers on \'et\'e g\'en\'er\'e.
+\end{itemize}
 
 \section{Cr\'eation du paquet debian}
+
+
+
+
+
+
+
+
+
+
