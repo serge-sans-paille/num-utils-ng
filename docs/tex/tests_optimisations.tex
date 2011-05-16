@@ -1,4 +1,84 @@
+
 \chapter{Tests et optimisations}
 \label{chap:tests et optimisations}
 
-\section{Section }
+\section{Premiers Tests de performance}
+
+\subsection{Présentation}
+
+Après avoir présenté les outils que nous avons utilisés, nous allons maintenant présenté les premiers tests de performances effectués avant la fin de l'optimisation.
+Ces tests sont effectués à l'aide de la fonction time pour les temps d'exécution et valgrind pour les tests de mémoire.
+Du fait de l'utilisation du langage C nous espérons avoir des temps bien inferieurs pour l'exécution de chaque programme, c'est ce que nous allons vérifier.
+L'utilisation faite de la mémoire telle que le nombre d'allocations ou l'espace alloué par chaque programme ne dépend pas à priori du langage utilisé mais plutôt de l'algorithmie cachée dans le code, c'est pourquoi il ne devrait pas y avoir beacoup d'amèlioration de ce côté là,
+néanmoins elle reste toujours un paramètre important faisant partie des performances d'un programme.
+Nous avons ici classés les programmes comme dans la partie 2.
+
+\subsection{Calculs simples sur des nombres d\'ecimaux}
+
+Cette partie regroupe trois programmes : numaverage, numnormalize et numsum.
+\newline
+
+La fonction numsum n'étant pas encore fiinalisée cette section ne fera pas figuré de tests sur ce programme.
+\newline
+
+Ici le temps d'exécution varie selon le nombre de chiffre sur lequel on fait travailler un programme, c'est ce que nous allons observer.
+La fonction numaverage comprend deux options principales. Elle permet de calculer à la fois, la moyenne, la médiane et le mode d'une série de nombre.
+Voici un tableau relatant les performances de chacune de ces options (og et ng signifiant respectivement ``old version'' et ``new version'') : 
+\newline
+
+On voit successivement pour chaque test en première ligne le temps d'exécution en ms, en deuxième le nombre d'allocations et enfin en troisième la mémoire allouée.
+\newline
+
+Remarque : Faute de temps (l'éxecution de valgrind étant très lente) les tests de mémoire n'ont pas été fait pour de grandes séries de nombre.
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+
+\hline
+Nb de données & moy (og) & moy (ng) & méd (og) & méd (ng) & mod (og) & mod (ng)  \\
+\hline
+ \multirow{3}*{1000} & 22 & 1 & 10 & 1 & 11 & 2 \\
+\cline{2-7}
+ & 1693 & 1 & 1693 & 1004 & 1693 & 2003 \\
+\cline{2-7}
+ & 183ko & 352o & 183ko & 4Mo & 183ko & 6Mo \\
+\hline
+ \multirow{3}*{10000} & 40 & 7 & 26 & 15 & 40 & 107 \\
+\cline{2-7}
+ & 1693 & 1 & 1693 & 10000 & 1693 & 2003 \\
+\cline{2-7}
+ & 183ko & 352o & 183ko & 400Mo & 183ko & 600Mo \\
+\hline
+100000 & 215 & 77 & 214 & 85 & 279 & 8024 \\
+\hline
+1000000 & 1991 & 647 & 2133 & 1004 &  &  \\
+\hline
+10000000 & 20748 & 7799 & 20802 & 16530 &  & \\
+\hline
+
+\end{tabular}
+
+Ce qui donne en schéma : 
+\newline
+
+\begin{figure}
+\begin{center}
+
+
+\includegraphics[width=15cm]{MoyenneMediane.eps}
+
+\end{center}
+\caption{Performances de Médiane et Moyenne}
+ 
+\end{figure}
+
+
+
+\subsection{Comparaisons de nombres d\'ecimaux}
+
+Cette partie regroupe trois programmes : numbound, numinterval et numround.
+\newline
+
+\subsection{G\'en\'eration et modifications de nombre d\'ecimaux}
+
+Cette partie regroupe trois programmes : numgrep, numprocess, numrandom et numrange.
+\newline
