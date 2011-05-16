@@ -5,6 +5,8 @@
 
 La biblioth\`eque de calcul num\'erique qu'il nous fallait am\'eliorer s'appelle num-utils. Elle est \'ecrite dans un langage
 interpr\'et\'e, le Perl.
+Le paquet num-utils est inclus dans la distribution officielle de Debian
+
 Elle impl\'emente un certain nombre d'algorithmes num\'eriques travaillant sur des flots de donn\'ees.
 Ces algorithmes sont r\'epartis dans dix programmes diff\'erents s'intitulant : numaverage, numbound, numgrep, numinterval, numnormalize,
 numprocess, numrandom, numrange, numround et numsum.
@@ -12,44 +14,88 @@ numprocess, numrandom, numrange, numround et numsum.
 La premi\`ere am\'elioration que l'on pouvait apporter \`a la biblioth\`eque \'etait de passer d'un langage interpr\'et\'e en un langage compil\'e.
 Nous avons ainsi cod\'e, en langage C, l'ensemble de ces utilitaires.
 
+Nous avons respect\'e dans la mesure du possible les m\^emes notations et les m\^emes noms d'options que ceux de la biblioth\`eque num-utils.
+Notre nouvelle biblioth\`eque s'appelle \textbf{num-utils-ng}.
 
 \section{Fonctionnalit\'es propos\'ees par ces dix programmes}
 
+\subsection{Points communs de chaque utilitaire}
 Cette partie explique en d\'etail les fonctionnalit\'es propos\'es par ces diff\'erents programmes.
 Les dix programmes constituant la biblioth\`eque num-utils-ng s'ex\'ecutent en ligne de commande dans un terminal Unix (shell).
 Pour chacun de ces programmes, except\'e numrandom qui ne prend aucune donn\'ee en entr\'ee, les donn\'ees sont lues \`a partir 
 de l'entr\'ee standard (stdin) ou \`a partir d'un fichier.
-\newline
+Ces dix programmes proposent chacun une option << \textbf{-h} >> permettant \`a l'utilisateur d'obtenir une aide sur le fonctionnement du 
+programme sous la forme d'une page de manuel (man pages en anglais).
+
+\subsection{Calculs simples sur des nombres d\'ecimaux : numaverage, numnormalize et numsum}
+
 \begin{itemize}
  \item[\textbullet] \textbf{numaverage :} numaverage retourne la moyenne des nombres relatifs pass\'es en entr\'ee.
 Ce programme propose cinq options :
 \begin{itemize}
-  \item << \textbf{-i} >> : retourne la partie enti\`ere de la moyenne.
-  \item << \textbf{-I} >> : retourne la partie d\'ecimale de la moyenne.
-  \item << \textbf{-m} >> : retourne le nombre qui appara\^it le plus souvent.
-  \item << \textbf{-M} >> : retourne le nombre m\'edian.
-  \item << \textbf{-l} >> : retourne le nombre m\'edian le plus petit (utile quand le nombre total d\'el\'ements est pair).
+  \item[-] << \textbf{-i} >> : retourne la partie enti\`ere de la moyenne,
+  \item[-] << \textbf{-I} >> : retourne la partie d\'ecimale de la moyenne,
+  \item[-] << \textbf{-m} >> : retourne le nombre qui appara\^it le plus souvent,
+  \item[-] << \textbf{-M} >> : retourne le nombre m\'edian,
+  \item[-] << \textbf{-l} >> : retourne le nombre m\'edian le plus petit (utile quand le nombre total d\'el\'ements est pair).
 \newline
 \end{itemize}
+\item[\textbullet] \textbf{numnormalize :} numnormalize prend un ensemble de nombres en entr\'ee et retourne l'ensemble de ces nombres, 
+normalis\'es entre 0 et 1 par d\'efaut. Il propose une seule option :
+\begin{itemize}
+ \item[-] << \textbf{-R <n1>..<n2>} >> : la normalisation est effectu\'ee entre les nombres <n1> et <n2>.
+\newline
+\end{itemize}
+ \item[\textbullet] \textbf{numsum :} numsum retourne la somme des nombres relatifs pass\'es en entr\'ee.
+Six options sont propos\'ees :
+\begin{itemize}
+ \item[-] << \textbf{-i} >> : retourne la partie enti\`ere de la somme,
+ \item[-] << \textbf{-I} >> : retourne la partie d\'ecimale de la somme,
+ \item[-] << \textbf{-c} >> : retourne la somme de chaque colomne,
+ \item[-] << \textbf{-r} >> : retourne la somme de chaque ligne,
+ \item[-] << \textbf{-x <n>} >> : retourne la somme des colomnes d\'efinies dans l'ensemble <n>,
+ \item[-] << \textbf{-y <n>} >> : retourne la somme des lignes d\'efinies dans l'ensemble <n>.
+\end{itemize}
+\end{itemize}
 
- \item[\textbullet] \textbf{numbound :} numbound renvoie le plus grand nombre pass\'e en entr\'ee.
+\subsection{Comparaisons de nombres d\'ecimaux : numbound, numinterval et numround}
+
+\begin{itemize}
+ \item[\textbullet]  \textbf{numbound :} numbound renvoie le plus grand nombre pass\'e en entr\'ee.
 Ce programme propose une seule option :
 \begin{itemize}
   \item << \textbf{-l} >> : retourne le plus petit nombre pass\'e en entr\'ee.
 \newline
 \end{itemize}
+ \item[\textbullet] \textbf{numinterval :} numinterval calcule et affiche l'intervalle entre un nombre et le suivant du flux d'entr\'ee.
+Ce programme ne poss\`ede pas d'options sp\'ecifiques.
+\newline
+ \item[\textbullet] \textbf{numround :} numround arrondit le nombre d\'ecimal pass\'e en entr\'e en l'entier le plus proche.
+Ce programme propose trois options :
+\begin{itemize}
+ \item[-] << \textbf{-c} >> : renvoie la partie enti`ere du nombre en entr\'ee,
+ \item[-] << \textbf{-f} >> : renvoie l'entier immédiatement supérieur à la valeur du nombre en entr\'ee, 
+ \item[-] << \textbf{-n <n>} >> : renvoie le multiple de l'entier <n> le plus proche du nombre en entr\'ee.
+\end{itemize}
+\end{itemize}
 
- \item[\textbullet] \textbf{numgrep :} 
- \newline
- \item[\textbullet] \textbf{numinterval :} numinterval calcule et affiche l'intervalle entre un nombre et le suivant du flux d'entr\'ee. 
- \newline
- \item[\textbullet] \textbf{numnormalize :} numnormalize prend un ensemble de nombres en entr\'ee et retourne l'ensemble de ces nombres, 
-normalis\'es entre 0 et 1 par d\'efaut.
- \newline
+\subsection{G\'en\'eration et modifications de nombre d\'ecimaux : numgrep, numprocess, numrandom et numrange }
+
+\begin{itemize}
+ \item[\textbullet] \textbf{numgrep :} numgrep retourne l'ensemble des nombres v\'erifiant la condition pass\'ee en argument. La condition est de la
+forme << /expression/ >>. Les diff\'erentes expressions possibles sont les suivantes :
+  \begin{itemize}
+  \item[-] << \textbf{/<n1>..<n2>/} >> : retourne l'ensemble des nombres appartenant \`a l'intervalle [n1,n2], n1 et n2 \'etant des entiers.
+  \item[-] << \textbf{/m<n>/} >> : retourne l'ensemble des multiples du nombre <n>,
+  \item[-] << \textbf{/f<n>/} >> : retourne l'ensemble des diviseurs du nombre <n>.
+  \end{itemize}
+Remarque : Ces expressions peuvent \^etre combin\'ees en les s\'eparant par une virgule << \textbf{,} >>.
+\newline
  \item[\textbullet] \textbf{numprocess :} numprocess effectue une liste d'op\'erations sur l'ensemble des nombres pass\'es en entr\'ee.
-Les op\'erations possibles sont :
-\newline
-\newline
+Les op\'erations possibles sont d\'ecrite dans le tableau 2.1 ci-dessous.
+\begin{table}[h]
+\begin{center}
+
 \begin{tabular}{|l|c|r|}
   \hline
   Symbole &  Op\'eration\\
@@ -64,20 +110,32 @@ Les op\'erations possibles sont :
   << \textbf{cos} >> & Cosinus \\
   \hline
 \end{tabular}
+\caption{Symboles utilis\'es dans numprocess}
+\end{center}
+\label{tab:symboles}
+\end{table}
 \newline
-\newline
- \item[\textbullet] \textbf{numrandom :}
- \newline
- \item[\textbullet] \textbf{numrange :}
- \newline
- \item[\textbullet] \textbf{numround :}
- \newline
- \item[\textbullet] \textbf{numsum :}
- \newline
+ \item[\textbullet] \textbf{numrandom :} numrandom retourne un nombre g\'en\'er\'e al\'eatoirement. Par d\'efaut, ce nombre est un entier entre 1 et 100.
+Le programme peut prendre un argument de la forme << /expression/ >>. Les diff\'erentes expressions possibles sont les suivantes :
+\begin{itemize}
+ \item[-] << \textbf{/<n1>:<n2>/} >> : retourne un entier  g\'en\'er\'e al\'eatoirement entre les nombres <n1> et <n2>, avec un pas de 1,
+ \item[-] << \textbf{/<n1>:<n2>i<p>/} >> : retourne un entier  g\'en\'er\'e al\'eatoirement entre <n1> et <n2>, avec un pas <p>.
 \end{itemize}
-
-Ces dix programmes proposent chacun une option << \textbf{-h} >> permettant \`a l'utilisateur d'obtenir une aide sur le fonctionnement du 
-programme sous la forme d'une page de manuel (man pages en anglais) .
+Remarque : Ces expressions peuvent \^etre combin\'ees en les s\'eparant par une virgule << \textbf{,} >>.
+\newline
+ \item[\textbullet] \textbf{numrange :} numrange affiche la liste des nombre v\'erifiant la condition pass\'ee en argument de la forme << /expression/ >>.
+Les diff\'erentes expressions possibles sont les suivantes :
+\begin{itemize}
+ \item[-] << \textbf{/<n1>:<n2>/} >> : retourne la liste des nombres compris entre <n1> et <n2>, avec un pas de 1,
+ \item[-] << \textbf{/<n1>:<n2>i<p>/} >> : retourne la liste des nombres compris entre <n1> et <n2>, avec un pas <p>. 
+\end{itemize}
+Trois options sont \'egalement propos\'ees :
+\begin{itemize}
+ \item[-] << \textbf{-e <e>} >> : exclut la liste des nombres se trouvant dans l'ensemble <e>,
+ \item[-] << \textbf{-n <s>} >> : chaque nombre du flux d'entr\'ee est s\'epar\'e par le caract\`ere <s>. Par d\'efaut, le s\'eparateur est l'espace.
+ \item[-] << \textbf{-N} >> : chaque nombre du flux d'entr\'ee est s\'epar\'e par le caract\`ere de retour \`a la ligne.
+\end{itemize}
+\end{itemize}
 
 \section{Utilit\'e de ces programmes}
 
