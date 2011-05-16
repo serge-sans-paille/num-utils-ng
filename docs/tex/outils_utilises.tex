@@ -1,7 +1,7 @@
-\chapter{Outils utilis\'es}
+\chapter{D\'emarche de conception effectu\'ee}
 \label{chap:outils utilises}
 
-\section{Le gestionnaire de version }
+\section{Utilisation du gestionnaire de version }
 \subsection{Pr\'esentation}
 
 La r\'ealisation de notre projet informatique a en premier lieu n\'ecessit\'e la mise en place d'une interface centralisant tous nos
@@ -14,8 +14,8 @@ travail collaboratif tr\`es efficace : chaque d\'eveloppeur dispose du projet en
 
 Nous avons utilis\'e pour notre projet, le logiciel Git.
 
-\subsection{Pr\'esentation}
-
+\subsection{Le logiciel Git}
+\index{git@Git}
 Git est un logiciel libre cr\'ee par Linus Torvalds, le fondateur de Linux. C'est un logiciel de version distribu\'e c'est \`a dire qu'il n'est
  pas n\'ecessaire d'utiliser un serveur pour partager nos documents : on peut chacun se synchroniser entre nous.
 
@@ -44,7 +44,7 @@ Ceci constituent les commandes de bases utilis\'es lors de notre projet. Une foi
 
 Enfin une des particularit\'es de Git est l'existence de sites web collaboratifs bas\'es sur Git comme  Github ou Gitorious. 
 
-\subsection{Pr\'esentation}
+\subsection{Github}
 
 Github peut \^etre consid\'er\'e comme un r\'eseau social pour les programmeurs. En effet c'est un << entrep\^ot >> de projet utilisant git comme 
 gestionnaire de version. Ainsi Github permet \`a un quelconque utilisateur d'intervenir dans un projet , d'utiliser ces codes sources etc.
@@ -73,3 +73,54 @@ http://fr.wikipedia.org/wiki/GitHub
 http://www.siteduzero.com/tutoriel-3-254198-gerez-vos-codes-source-avec-git.html
 
 http://www.unixgarden.com/index.php/administration-systeme/git-it
+
+
+\section{Automatisation de la compilation de notre projet}
+\subsection{Compilation avec des Makefiles}
+
+La compilation d'un fichier s'effectue en langage C s'effectue de la mani\`ere suivante :
+\begin{verbatim} gcc -c numaverage.c\end{verbatim}
+\begin{verbatim} gcc -o numaverage numaverage.o\end{verbatim}
+
+La premi\`ere \'etape correspondant \`a la transformation en code binaire, la seconde \`a l'\'edition des liens.
+
+Pour chaque ex\'ecutable, \`a chaque modification du code source, il faut \'ecrire ces quelques lignes dans un terminal.
+Nous avons donc utilis\'e le Makefile pour compiler notre code (voir \ref{fig:exemple_makefile}), afin d'automatiser cett \'etape.
+En effect, la commande << \textbf{make} >> cr\'ee l'ex\'ecutable pour tous les fichiers d\'efinis dans le makefile. La commande
+<< \textbf{make clean} >> supprimer tous les fichiers temporaires.
+\newline
+\begin{figure}[h] 
+\begin{center}
+
+\begin{minipage}[|c|]{0.7\linewidth}
+\begin{verbatim}
+UTILS = numaverage numbound
+CC = gcc CFlAGS = -WALL
+LIBS = -lm
+all : $(UTILS).o
+  for util in $(UTILS) ; do \
+    $$(CC) $(CFLAGS) -o $$util $$util.o ; done
+
+$(UTILS).o:
+  for util in $(UTILS) ; do \
+    $$(CC) $(CFLAGS) -c $$util.c ; done
+
+clean :
+  $(RM) $(EXEC).o
+
+\end{verbatim}
+\end{minipage}
+\end{center}
+\caption{Syntaxe d'un de nos premiers Makefile}
+\label{fig:exemple_makefile}
+\end{figure}
+
+Toutefois, l'\'ecriture manuelle d'un Makefile devient impossible si l'on veut ult\'erieurement cr\'eer un paquet debian.
+En effet, le principal probl\`eme de ce type de Makefile est qu'il est identique pour chaque syst\`eme d'exploitation. Or certains fichiers
+syst\`emes sont n\'ecessaires pour l'utilisation de notre biblioth\`equ num-utils-ng, mais ils ne sont pas forc\'ement dans le r\'epertoire pour
+chaqu syst\`eme d'exploitation.
+\newline 	
+Par cons\'equent, il nous a \'et\'e propos\'e d'utiliser des \textbf{autotools} pour cr\'eer des Makefiles << dynamiques >>, qui d\'ependent du syst\`eme
+d'exploitation de l'utlisateur.
+
+\subsection{G\'en\'eration automatique de Makefiles : utilisation des autotools}
