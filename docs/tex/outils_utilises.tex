@@ -34,8 +34,21 @@ Ces 2 commandes furent utilis\'ees maintes fois lors de notre projet.
 Cependant tout cela reste local : il faut mettre \`a jour le git en utilisant
 \begin{verbatim} git push \end{verbatim}
 pour rajouter dans le dossier racine, contenant tous le travail des diff\'erents membres du projet, nos nouveaux fichiers. 
-De m\^eme pour t\'el\'echarger ce qui fut r\'ealis\'e par les autres membres du projet nous avons utilis\'es la commande
+De m\^eme, pour t\'el\'echarger ce qui fut r\'ealis\'e par les autres membres du projet nous avons utilis\'e la commande
 \begin{verbatim} git pull \end{verbatim}
+
+Enfin, comme chaque membre du groupe peut modifier et am\'eliorer les fichiers en local, il est n\'ecessaire d'ajouter cette branche locale \`a la branche
+principale du projet en << fusionnant >> les deux branches :
+\begin{verbatim} git merge <nom de la branche>\end{verbatim}
+Nous constatons sur la figure \ref{fig:branche} que cette op\'eration a \'et\'e effectu\'ee mainte fois lors de notre travail.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=16cm]{branche.eps}
+\end{center}
+\caption{Modifications effetu\'ees sur la branche principale (master, en noir) du projet par << fusion >> de la branche locale (en bleu)}
+\label{fig:branche}
+\end{figure}
 
 Ceci constituent les commandes de bases utilis\'es lors de notre projet. Une fois le principe assimil\'e git devient tr\`es simple d'utilisation,
  tr\`es rapide mais surtout tr\`es efficace.
@@ -180,10 +193,33 @@ Le tableau \ref{tab:commandes} montre les principales commandes qui peuvent main
 
 \section{Cr\'eation du paquet debian}
 
+L'ultime \'etape de notre projet de conception a \'et\`e la cr\'eation du paquet Debian de la biblioth\`eque num-utils-ng.
+Sa cr\'eation n\'ecessite de suivre une d\'marche rigoureuse et sp\'ecifique, notamment si nous voulons le publier notre paquet afin
+qu'il apparaisse plus tard dans les d\'ep\^ots Debian.
+\newline
+Premi\`erement, il nous a fallu cr\'eer un repertoire << /debian >> contenant plusieurs fichiers de configuration :
+\begin{itemize}
+ \item [-] \textbf{rules} : ce fichier inclut les r\`egles qui vont servir pour compiler notre paquet,
+ \item [-] \textbf{control} : control contient les d\'ependences du paquet (CDBS et debhelper pour nous),
+ \item [-] \textbf{changelog} : changelog contient la liste des diff\'rentes versions du paquet, 
+ \item [-] \textbf{copyright} : ce fichier pr\'cise la licence sous laquelle est publi\'e le paquet (GNU General Public License version 3).
+Tous ces fichiers sont n\'ecessaires lors  de la cr\'eation d'un paquet Debian. Toutefois, nous avons utilis\'e le logiciel 
+CDBS, Common Debian Build System\citep{cdbs} qui permet de simplifier l'\'etape de cr\'eation du paquet et d'\'ecriture des fichiers de configuration.
+\newline
+\end{itemize}
+Une fois le dossier /debian compl\`et\'e, il reste \`a compiler le paquet avec la commande
+\begin{verbatim}debuild -us -uc\end{verbatim}
+afin de cr\'eer une archive ayant l'extension \textbf{.deb}, notre paquet binaire Debian.
+\newline
+Remarque importante : L'\'etape de cr\'ation du paquet binaire .deb s'est faite sur une ordinateur fonctionnant avec Ubuntu. Il nous a fallu utiliser le logiciel pbuilder. Ce logiciel
+permet de << simuler >> l'\'etat du syst\`eme d'exploitation juste apr\`es son installation (on cr\'ee un environnement isol\'e, appel\'e chroot en anglais).
+Ainsi, on peut v\'erifier que toutes les d\'ependances de notre paquet sont bien d\'finies dans le fichier << control >>, 
+\newline
 
-
-
-
+Tout utilisateur d'un syst\`eme Unix peut maintenant installer notre paquet num-utils-ng en utilisant dpkg, le syst\`eme de gestion de paquets Debian 
+par defaut en tapant :
+\begin{verbatim}dpkg -i num-utils-ng_1.0-1_i386.deb\end{verbatim}
+La version du paquet \'etant la 1.0-1.
 
 
 
