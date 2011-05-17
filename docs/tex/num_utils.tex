@@ -32,7 +32,7 @@ programme sous la forme d'une page de manuel (man pages en anglais).
 
 Cette partie regroupe trois programmes : numaverage, numnormalize et numsum.
 \newline
-\begin{itemize}
+\begin{itemize}\index{numaverage}
  \item[\textbullet] \textbf{numaverage :} numaverage retourne la moyenne des nombres relatifs pass\'es en entr\'ee.
 Ce programme propose cinq options :
 \begin{itemize}
@@ -42,13 +42,13 @@ Ce programme propose cinq options :
   \item[-] << \textbf{-M} >> : retourne le nombre m\'edian,
   \item[-] << \textbf{-l} >> : retourne le nombre m\'edian le plus petit (utile quand le nombre total d\'el\'ements est pair).
 \newline
-\end{itemize}
+\end{itemize}\index{numnormalize}
 \item[\textbullet] \textbf{numnormalize :} numnormalize prend un ensemble de nombres en entr\'ee et retourne l'ensemble de ces nombres, 
 normalis\'es entre 0 et 1 par d\'efaut. Il propose une seule option :
 \begin{itemize}
  \item[-] << \textbf{-R <n1>..<n2>} >> : la normalisation est effectu\'ee entre les nombres <n1> et <n2>.
 \newline
-\end{itemize}
+\end{itemize}\index{numsum}
  \item[\textbullet] \textbf{numsum :} numsum retourne la somme des nombres relatifs pass\'es en entr\'ee.
 Six options sont propos\'ees :
 \begin{itemize}
@@ -65,30 +65,30 @@ Six options sont propos\'ees :
 
 Cette partie regroupe trois programmes : numbound, numinterval et numround.
 \newline
-\begin{itemize}
+\begin{itemize}\index{numbound}
  \item[\textbullet]  \textbf{numbound :} numbound renvoie le plus grand nombre pass\'e en entr\'ee.
 Ce programme propose une seule option :
 \begin{itemize}
   \item << \textbf{-l} >> : retourne le plus petit nombre pass\'e en entr\'ee.
 \newline
-\end{itemize}
+\end{itemize}\index{numinterval}
  \item[\textbullet] \textbf{numinterval :} numinterval calcule et affiche l'intervalle entre un nombre et le suivant du flux d'entr\'ee.
 Ce programme ne poss\`ede pas d'options sp\'ecifiques.
-\newline
+\newline\index{numround}
  \item[\textbullet] \textbf{numround :} numround arrondit le nombre d\'ecimal pass\'e en entr\'e en l'entier le plus proche.
 Ce programme propose trois options :
 \begin{itemize}
  \item[-] << \textbf{-c} >> : renvoie la partie enti`ere du nombre en entr\'ee,
- \item[-] << \textbf{-f} >> : renvoie l'entier immédiatement supérieur à la valeur du nombre en entr\'ee, 
+ \item[-] << \textbf{-f} >> : renvoie l'entier imm\'ediatement sup\'erieur \`a la valeur du nombre en entr\'ee, 
  \item[-] << \textbf{-n <n>} >> : renvoie le multiple de l'entier <n> le plus proche du nombre en entr\'ee.
 \end{itemize}
 \end{itemize}
 
 \subsection{G\'en\'eration et modifications de nombre d\'ecimaux}
 
-Cette partie regroupe trois programmes : numgrep, numprocess, numrandom et numrange.
+Cette partie regroupe quatre programmes : numgrep, numprocess, numrandom et numrange.
 \newline
-\begin{itemize}
+\begin{itemize}\index{numgrep}
  \item[\textbullet] \textbf{numgrep :} numgrep retourne l'ensemble des nombres v\'erifiant la condition pass\'ee en argument. La condition est de la
 forme << /expression/ >>. Les diff\'erentes expressions possibles sont les suivantes :
   \begin{itemize}
@@ -97,7 +97,7 @@ forme << /expression/ >>. Les diff\'erentes expressions possibles sont les suiva
   \item[-] << \textbf{/f<n>/} >> : retourne l'ensemble des diviseurs du nombre <n>.
   \end{itemize}
 Remarque : Ces expressions peuvent \^etre combin\'ees en les s\'eparant par une virgule << \textbf{,} >>.
-\newline
+\newline\index{numprocess}
  \item[\textbullet] \textbf{numprocess :} numprocess effectue une liste d'op\'erations sur l'ensemble des nombres pass\'es en entr\'ee.
 Les op\'erations possibles sont d\'ecrite dans le tableau 2.1 ci-dessous. Deux constantes sont \'egalement d\'efinies : << \textbf{pi} >> 
 et << \textbf{e} >>, repr\'esentant respectivement $\Pi$ et $e^1$.
@@ -122,7 +122,7 @@ et << \textbf{e} >>, repr\'esentant respectivement $\Pi$ et $e^1$.
 \end{center}
 \label{tab:symboles}
 \end{table}
-\newline
+\index{numrandom}
  \item[\textbullet] \textbf{numrandom :} numrandom retourne un nombre g\'en\'er\'e al\'eatoirement. Par d\'efaut, ce nombre est un entier entre 1 et 100.
 Le programme peut prendre un argument de la forme << /expression/ >>. Les diff\'erentes expressions possibles sont les suivantes :
 \begin{itemize}
@@ -130,7 +130,7 @@ Le programme peut prendre un argument de la forme << /expression/ >>. Les diff\'
  \item[-] << \textbf{/<n1>:<n2>i<p>/} >> : retourne un entier  g\'en\'er\'e al\'eatoirement entre <n1> et <n2>, avec un pas <p>.
 \end{itemize}
 Remarque : Ces expressions peuvent \^etre combin\'ees en les s\'eparant par une virgule << \textbf{,} >>.
-\newline
+\newline\index{numrange}
  \item[\textbullet] \textbf{numrange :} numrange affiche la liste des nombre v\'erifiant la condition pass\'ee en argument de la forme << /expression/ >>.
 Les diff\'erentes expressions possibles sont les suivantes :
 \begin{itemize}
@@ -147,7 +147,7 @@ Trois options sont \'egalement propos\'ees :
 
 \section{Utilit\'e de ces programmes}
 
-Les dix programmes pr\'esent\'es ci-dessus sont relativement simple \`a utiliser. Chacun ne pr\'esente qu'une fonction principale ainsi que quelques options.
+Les dix programmes pr\'esent\'es ci-dessus sont relativement simples \`a utiliser. Chacun ne pr\'esente qu'une fonction principale ainsi que quelques options.
 Ce type de programme est donc appr\'eci\'e des programmeurs, par sa facilt\'e et sa rapidit\'e d'ex\'ecution. Dans le chapitre \ref{chap:tests et optimisations}
 nous pr\'esenterons en d\'etail les performances obtenues.
 \newline
