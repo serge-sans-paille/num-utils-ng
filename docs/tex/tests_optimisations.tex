@@ -85,8 +85,8 @@ des donn\'ees pour faire leur calcul, ce qui devient un probl\`eme pour les gran
 
 \subsection{Comparaisons de nombres d\'ecimaux}
 
-Dans cette partie la probl\'ematique est quasiment la m\^eme que dans la partie pr\'ec\'edente, \`a l'exception pr\`es qu'ici seulement la fonction 
-numinterval est sujette au probl\`eme des flots de donn\'ees.
+Dans cette partie la probl\'ematique est quasiment la m\^eme que dans la partie pr\'ec\'edente, \`a l'exception pr\`es qu'ici seulement les fonctions 
+numinterval et numnormalize est sujette au probl\`eme des flots de donn\'ees.
 \newline
 
 \begin{table}[h]
@@ -111,59 +111,91 @@ Nb de donn\'ees & numbound (og) & numbound (ng) & numround (og) & numround (ng) 
 \label{tab:numbound}
 \end{table}
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=10cm]{NumboundNumround.eps}
+\end{center}
+\caption{Performances de Numbound et Numround}
+\end{figure}
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-Nb de donn\'ees & param\`etre & numinterval (og) & numinterval (ng) \\
+Nb de donn\'ees & numinterval (og) & numinterval (ng) & numnormalize (og) & numnomrmalize (ng)\\
 \hline
- \multirow{2}*{100} & nombre d'allocations & 2075 (fuites) & 101 \\
-\cline{2-4}
- & m\'emoire allou\'ee & 210ko & 40ko \\
+ \multirow{2}*{100} & 2075 (fuites) & 101 & 1693 (fuites) & 6 \\
+\cline{2-5}
+ & 210ko & 40ko & 183ko & 16ko \\
 \hline
- \multirow{2}*{1000} & nombre d'allocations & 2075 (fuites) & 1001 \\
-\cline{2-4}
- & m\'emoire allou\'ee & 210ko & 4Mo \\
+ \multirow{2}*{1000} & 2075 (fuites) & 1001 & 1693 (fuites) & 12 \\
+\cline{2-5}
+ & 210ko & 4Mo & 183ko & 262ko \\
 \hline
- \multirow{2}*{100} & nombre d'allocations & 2075 (fuites) & 10000 \\
-\cline{2-4}
- & m\'emoire allou\'ee & 210ko & 400Mo \\
+ \multirow{2}*{10000} & 2075 (fuites) & 10000 & 1693 (fuites) & 16 \\
+\cline{2-5}
+ & 210ko & 400Mo & 183ko & 2Mo \\
+\hline
+ \multirow{2}*{100000} & 2075 (fuites) & 100000 & 1693 (fuites) & 19 \\
+\cline{2-5}
+ & 210ko & 40Go & 183ko & 16Mo \\
 \hline
 \end{tabular}
-\caption{Utilisation de la m\'emoire de numinterval}
+\caption{Utilisation de la m\'emoire de numinterval et de normalize (nombre d'allocations et m\'emoire allou\'ee}
 \end{center}
 \label{tab:numbound}
 \end{table}
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=14cm]{NumboundNumround.eps}
+\includegraphics[width=9cm]{Memallouee.eps}
 \end{center}
-\caption{Performances de Numbound et Numround}
+\caption{Utilisation de la m\'emoire pour numinterval et numnormalize}
 \end{figure}
 
 Les r\'esultats sont particuli\`erement exceptionels en mati\`ere de temps d'ex\'ecution mais il persiste le probl\`eme de l'utilisation de la
  m\'emoire pour numinterval.
 \newline
 
-Il faut encore rédiger un paragraphe pour normalize.
 \subsection{G\'en\'eration et modifications de nombre d\'ecimaux}
 
-Cette partie regroupe trois programmes : numgrep, numprocess, numrandom et numrange.
-\newline
-
-Dans cette partie la probl\`ematique est différente car aucun de ces programmes n'est destin\'e \`a travailler sur des flux de donn\'ees, 
+Dans cette partie la probl\`ematique est diff\'erente car aucun de ces programmes n'est destin\'e \`a travailler sur des flux de donn\'ees, 
 d'ailleurs numrange et numrandom n'ont m\^eme pas de fichier en argument ils ne servent qu'\`a g\'en\'erer des nombres ou s\'eries de nombres.
-C'est pourquoi on effectue differents tests pour ces fonctions : pour numgrep 
+C'est pourquoi on effectue differents tests pour ces fonctions : pour numgrep et numprocess on peut toujours regarder leur comportement selon la taille du fichier d'entr\'ee.
+Tandis que pour numrange on peut faire augmenter la taille du fichier à g\'en\'erer et pour numrandom la taille de l'interval dans lequel on prend le chiffre.
+Pour numprocess nous avons fait les tests pour plusieurs op\'erations et expressions seules certaines ont été retenues pour le rapport.
+Les tableaux de performance se trouvent en annexe.
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=9cm]{numgrep.eps}
+\end{center}
+\caption{Performances de numgrep}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=15cm]{randomrange.eps}
+\end{center}
+\caption{Performances de numrandom et numrange}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=9cm]{numprocess.eps}
+\end{center}
+\caption{Performances de certaines opérations de numprocess}
+\end{figure}
+
+Les r\'esultats en terme de temps pour numgrep et numprocess sont plut\^ot bons, il ny a quasiment pas d'utilisation de la m\'emoire dans numprocess et numrange contrairement aux anciennes versions. 
+Nous avions aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est linéaire, les programmes se comportent donc bien si il y a beaoup d'intervalles.
 
 On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esent 
 dans notre biblioth\`eque.
 
 \section{Optimisation}
 
-Nous avons vu les problèmes liés à la gestion des flux, il y a differents moyens pour pallier à ce problème, 
+Nous avons vu les problèmes li\'es à la gestion des flux, il y a differents moyens pour pallier \`a ce probl\`eme, 
 C'est ce que nous allons voir dans cette partie.
 
-L'optimisation n'ayant pas été terminée cette partie n'est pas encore rédigée
+L'optimisation n'ayant pas \'et\'e termin\'ee cette partie n'est pas encore rédig\'ee
