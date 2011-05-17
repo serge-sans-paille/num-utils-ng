@@ -4,7 +4,7 @@
 
 \section{Premiers Tests de performance}
 
-\subsection{Pr\'esentation}
+\subsection{Pr\'esentation et Valgrind}
 
 Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant pr\'esent\'e les premiers tests de performances effectu\'es 
 avant la fin de l'optimisation.
@@ -15,11 +15,14 @@ L'utilisation faite de la m\'emoire telle que le nombre d'allocations ou l'espac
  utilis\'e mais plut\^ot de l'algorithmie cach\'ee dans le code, c'est pourquoi il ne devrait pas y avoir beacoup d'am\`elioration de ce c\^ot\'e l\`a,
 n\'eanmoins elle reste toujours un param\`etre important faisant partie des performances d'un programme.
 Nous avons ici class\'es les programmes comme dans la partie 2.
+Pour tests portant sur les temps d'ex\'ecution nous utiliserons la fonction time pr\'esente dans toutes les distributions GNU/Linux \'ecrite par David MacKenzie et qui permet d'\'evaluer avec plus ou moins de pr\'ecision le temps d'ex\'ecution d'un programme.
+Les tests portant sur la m\'emoire seront eux effectu\'es avec l'outil valgrind, d'habitude utilis\'e pour le d\'eboguage et la chasse aux erreurs de segmentations (lecture ou \'ecriture non autoris\'ee dans la m\'emoire).
+Valgrind regroupe en fait six outils de d\'eveloppement et a \'et\'e d\'evelopp\'e par un groupe de programmeurs, il n'est pas fait \`a priori pour l'utilisation quel'on en fait dans la partie suivante (lenteur d'ex\'ecution) mais fonctionne quand m\^eme bien.
+ 
+
+
 
 \subsection{Calculs simples sur des nombres d\'ecimaux}
-
-Cette partie regroupe trois programmes : numaverage, numnormalize et numsum.
-\newline
 
 La fonction numsum n'\'etant pas encore fiinalis\'ee cette section ne fera pas figurer de tests sur ce programme.
 \newline
@@ -162,8 +165,8 @@ Les r\'esultats sont particuli\`erement exceptionels en mati\`ere de temps d'ex\
 Dans cette partie la probl\`ematique est diff\'erente car aucun de ces programmes n'est destin\'e \`a travailler sur des flux de donn\'ees, 
 d'ailleurs numrange et numrandom n'ont m\^eme pas de fichier en argument ils ne servent qu'\`a g\'en\'erer des nombres ou s\'eries de nombres.
 C'est pourquoi on effectue differents tests pour ces fonctions : pour numgrep et numprocess on peut toujours regarder leur comportement selon la taille du fichier d'entr\'ee.
-Tandis que pour numrange on peut faire augmenter la taille du fichier à g\'en\'erer et pour numrandom la taille de l'interval dans lequel on prend le chiffre.
-Pour numprocess nous avons fait les tests pour plusieurs op\'erations et expressions seules certaines ont été retenues pour le rapport.
+Tandis que pour numrange on peut faire augmenter la taille du fichier \`a g\'en\'erer et pour numrandom la taille de l'interval dans lequel on prend le chiffre.
+Pour numprocess nous avons fait les tests pour plusieurs op\'erations et expressions seules certaines ont \'et\'e retenues pour le rapport.
 Les tableaux de performance se trouvent en annexe.
 
 \begin{figure}[h]
@@ -184,18 +187,18 @@ Les tableaux de performance se trouvent en annexe.
 \begin{center}
 \includegraphics[width=9cm]{numprocess.eps}
 \end{center}
-\caption{Performances de certaines opérations de numprocess}
+\caption{Performances de certaines op\'erations de numprocess}
 \end{figure}
 
 Les r\'esultats en terme de temps pour numgrep et numprocess sont plut\^ot bons, il ny a quasiment pas d'utilisation de la m\'emoire dans numprocess et numrange contrairement aux anciennes versions. 
-Nous avions aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est linéaire, les programmes se comportent donc bien si il y a beaoup d'intervalles.
+Nous avions aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est lin\'eaire, les programmes se comportent donc bien si il y a beaoup d'intervalles.
 
 On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esent 
 dans notre biblioth\`eque.
 
 \section{Optimisation}
 
-Nous avons vu les problèmes li\'es à la gestion des flux, il y a differents moyens pour pallier \`a ce probl\`eme, 
+Nous avons vu les probl\`emes li\'es \`a la gestion des flux, il y a differents moyens pour pallier \`a ce probl\`eme, 
 C'est ce que nous allons voir dans cette partie.
 
-L'optimisation n'ayant pas \'et\'e termin\'ee cette partie n'est pas encore rédig\'ee
+L'optimisation n'ayant pas \'et\'e termin\'ee cette partie n'est pas encore r\'edig\'ee
