@@ -4,48 +4,53 @@
 
 \section{Premiers Tests de performance}
 
-\subsection{Présentation}
+\subsection{Pr\'esentation}
 
-Après avoir présenté les outils que nous avons utilisés, nous allons maintenant présenté les premiers tests de performances effectués avant la fin de l'optimisation.
-Ces tests sont effectués à l'aide de la fonction time pour les temps d'exécution et valgrind pour les tests de mémoire.
-Du fait de l'utilisation du langage C nous espérons avoir des temps bien inferieurs pour l'exécution de chaque programme, c'est ce que nous allons vérifier.
-L'utilisation faite de la mémoire telle que le nombre d'allocations ou l'espace alloué par chaque programme ne dépend pas à priori du langage utilisé mais plutôt de l'algorithmie cachée dans le code, c'est pourquoi il ne devrait pas y avoir beacoup d'amèlioration de ce côté là,
-néanmoins elle reste toujours un paramètre important faisant partie des performances d'un programme.
-Nous avons ici classés les programmes comme dans la partie 2.
+Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant pr\'esent\'e les premiers tests de performances effectu\'es 
+avant la fin de l'optimisation.
+Ces tests sont effectu\'es \`a l'aide de la fonction time pour les temps d'ex\'ecution et valgrind pour les tests de m\'emoire.
+Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inferieurs pour l'ex\'ecution de chaque programme, c'est ce que nous allons
+ v\'erifier.
+L'utilisation faite de la m\'emoire telle que le nombre d'allocations ou l'espace allou\'e par chaque programme ne d\'epend pas \`a priori du langage
+ utilis\'e mais plut\^ot de l'algorithmie cach\'ee dans le code, c'est pourquoi il ne devrait pas y avoir beacoup d'am\`elioration de ce c\^ot\'e l\`a,
+n\'eanmoins elle reste toujours un param\`etre important faisant partie des performances d'un programme.
+Nous avons ici class\'es les programmes comme dans la partie 2.
 
 \subsection{Calculs simples sur des nombres d\'ecimaux}
 
 Cette partie regroupe trois programmes : numaverage, numnormalize et numsum.
 \newline
 
-La fonction numsum n'étant pas encore fiinalisée cette section ne fera pas figuré de tests sur ce programme.
+La fonction numsum n'\'etant pas encore fiinalis\'ee cette section ne fera pas figurer de tests sur ce programme.
 \newline
 
-Ici le temps d'exécution varie selon le nombre de chiffre sur lequel on fait travailler un programme, c'est ce que nous allons observer.
-La fonction numaverage comprend deux options principales. Elle permet de calculer à la fois, la moyenne, la médiane et le mode d'une série de nombre.
+Ici le temps d'ex\'ecution varie selon le nombre de chiffre sur lequel on fait travailler un programme, c'est ce que nous allons observer.
+La fonction numaverage comprend deux options principales. Elle permet de calculer \`a la fois, la moyenne, la m\'ediane et le mode d'une s\'erie de nombre.
 \newline
 
-Voici un graphe en échelle logarithmique représentant le comportement des calculs de la médiane et de la moyenne en fonction du nombre de données. la fonction mode n'apparait pas car elle ne supporte pas bien les grands nombres de données et il n'y avait pas asser de points pour faire une courbe.
-\newline
+Voici un graphe en \'echelle logarithmique repr\'esentant le comportement des calculs de la m\'ediane et de la moyenne en fonction du nombre de 
+donn\'ees. la fonction mode n'apparait pas car elle ne supporte pas bien les grands nombres de donn\'ees et il n'y avait pas assez de points pour 
+faire une courbe.
 
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=15cm]{MoyenneMediane.eps}
 \end{center}
-\caption{Performances de Médiane et Moyenne}
+\caption{Performances de M\'ediane et Moyenne}
 \end{figure}
 
-Et voilà un tableau relatant les performances de chacune de ces options (og et ng signifiant respectivement ``old version'' et ``new version'') : 
+Et voil\`a un tableau \ref{tab:numaverage} relatant les performances de chacune de ces options (og et ng signifiant respectivement << old version >> et << new version >> ) : 
+\newline
+On voit successivement pour chaque test en premi\`ere ligne le temps d'ex\'ecution en ms, en deuxi\`eme le nombre d'allocations et enfin en troisi\`eme 
+la m\'emoire allou\'ee.
 \newline
 
-
-On voit successivement pour chaque test en première ligne le temps d'exécution en ms, en deuxième le nombre d'allocations et enfin en troisième la mémoire allouée.
-\newline
-
+\begin{table}[h]
+\begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|}
 
 \hline
-Nb de données & moy (og) & moy (ng) & méd (og) & méd (ng) & mod (og) & mod (ng)  \\
+Nb de donn\'ees & moy (og) & moy (ng) & m\'ed (og) & m\'ed (ng) & mod (og) & mod (ng)  \\
 \hline
  \multirow{3}*{1000} & 22 & 1 & 10 & 1 & 11 & 2 \\
 \cline{2-7}
@@ -65,26 +70,34 @@ Nb de données & moy (og) & moy (ng) & méd (og) & méd (ng) & mod (og) & mod (n
 \hline
 10000000 & 20748 & 7799 & 20802 & 16530 &  & \\
 \hline
-
 \end{tabular}
+\caption{Performances de M\'ediane et Moyenne}
+\end{center}
+\label{tab:numaverage}
+\end{table}
+Remarque : Faute de temps (l'\'execution de valgrind \'etant tr\`es lente) les tests de m\'emoire n'ont pas \'et\'e fait pour de grandes s\'eries de nombre.
 
-Remarque : Faute de temps (l'éxecution de valgrind étant très lente) les tests de mémoire n'ont pas été fait pour de grandes séries de nombre.
-
-On peut remarquer que conformément à nos attentes les temps d'exécution des nouveaux programmes sont bien inferieurs à ceux des anciens, nénamoins certains d'entre-eux ont des consommations de mémoire beacoup plus importantes, cela est du au fait que certains de nos programme ne supportent pas encore les flux de données (en particulier la fonction qui calcule le mode), nous en reparlerons dans la partie optimisation.
-Le problème de la gestion des flux de donnée est un problème récurrent en algorithmie : certains programmes ont besoins d'un historique des données pour faire leur calcul, ce qui devient un problème pour les grands nombres de données.
+On peut remarquer que conform\'ement \`a nos attentes les temps d'ex\'ecution des nouveaux programmes sont bien inferieurs \`a ceux des anciens,
+ n\'enamoins certains d'entre-eux ont des consommations de m\'emoire beacoup plus importantes, cela est du au fait que certains de nos programme 
+ne supportent pas encore les flux de donn\'ees (en particulier la fonction qui calcule le mode), nous en reparlerons dans la partie optimisation.
+Le probl\`eme de la gestion des flux de donn\'ee est un probl\`eme r\'ecurrent en algorithmie : certains programmes ont besoins d'un historique 
+des donn\'ees pour faire leur calcul, ce qui devient un probl\`eme pour les grands nombres de donn\'ees.
 
 \subsection{Comparaisons de nombres d\'ecimaux}
 
 Cette partie regroupe trois programmes : numbound, numinterval et numround.
 \newline
-Dans cette partie la problèmatique est quasiment la même que dans la partie précédente, à l'exception près qu'ici seulement la fonction numinterval est sujette au problème des flots de données.
+Dans cette partie la probl\'ematique est quasiment la m\^eme que dans la partie pr\'ec\'edente, \`a l'exception pr\`es qu'ici seulement la fonction 
+numinterval est sujette au probl\`eme des flots de donn\'ees.
 \newline
 On mettra ici le tableau et le graphique pour ces 3 fonctions.
 
+\begin{table}[h]
+\begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 
 \hline
-Nb de données & numbound (og) & numbound (ng) & numround (og) & numround (ng) \\
+Nb de donn\'ees & numbound (og) & numbound (ng) & numround (og) & numround (ng) \\
 \hline
 1000 & 15 & 3 & 49 & 7 \\
 \hline
@@ -98,9 +111,12 @@ Nb de données & numbound (og) & numbound (ng) & numround (og) & numround (ng) \
 \hline
 
 \end{tabular}
-\newline
-
-Les résultats sont particulièrement exceptionels en matière de temps d'exécution mais il persiste le problème de l'utilisation de la mémoire pour numinterval.
+\caption{Performances de numbound et numround}
+\end{center}
+\label{tab:numbound}
+\end{table}
+Les r\'esultats sont particuli\`erement exceptionels en mati\`ere de temps d'ex\'ecution mais il persiste le probl\`eme de l'utilisation de la
+ m\'emoire pour numinterval.
 
 
 
@@ -109,9 +125,11 @@ Les résultats sont particulièrement exceptionels en matière de temps d'exécu
 Cette partie regroupe trois programmes : numgrep, numprocess, numrandom et numrange.
 \newline
 
-Dans cette partie la problèmatique est differente car aucun de ces programmes n'est destiné à travailler sur des flux de donnés, d'ailleur numrange et numrandom n'ont même pas de fichier en argument ils ne servent quèà génrer des nombres ou séries de nombres.
+Dans cette partie la probl\`ematique est différente car aucun de ces programmes n'est destin\'e \`a travailler sur des flux de donn\'ees, 
+d'ailleurs numrange et numrandom n'ont m\^eme pas de fichier en argument ils ne servent qu'\`a g\'en\'erer des nombres ou s\'eries de nombres.
 
 
-On peut ajouter que les programmes de l'ancienne bibliothèque comportent tous des fuites de mémoires (memory leaks) qui ne sont plus présent dans notre bibliothèque.
+On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esent 
+dans notre biblioth\`eque.
 
 \section{Optimisation}
