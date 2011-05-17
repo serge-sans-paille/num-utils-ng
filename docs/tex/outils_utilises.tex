@@ -84,8 +84,8 @@ La premi\`ere \'etape correspondant \`a la transformation en code binaire, la se
 
 Pour chaque ex\'ecutable, \`a chaque modification du code source, il faut \'ecrire ces quelques lignes dans un terminal.
 Nous avons donc utilis\'e le Makefile pour compiler notre code (cf. figure \ref{fig:exemple_makefile}), afin d'automatiser cett \'etape.
-En effect, la commande << \textbf{make} >> cr\'ee l'ex\'ecutable pour tous les fichiers d\'efinis dans le makefile. La commande
-<< \textbf{make clean} >> supprimer tous les fichiers temporaires.
+En effet, la commande << \textbf{make} >> cr\'ee l'ex\'ecutable de tous les fichiers cod\'es en langage C d\'efinis dans le makefile. La commande
+<< \textbf{make clean} >> supprime tous les fichiers temporaires.
 \newline
 \begin{figure}[h] 
 \begin{center}
@@ -143,7 +143,40 @@ dans le bon r\'epertoire des ex\'ecutables ou des pages du manuel).
 \newline
 \textbf{Remarque importante} : un des avantages des autotools est que le d\'eveloppeur a peu de texte \`a \'ecrire. Nous avons seulement eu \`a \'ecrire dans
 deux fichiers : configure.ac et dans chaque fichier Makefile.am. Tous les autres fichiers on \'et\'e g\'en\'er\'e.
+\newline
 \end{itemize}
+Une fois ces deux \'etapes effectu\'es, il ne nous reste plus qu'\`a g\'en\'erer les diff\'erents fichiers de configuration \`a l'aide des commandes :
+\begin{itemize}
+ \item [-] \textbf{aclocal} : g\'en\'ere le fichier << aclocal.m4 >> contenant les macros n\'ecessaires pour automake,
+ \item [-] \textbf{autoconf} : produit une premi\`ere version du fichier << configure >> (on utilisera \`a nouveau cette commande apr\`es avoir ex\'ecut\'e 
+la commande << automake >>, afin de mettre de nouveau \`a jour le fichier << configure >>.
+Remarque : nous n'avons pas eu besoin  d'utiliser la commande << autoheader >> car nous n'avions pas de variables de pr\'e-processeur dans notre code.
+ \item [-] \textbf{automake} : produit les fichiers Makefile.in (Makefile interm\'ediaire qui seront utilis\'es par le fichier << configure >>.
+\newline
+\end{itemize}
+Ainsi, tout utilisateur peut utiliser notre biblioth\`eque en ex\'cutant le script :
+\begin{verbatim}./configure\end{verbatim}
+pour cr\'eer les Makefiles dans les diff\'rents r\'epertoire de notre projet.
+Le tableau \ref{tab:commandes} montre les principales commandes qui peuvent maintenant \^etre ex\'ecut\'ees :
+\begin{table}[h]
+\begin{center}
+
+\begin{tabular}{|l|c|r|}
+  \hline
+  Commande &  Action\\
+  \hline
+  \textbf{make ou make all} & Cr\'eer les ex\'ecutables \\
+  \textbf{make clean} & Supprimer les fichiers cr\'ees\\
+  \textbf{make check} & Effectuer une s\'erie de tests \\
+  \textbf{make install} & Installer la bibliot\`eque \\
+  \textbf{make uninstall} & D\'esintaller la biblioth\`eque \\
+  \textbf{make dist} & Cr\'eer une archive de notre projet \\
+  \hline
+\end{tabular}
+\caption{Principales commandes d'un makefile}
+\end{center}
+\label{tab:commandes}
+\end{table}
 
 \section{Cr\'eation du paquet debian}
 
