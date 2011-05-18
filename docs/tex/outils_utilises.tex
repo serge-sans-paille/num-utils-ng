@@ -170,8 +170,8 @@ Le tableau \ref{tab:commandes} montre les principales commandes qui peuvent main
   \textbf{make dist} & Cr\'eer une archive de notre projet \\
   \hline
 \end{tabular}
-\caption{Principales commandes d'un makefile}
 \end{center}
+\caption{Principales commandes d'un makefile}
 \label{tab:commandes}
 \end{table}
 
@@ -182,7 +182,7 @@ Sa cr\'eation n\'ecessite de suivre une d\'marche rigoureuse et sp\'ecifique, no
 qu'il apparaisse plus tard dans les d\'ep\^ots Debian.
 \newline
 Premi\`erement, il nous a fallu cr\'eer un repertoire << /debian >> contenant plusieurs fichiers de configuration :
-\begin{itemize}
+\begin{itemize}\index{CDBS}
  \item [-] \textbf{rules} : ce fichier inclut les r\`egles qui vont servir pour compiler notre paquet,
  \item [-] \textbf{control} : control contient les d\'ependences du paquet (CDBS et debhelper pour nous),
  \item [-] \textbf{changelog} : changelog contient la liste des diff\'rentes versions du paquet, 
