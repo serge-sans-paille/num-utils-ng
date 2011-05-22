@@ -55,48 +55,39 @@ else
 }
 
 static double median(FILE* stream,int b){ 				//this function calculates the median.
-  int l=0;
-  double med;
+  int nballoc=1,nbdouble=0;
+  double med,d;
   double *tab=NULL;
-  if(!(tab=(double*) malloc(sizeof(double)))){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-  while(fscanf(stream,"%lf",&tab[l])!=EOF){
-    if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
-      perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+  while(fscanf(stream,"%lf",&d)!=EOF){
+    nbdouble++;
+    if(nbdouble==nballoc){
+      nballoc*=2;
+      if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
+        perror("num-utils-ng"); 
+        exit(EXIT_FAILURE);
+      }
     }
-    l++;
+    tab[nbdouble-1]=d;
   }
 
-  qsort(tab,l+1,sizeof(double),isHigher);
-
-  if (decimalPortion((float)l/2)==0)
-    med=tab[(int) ((l/2)-(b-1))];
+  qsort(tab,nbdouble,sizeof(double),isHigher);
+  if (decimalPortion(nbdouble/2.0)==0)
+    med=tab[(nbdouble/2)-b];
   else
-    med=tab[(int) (l/2) + 1];
+    med=tab[(nbdouble-1)/2];
   free(tab);
   return med;
 }
 
 static double mode(FILE* stream){				//this functionn calculates the mode.
-  int *nb=NULL;                                         // nb is an array of occurences bound to tab.
+  int *nb=NULL,nballoc=1;                                         // nb is an array of occurences bound to tab.
   double *tab=NULL;					//tab keeps in memory everyr different number in the stream.
-  double d;
-  int i,nbmod=0,done,l=0;
-  if(!(tab=(double*) malloc(sizeof(double)))){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-  if (!(nb=(int*) malloc(sizeof(int)))){
-    perror("num-utils-ng");
-    exit(EXIT_FAILURE);
-  }
+  double d=0;
+  int i,nbmod=0,done=0,nbdouble=0;
   while(fscanf(stream,"%lf",&d)!=EOF){
     i=0;
     done=0;
-    while((i<l+1) && (done!=1)){
+    while((i<nbdouble) && (done!=1)){
       if (d==tab[i]){
         nb[i]++;
         done=1;
@@ -104,21 +95,24 @@ static double mode(FILE* stream){				//this functionn calculates the mode.
     i++;
     }
     if(done==0){
-        if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
+    nbdouble++;
+      if (nbdouble==nballoc){
+        nballoc*=2;
+        if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
           perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
-        tab[l+1]=d;
-        if(!(nb=(int*) realloc(nb,(l+2)*sizeof(int)))){
+        if(!(nb=(int*) realloc(nb,(nballoc)*sizeof(int)))){
           perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
-        nb[l+1]=1;
-        l++;
       }
+      tab[nbdouble-1]=d;
+      nb[nbdouble-1]=1;
+    }
   }
   i=0;
-  while(i<l+1){
+  while(i<nbdouble){
     if (nb[i]>nb[nbmod])
       nbmod=i;
     i++;
