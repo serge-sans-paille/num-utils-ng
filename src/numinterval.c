@@ -54,28 +54,27 @@ static int typeIsWrong(FILE* stream){				//this function tests if there is lette
 
 
 static int interval(FILE* stream){ 	
-  double o,n;
-  double *tab=NULL;
-  int i,l=0;
-  if (fscanf(stream,"%lf",&o)==EOF)
+  double oldnumber,newnumber,interval;
+  FILE *tempinterval;
+  if (!(tempinterval=fopen("./tempinterval","w"))){
+    perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
-  if(!(tab=(double*) malloc(sizeof(double)))){
+  }  
+  if (fscanf(stream,"%lf",&oldnumber)==EOF)
+    exit(EXIT_FAILURE);  
+  while(fscanf(stream,"%lf",&newnumber)!=EOF){
+    interval=newnumber-oldnumber;
+    fprintf(tempinterval, "%lf\n", interval);
+    oldnumber=newnumber;
+  }
+  if (fclose(tempinterval)!=0){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }  
+  if (system("/bin/cat ./tempinterval")!=0){
     perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }
-  while(fscanf(stream,"%lf",&n)!=EOF){
-    if(!(tab=(double*) realloc(tab,(l+2)*sizeof(double)))){
-      perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
-    }
-    tab[l]=n-o;
-    o=n;
-    l++;
-  }
-  for(i=0;i<l;i++){
-  fprintf(stdout,"%lf\n",tab[i]);
-  }
-  free(tab);
   return 0;
 }
 
