@@ -7,19 +7,10 @@ LAST_ERROR=0
 
 echo -e "===========================================================================\nTest results for the numinterval function :\n" > finalmsg
 
-echo -e "azeref \n efsef ef\n er" 1>data
-numinterval .data 2>/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "1" ] 
-then
-  echo -e "/!\ The detection of type error does not work properly" >>finalmsg
-  ERROR=1
-fi
-
 echo "1 2 3 4" 1> data
 numinterval -blabla data 2>/dev/null
 LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "2" ] 
+if [ "$LAST_ERROR" -ne "1" ] 
 then
   echo -e "/!\ The detection of option's error does not work properly" >>finalmsg
   ERROR=2

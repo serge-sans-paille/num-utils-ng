@@ -34,82 +34,54 @@
 #include <math.h>
 #include <ctype.h>
 
-enum {
-	TYPE_ERROR=1,
-	OPTION_ERROR,
-     };
-
 static double decimalPortion(double d){
   int i= (int) d;
   double res= d- (double) i;
   return res;
 }
 
-static int roundc(FILE* stream,int m,int n){
+static int skipWord(FILE* stream){
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+}
+return 0;
+}
+
+static int roundc(FILE* stream,int c,int f,int n){
   double d;
-  if (m==0){
-    while(fscanf(stream, "%lf",&d)!=EOF){     
-      if (fabs(decimalPortion(d))<0.5)
-        printf("result : %d\n", (int) d);
+  int test;
+  while((test=fscanf(stream, "%lf",&d))!=EOF){ 
+    if(test==0)
+      skipWord(stream);
+    else{
+      d=d/(double)n; 
+      if (decimalPortion(d)==0)
+        printf("result : %d\n", (int) d*n);
+      else if (fabs(decimalPortion(d))<0.5){
+        if (d>=0)
+          printf("result : %d\n", (int) (d + c)*n);
+        else
+          printf("result : %d\n", (int) (d - f)*n);
+      }
       else{
         if (d>=0)
-          printf("result : %d\n", (int) d+1);
+          printf("result : %d\n", (int) (d +1 - f)*n);
         else
-          printf("result : %d\n", (int) d-1);
-      }    
-    }
-  }
-  if (m==1){
-    while(fscanf(stream, "%lf",&d)!=EOF){
-      if (d==(int)d)
-        printf("result : %d\n", (int)d);
-      else{
-        if (d>=0)
-          printf("result : %d\n", (int) d+1);
-        else
-          printf("result : %d\n", (int) d);
-      }    
-    }
-  }
-  if (m==2){
-    while(fscanf(stream, "%lf",&d)!=EOF){
-      if (d>=0)
-        printf("result : %d\n", (int) d); 
-      else
-        printf("result : %d\n", (int) d-1);        
-    }
-  }
-  if (m==3){
-    while(fscanf(stream, "%lf",&d)!=EOF){     
-      d=d/(double)n;
-      if (fabs(decimalPortion(d))<0.5)
-        printf("result : %d\n", (int)d*n);
-      else
-        if (d>=0)
-          printf("result : %d\n", (int) (d+1)*n);
-        else
-          printf("result : %d\n", (int) (d-1)*n);            
-    }
+          printf("result : %d\n", (int) (d -1 + c)*n);
+      }
+    }   
   }
   return 0;
 }
-
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
-    }
-  }
-  rewind(stream);
-  return 0;
-}
-
 
 int main(int argc,char *argv[]){
-  int opt=0,m=0,f=0;
+  int opt=0,c=0,f=0,n=1;
   FILE* stream=stdin;
     while((opt=getopt(argc,argv,"hcfn:"))!=-1){
       switch(opt) {
@@ -123,21 +95,20 @@ int main(int argc,char *argv[]){
       break;
 
       case 'c': 				
-        m=1;
+        c=1;
       break;
 
       case 'f': 				
-        m=2;
+        f=1;
       break;
 
       case 'n': 				
-        f=atoi(optarg);
-        m=3;
+        n=atoi(optarg);
       break;
 
       default :				//option fail.
         fprintf(stderr,"invalid option \n");
-        return OPTION_ERROR;
+        return 1;
       break;
       }
   }
@@ -147,10 +118,8 @@ int main(int argc,char *argv[]){
       perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
-    if (typeIsWrong(stream))
-      return TYPE_ERROR;
   }   
-  roundc(stream, m,f);
+  roundc(stream, c, f, n);
   if (argc>optind){
     if (fclose(stream)!=0){
       perror("num-utils-ng"); 

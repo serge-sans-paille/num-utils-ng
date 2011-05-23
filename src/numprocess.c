@@ -42,16 +42,34 @@ enum {
 	EXPR_ERROR,
      };
 
+
+static int skipWord(FILE* stream){
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+}
+return 0;
+}
+
+
 static int process(FILE* stream, char* expression){
   double res,d,p=0;
-  int i,j;
+  int i,j,test;
   FILE* streamout=NULL;
   if (stream==stdin)
     streamout=stdout;
   else {
     streamout=fopen("./temp","w");
   }
-  while(fscanf(stream,"%lf",&res)!=EOF ){
+  while((test=fscanf(stream,"%lf",&res))!=EOF ){
+    if(test==0)
+      skipWord(stream);
+    else{
     for (i=0;i<strlen(expression);i++){
       switch(expression[i])
       {
@@ -151,22 +169,10 @@ static int process(FILE* stream, char* expression){
     }
     fprintf(streamout,"%lf\n",res);
   }
+  } 
   if (stream!=stdin)
     fclose(streamout);
   return 1;
-}
-
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
-    }
-  }
-  rewind(stream);
-  return 0;
 }
 
 
@@ -204,10 +210,6 @@ while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     if (!(stream=fopen(argv[optind+1],"r"))){
       perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
-    }
-    if(typeIsWrong(stream)){
-    fprintf(stderr, "The type of the file is wrong.");
-    return TYPE_ERROR;
     }
     process(stream,argv[optind]);
     fclose(stream);

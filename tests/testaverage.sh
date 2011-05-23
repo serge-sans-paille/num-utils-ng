@@ -7,21 +7,12 @@ ERROR=0
 
 echo -e "===========================================================================\nTest results for the numaverage function :\n" > finalmsg
 
-echo "1 2 3 4" 1> data
-numaverage -blabla data &>/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "2" ] 
-then
-  echo -e "/!\ The detection of option failure does not work properly" >>finalmsg
-  ERROR=1
-fi
-
-echo -e "azeref \n efsef ef\n er" 1>data
-numaverage data &>/dev/null
+seq 1 10 1>data
+numaverage -nawak data &>/dev/null
 LAST_ERROR=$?
 if [ "$LAST_ERROR" -ne "1" ] 
 then
-  echo -e "/!\ The detection of type error does not work properly" >>finalmsg
+  echo -e "/!\ The detection of option error does not work properly" >>finalmsg
   ERROR=1
 fi
 

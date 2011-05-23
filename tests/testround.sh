@@ -7,18 +7,9 @@ LAST_ERROR=0
 
 echo -e "===========================================================================\nTest results for the numround function :\n" > finalmsg
 
-echo -e "azeref \n efsef ef\n er" 1>data
-numround data &>/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "1" ] 
-then
-  echo -e "/!\ The detection of type error does not work properly" >>finalmsg
-  ERROR=1
-fi
-
 numround -blabla data 2>/dev/null
 LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "2" ] 
+if [ "$LAST_ERROR" -ne "1" ] 
 then
   echo -e "The detection of option failure does not work properly"
   ERROR=2

@@ -33,11 +33,6 @@ n***** END GPL LICENSE BLOCK *****
 #include <unistd.h>
 #include <ctype.h>
 
-enum {
-	TYPE_ERROR=1,
-	OPTION_ERROR,
-     };
-
 
 static double decimalPortion(double d){
   int i= (int) d;
@@ -206,7 +201,7 @@ int main(int argc,char *argv[]){
 
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
-        return OPTION_ERROR;
+        return 1;
       break;
     }
   }

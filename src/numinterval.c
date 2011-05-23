@@ -33,39 +33,37 @@
 #include <unistd.h>
 #include <ctype.h>
 
-
-enum {
-	TYPE_ERROR=1,
-	OPTION_ERROR,
-     };
-
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
-    }
+static int skipWord(FILE* stream){
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
   }
-  rewind(stream);
-  return 0;
 }
-
+return 0;
+}
 
 static int interval(FILE* stream){ 	
   double oldnumber,newnumber,interval;
   FILE *tempinterval;
+  int test;
   if (!(tempinterval=fopen("./tempinterval","w"))){
     perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }  
-  if (fscanf(stream,"%lf",&oldnumber)==EOF)
+  if (fscanf(stream,"%lf",&oldnumber)!=1)
     exit(EXIT_FAILURE);  
-  while(fscanf(stream,"%lf",&newnumber)!=EOF){
-    interval=newnumber-oldnumber;
-    fprintf(tempinterval, "%lf\n", interval);
-    oldnumber=newnumber;
+  while((test=fscanf(stream,"%lf",&newnumber))!=EOF){
+    if(test==0)
+      skipWord(stream);
+    else{
+      interval=newnumber-oldnumber;
+      fprintf(tempinterval, "%lf\n", interval);
+      oldnumber=newnumber;
+    }
   }
   if (fclose(tempinterval)!=0){
     perror("num-utils-ng"); 
@@ -97,7 +95,7 @@ int main(int argc,char *argv[]){
 
       default :				//option fail.
         fprintf(stderr, "Invalid option\n");
-        return OPTION_ERROR;
+        return 1;
       break;
     }
   }
@@ -106,8 +104,6 @@ int main(int argc,char *argv[]){
       perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
-    if (typeIsWrong(stream))
-      return TYPE_ERROR;
   }
   interval(stream);
   if(argc>optind){
