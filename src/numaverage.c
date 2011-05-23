@@ -54,20 +54,39 @@ else
   return 0;
 }
 
+
+static int skipWord(FILE* stream){
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+}
+return 0;
+}
+
 static double median(FILE* stream,int b){ 				//this function calculates the median.
-  int nballoc=1,nbdouble=0;
+  int nballoc=1,nbdouble=0,test;
   double med,d;
   double *tab=NULL;
-  while(fscanf(stream,"%lf",&d)!=EOF){
-    nbdouble++;
-    if(nbdouble==nballoc){
-      nballoc*=2;
-      if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
-        perror("num-utils-ng"); 
-        exit(EXIT_FAILURE);
+
+  while((test=fscanf(stream,"%lf",&d))!=EOF){
+    if(test==0)
+      skipWord(stream);
+    else{
+      nbdouble++;
+      if(nbdouble==nballoc){
+        nballoc*=2;
+        if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
+          perror("num-utils-ng"); 
+          exit(EXIT_FAILURE);
+        }
       }
+      tab[nbdouble-1]=d;
     }
-    tab[nbdouble-1]=d;
   }
 
   qsort(tab,nbdouble,sizeof(double),isHigher);
@@ -83,32 +102,36 @@ static double mode(FILE* stream){				//this functionn calculates the mode.
   int *nb=NULL,nballoc=1;                                         // nb is an array of occurences bound to tab.
   double *tab=NULL;					//tab keeps in memory everyr different number in the stream.
   double d=0;
-  int i,nbmod=0,done=0,nbdouble=0;
-  while(fscanf(stream,"%lf",&d)!=EOF){
-    i=0;
-    done=0;
-    while((i<nbdouble) && (done!=1)){
-      if (d==tab[i]){
-        nb[i]++;
-        done=1;
-      }
-    i++;
-    }
-    if(done==0){
-    nbdouble++;
-      if (nbdouble==nballoc){
-        nballoc*=2;
-        if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
-          perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
+  int i,nbmod=0,done=0,nbdouble=0,test;
+  while((test=fscanf(stream,"%lf",&d))!=EOF){
+    if(test==0)
+        skipWord(stream);
+    else{
+      i=0;
+      done=0;
+      while((i<nbdouble) && (done!=1)){
+        if (d==tab[i]){
+          nb[i]++;
+          done=1;
         }
-        if(!(nb=(int*) realloc(nb,(nballoc)*sizeof(int)))){
-          perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
-        }
+        i++;
       }
-      tab[nbdouble-1]=d;
-      nb[nbdouble-1]=1;
+      if(done==0){
+        nbdouble++;
+        if (nbdouble==nballoc){
+          nballoc*=2;
+          if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
+            perror("num-utils-ng"); 
+            exit(EXIT_FAILURE);
+          }
+          if(!(nb=(int*) realloc(nb,(nballoc)*sizeof(int)))){
+            perror("num-utils-ng"); 
+            exit(EXIT_FAILURE);
+          }
+        }
+        tab[nbdouble-1]=d;
+        nb[nbdouble-1]=1;
+      }
     }
   }
   i=0;
@@ -123,32 +146,26 @@ static double mode(FILE* stream){				//this functionn calculates the mode.
   return d;
 }
 
-
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
-    }
-  }
-  rewind(stream);
-  return 0;
-}
-
 static double mean(FILE *stream){				//this function calculates the average from a File or stdin depending on the argument.
   double l=0;
   double average=0;
   double d=0;
-  while(fscanf(stream,"%lf",&d)!=EOF){
+  int test;
+
+  while((test=fscanf(stream,"%lf",&d))!=EOF){
+    if(test==0){
+      skipWord(stream);
+    }
+    else{
     average+=d;
     l++;
+    }
   }
   average/=l;
   rewind(stream);
   return average;
 }
+
 
 int main(int argc,char *argv[]){
   int opt;
@@ -198,8 +215,6 @@ int main(int argc,char *argv[]){
       perror("num-utils-ng"); 
       exit(EXIT_FAILURE);
     }
-    if (typeIsWrong(stream))
-      return TYPE_ERROR;
   }  
   
   if (m==0)
