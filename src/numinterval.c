@@ -68,12 +68,12 @@ static int interval(FILE* stream){
   if (fclose(tempinterval)!=0){
     perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
-  }  
+  }
   if (system("/bin/cat ./tempinterval")!=0){
     perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }
-  if (system("/bin/rm ./tempinterval")!=0){
+  if (!remove("/bin/rm ./tempinterval")){
     perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
   }
