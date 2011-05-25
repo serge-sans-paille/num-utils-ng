@@ -38,40 +38,45 @@
 
 enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE,CLOSE_ERROR};
 
-static double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
-	double lowerBound=0.;
-	double upperBound=0.;
-	double number=0.;
-	if(!feof(stream)){
-		if(fscanf(stream,"%lf",&number)!=EOF);
-		lowerBound=number;
-		upperBound=number;
-	}		
-	while(!feof(stream)){
-		if (number>upperBound)
-			upperBound=number;
-		if (number<lowerBound)
-			lowerBound=number;
-		if(fscanf(stream,"%lf",&number)!=EOF);
-	}
-	if (mode==1)
-		return lowerBound;
-	else
-		return upperBound;			
+			
+static int skipWord(FILE* stream){				
+  char c='a';
+  if (stream==stdin)
+    fprintf(stderr,"This is not a number!\n");
+  while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+    if(fscanf(stream, "%c",&c)!=1){
+      perror("num-utils-ng"); 
+      exit(EXIT_FAILURE);
+    }
+  }
+return 0;
 }
 
 
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
+static double bound(FILE* stream, int mode){		//this function calculates the upper or lower bound from a file or stdin depending on the argument
+  double lowerBound=0.;
+  double upperBound=0.;
+  double number=0.;
+  int test;
+  if((test=fscanf(stream,"%lf",&number))!=EOF){
+    if(!test)
+      skipWord(stream);
+    lowerBound=number;
+    upperBound=number;
     }
+  while((test=fscanf(stream, "%lf",&number))!=EOF){
+    if(!test)
+      skipWord(stream);
+    if (number>upperBound)
+      upperBound=number;
+    if (number<lowerBound)
+      lowerBound=number;
+    if(fscanf(stream,"%lf",&number)!=EOF);
   }
-  rewind(stream);
-  return 0;
+  if (mode==1)
+    return lowerBound;
+  else
+    return upperBound;			
 }
 
 
@@ -106,14 +111,12 @@ int main(int argc,char *argv[]){
       perror("num-utils-ng");
       return WRONG_FILE;
     }
-    if (typeIsWrong(stream))
-      return TYPE_ERROR;
   }
 
   res=bound(stream,m);
 
   if (argc>1){
-    if (fclose(stream)!=0){
+    if (fclose(stream)){
       perror("num-utils-ng");
       return CLOSE_ERROR;
     }
