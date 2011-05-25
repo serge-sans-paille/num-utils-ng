@@ -37,6 +37,21 @@
 
 enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE};
 
+
+static int skipWord(FILE* stream){            //this function tests if there is letters in the file.
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+}
+return 0;
+}
+
+
 static void afficher(double *tab, int count){
   int i=0;
   for(i=0;i<count-1;i++){
@@ -51,6 +66,7 @@ static void normalize(FILE* stream,int l, int h){		//this function normalize
   double sum=0.;
   int count=0,lengthTab=1;
   int i;
+  int test;
 
   if(!(tab=(double*) malloc(sizeof(double)))){
     perror("num-utils-ng"); 
@@ -58,7 +74,9 @@ static void normalize(FILE* stream,int l, int h){		//this function normalize
   }
 
   while(!feof(stream)){
-    if(fscanf(stream,"%lf",&number)!=EOF);
+    if((test=fscanf(stream,"%lf",&number))!=EOF)
+      if(!test)
+       skipWord(stream);
     sum+=number;
     tab[count] = number;
     count++;
@@ -79,19 +97,6 @@ static void normalize(FILE* stream,int l, int h){		//this function normalize
 }
 
 
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
-    }
-  }
-  rewind(stream);
-  return 0;
-}
-
 int main(int argc,char *argv[]){
   FILE *stream=stdin;
   int optch;
@@ -110,7 +115,7 @@ int main(int argc,char *argv[]){
       break;
 
       case 'h':
-        if (system("/usr/bin/man numnormalize")!=0){
+        if (!system("/usr/bin/man numnormalize")){
           perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
@@ -129,8 +134,6 @@ int main(int argc,char *argv[]){
       perror("num-utils-ng");
       return WRONG_FILE;
     }
-    if (typeIsWrong(stream))
-      return TYPE_ERROR;
   }
   normalize(stream,numberL,numberH);
   fclose(stream);
