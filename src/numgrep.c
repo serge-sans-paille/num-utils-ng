@@ -34,9 +34,25 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
 
 
 enum {ERROR_1=1,WRONG_ARG,ERROR_3,WRONG_FILE,OPTION_ERROR};
+
+
+static int skipWord(FILE* stream){
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+}
+return 0;
+}
+
 
 static int numgrep(FILE* stream, char* expression){
   int numberRead,number1,number2;
@@ -46,6 +62,7 @@ static int numgrep(FILE* stream, char* expression){
   char *savestr=NULL;
   char *str;
   char **tab=NULL;
+  int test;
 
   for (i=0;i<strlen(expression);i++){
     switch(expression[i])
@@ -93,7 +110,9 @@ static int numgrep(FILE* stream, char* expression){
     *(tab+i)=token;
   }
 
-  while(fscanf(stream,"%d",&numberRead)!=EOF ){
+  while((test=fscanf(stream,"%d",&numberRead))!=EOF ){
+    if(!test)
+      skipWord(stream);
     for(i=0;i<=count;i++){
 
       if(strstr(*(tab+i),"f")!=NULL){
