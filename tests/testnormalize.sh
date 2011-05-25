@@ -17,15 +17,6 @@ then
   ERROR=1
 fi
 
-echo -e "azeref \n efsef ef\n er" 1>data
-numnormalize data &>/dev/null
-LAST_ERROR=$?
-if [ "$LAST_ERROR" -ne "1" ] 
-then
-  echo -e "/!\ The detection of type error does not work properly" >>finalmsg
-  ERROR=1
-fi
-
 
 echo -e "\t 1.Without options :" >> finalmsg
 
