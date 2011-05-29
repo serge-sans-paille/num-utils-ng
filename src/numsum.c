@@ -38,6 +38,21 @@
 
 enum {TYPE_ERROR=1, OPTION_ERROR };
 
+
+static int skipWord(FILE* stream){    //this function tests if there is letters in the file.
+char c='a';
+if (stream==stdin)
+  fprintf(stderr,"This is not a number!\n");
+while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
+  if(fscanf(stream, "%c",&c)!=1){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+}
+return 0;
+}
+
+
 static double sum ( FILE* stream){		//this function calculates the sum of numbers from a file or stdin.
   double sum=0.;
   double number=0.;
@@ -49,70 +64,77 @@ static double sum ( FILE* stream){		//this function calculates the sum of number
 }
 
 
-static int typeIsWrong(FILE* stream){				//this function tests if there is letters in the file.
-  char c;
-  while(fscanf(stream, "%c",&c)!=EOF){
-    if (!isdigit(c) && !isspace(c) && !(c==46)) { 
-    fprintf(stderr,"The type of the file is wrong.\n");
-    fprintf(stderr,"the programm has detected an unexpected char : %c\n",c);
-    return 1;
+static double column(FILE* stream,int *tab,int count2){     // this function print out the sum of each column.
+  double *tabNumber=NULL;
+  double number;
+  int lengthTab=1, countMax=0, count=0;
+  int test,i;
+  if(!(tabNumber=(double*) calloc(1,sizeof(double)))){
+    perror("num-utils-ng"); 
+    exit(EXIT_FAILURE);
+  }
+  while((test=fscanf(stream,"%lf",&number))!=EOF){
+    if(!test)
+      skipWord(stream);
+    if(!tab){
+      if(count == lengthTab){
+        lengthTab*=2;
+        if(!(tabNumber =(double*)realloc(tabNumber,lengthTab*sizeof(double)))){
+          perror("num-utils-ng"); 
+          exit(EXIT_FAILURE);
+        }
+      }
+      if(fgetc(stream)!='\n'){
+        tabNumber[count] += number;
+        count++;
+		
+      }
+      else {
+	if(count>=countMax)
+	  countMax=count;
+        tabNumber[count] += number;
+	count=0;
+      }
     }
   }
-  rewind(stream);
+  for(i=0;i<countMax+1;i++){
+    printf("3 %lf\n",tabNumber[i]);
+  }
+  free(tabNumber);
   return 0;
 }
 
-
-static double column(FILE* stream,int *tab,int count){     // this function print out the sum of each column.
-	if(!tab) { }//not argument  mettre un else dans l'autre cas
-	int a=0;
-	for(a=0;a<count;a++)
-		 printf("%d\n",*(tab+a));
-	int l=0,i,I,J;  
-	int C=0;
-	int car; 
-	if (stream){
-	while ( (car= getc(stream)) != EOF){
-		if (car == '\n')
-		++l;	
-		if (car == ' ' && l==0)
-		++C;
-	    }
-	int tableau[l][C+1];
-	int* tab=NULL;
-	tab=malloc(C*sizeof(int));
-	rewind(stream);
-	for(i=0; i<l*(C+1); i++){
-		if(fscanf(stream,"%d",&tableau[i/(C+1)][i % (C+1)])!=EOF);
-	    }
-	for (J=0;J<C+1;J++){
-		for (I=0;I<l;I++){
-			tab[J]=tab[J]+tableau[I][J];
-		}
-	      printf("The sum of column %d is %d \n",J+1,tab[J]);
-	}
-	fclose(stream);
-	}
-	return 0;
-}
-
-static double row(FILE* stream){                  // this function print ou the sum of each row.
-	char ligne[1024], *p, *e;
-	long v, somme = 0;
-	while (fgets(ligne, sizeof(ligne), stream)) {
-		p = ligne;
-		for (p = ligne; ; p = e) {
-	        v = strtol(p, &e, 10);
-			if (p == e){
-				printf("%ld \n", somme); 
-				somme = 0; 
-				break; 
-			}
-			else 
-				somme += v;
-	    }
-	}
-	return 0;
+static double row(FILE* stream,int *tab,int count){              // this function print ou the sum of each row or specified row.
+  double somme=0.,number;
+  int test,line=1,i=0;
+  while((test=fscanf(stream,"%lf",&number))!=EOF){
+    if(!test)
+        skipWord(stream);
+    if(!tab){
+      if(fgetc(stream)=='\n'){
+        somme+=number;
+        printf("%lf \n",somme);
+        somme=0.;
+        number=0.;
+      }
+      somme+=number;
+    }
+    else{
+      if(line==tab[i]){
+        somme+=number;
+      }
+      if(fgetc(stream)=='\n'){
+        if(line==tab[i]){
+          i++;
+          printf("%lf \n",somme);
+        }
+        line++;
+        somme=0.;
+        number=0.;
+      }   
+    } 
+  }
+  return 0;
 }
 
 
@@ -138,7 +160,7 @@ int main(int argc,char *argv[]){
 	int i;
 
 						// for options (normal, integer portion and decimal portion).;
-	while((opt = getopt(argc,argv,"iIcx:rh"))!=-1){
+	while((opt = getopt(argc,argv,"iIcx:ry:h"))!=-1){
 		switch(opt) {
 
 		case 'i':			// option "-i" (integer portion of the final sum)
@@ -163,6 +185,10 @@ int main(int argc,char *argv[]){
 		m=2;
 		break;
 
+                case 'y':
+		m=2;
+		numColumn = optarg;
+		break;
 			
 		case 'h':
 		printf ( " sorry, the help page is not yet available.\n");
@@ -218,17 +244,20 @@ int main(int argc,char *argv[]){
 			perror("num-utils-ng"); 
 			exit(EXIT_FAILURE);
 		}
-    		if (typeIsWrong(stream))
-			return TYPE_ERROR;
-	}  
+	}
+
 	
 	if (m==0)
 		res = sum(stream);
-	if (m==1)
+	if (m==1){
+		s=3;
 		res = column(stream,tab,count+1); // argument 2 : number of column , argument 3 : 
-	if (m==2)
-		res = row(stream);
-
+	}	
+	if (m==2){
+		s=3;
+		res = row(stream,tab,count+1);
+	}
+	
   if (argc>1){
     if (fclose(stream)!=0){
       perror("num-utils-ng"); 
