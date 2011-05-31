@@ -68,7 +68,7 @@ static double column(FILE* stream,int *tab,int count2){     // this function pri
   double *tabNumber=NULL;
   double number;
   int lengthTab=1, countMax=0, count=0;
-  int test,i;
+  int test,i,j=0,col=1;
   if(!(tabNumber=(double*) calloc(1,sizeof(double)))){
     perror("num-utils-ng"); 
     exit(EXIT_FAILURE);
@@ -76,7 +76,6 @@ static double column(FILE* stream,int *tab,int count2){     // this function pri
   while((test=fscanf(stream,"%lf",&number))!=EOF){
     if(!test)
       skipWord(stream);
-    if(!tab){
       if(count == lengthTab){
         lengthTab*=2;
         if(!(tabNumber =(double*)realloc(tabNumber,lengthTab*sizeof(double)))){
@@ -95,10 +94,13 @@ static double column(FILE* stream,int *tab,int count2){     // this function pri
         tabNumber[count] += number;
 	count=0;
       }
-    }
   }
   for(i=0;i<countMax+1;i++){
-    printf("3 %lf\n",tabNumber[i]);
+    if(!tab || (col == tab[j])){
+      printf("3 %lf\n",tabNumber[i]);
+      j++;
+    }
+    col++;
   }
   free(tabNumber);
   return 0;
@@ -177,8 +179,7 @@ int main(int argc,char *argv[]){
 
 		case 'x':
 		m=1;
-		numColumn = optarg;
-		printf("%s\n",numColumn);                    
+		numColumn = optarg;                   
 		break;
 
 		case 'r':			//option "-r" (Print out the sum of each row.)
