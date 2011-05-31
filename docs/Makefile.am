@@ -4,17 +4,17 @@ pdf: ps
 	ps2pdf num-utils-ng.ps
 
 num-utils-ng.dvi: num-utils-ng index references
-	latex num-utils-ng.tex
-	latex num-utils-ng.tex
+	TEXINPUTS=$(srcdir):: latex $(srcdir)/num-utils-ng.tex
+	TEXINPUTS=$(srcdir):: latex $(srcdir)/num-utils-ng.tex
 
-num-utils-ng:
-	latex num-utils-ng.tex
+num-utils-ng:$(srcdir)/num-utils-ng.tex
+	TEXINPUTS=$(srcdir):: latex $(srcdir)/num-utils-ng.tex
 
 index:
 	makeindex num-utils-ng.idx
 
 references: num-utils-ng
-	bibtex num-utils-ng
+	BSTINPUTS=$(srcdir):: bibtex num-utils-ng
 
 ps: num-utils-ng.dvi
 	dvips num-utils-ng.dvi
