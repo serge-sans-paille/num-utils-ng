@@ -40,7 +40,7 @@ if (stream==stdin)
 while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
   if(fscanf(stream, "%c",&c)!=1){
     perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 }
 return 0;
@@ -49,8 +49,10 @@ return 0;
 static int interval(FILE* stream){ 	
   double oldnumber,newnumber,interval;
   int test;
-  if (fscanf(stream,"%lf",&oldnumber)!=1)
+  if (fscanf(stream,"%lf",&oldnumber)!=1){
+    perror("num-utils-ng");
     exit(EXIT_FAILURE);  
+  }
   while((test=fscanf(stream,"%lf",&newnumber))!=EOF){
     if(test==0)
       skipWord(stream);
@@ -69,7 +71,7 @@ int main(int argc,char *argv[]){
   while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     switch(opt) {
       case 'h':
-        if (system("/usr/bin/man numinterval")!=0){
+        if (execlp("man","man","numinterval",NULL)==-1){
           perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
@@ -85,14 +87,14 @@ int main(int argc,char *argv[]){
   if(argc>optind){
     if (!(stream = fopen(argv[optind], "r"))){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   }
   interval(stream);
   if(argc>optind){
     if (fclose(stream)!=0){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   }
   return 0;

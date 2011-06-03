@@ -47,7 +47,7 @@ if (stream==stdin)
 while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
   if(fscanf(stream, "%c",&c)!=1){
     perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 }
 return 0;
@@ -87,9 +87,9 @@ int main(int argc,char *argv[]){
       switch(opt) {
 
       case 'h':
-        if (system("/usr/bin/man numround")!=0){
+        if (execlp("man","man","numround",NULL)==-1){
           perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
+          return EXIT_FAILURE;
         }
         return 0;
       break;
@@ -108,7 +108,7 @@ int main(int argc,char *argv[]){
 
       default :				//option fail.
         fprintf(stderr,"invalid option \n");
-        return 1;
+        return EXIT_FAILURE;
       break;
       }
   }
@@ -116,14 +116,14 @@ int main(int argc,char *argv[]){
   if (argc>optind){
     if (!(stream = fopen(argv[optind], "r"))){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   }   
   roundc(stream, c, f, n);
   if (argc>optind){
     if (fclose(stream)!=0){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);      
+      return EXIT_FAILURE;      
     }
   }
 

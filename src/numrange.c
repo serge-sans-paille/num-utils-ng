@@ -51,7 +51,7 @@ static int range(char* expression,char separator, char* exceptions){
   if (exceptions!=NULL){
     if(!(exceptiontab=(double*)malloc((int) strlen(exceptions)*sizeof(double)))){
       perror("num-utils-ng");
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
     for (j=0,str=exceptions;;j++,str=NULL) {
       token=strtok_r(str,",", &savestr);
@@ -90,13 +90,14 @@ static int range(char* expression,char separator, char* exceptions){
         count++;
         break;
       default:
-	perror("this expression is not correct");
-        return 1;
+	fprintf(stderr,"The expression is not appropriate");
+	return EXIT_FAILURE;
+      break;
     }
   }
   if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
     perror("num-utils-ng");
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   } 
   for (i=0,str=expression;;i++,str=NULL) {
     token=strtok_r(str,",", &savestr);
@@ -157,9 +158,9 @@ int main(int argc,char *argv[]){
   while((opt=getopt(argc,argv,"he:Nn:"))!=-1){
     switch(opt) {
       case 'h':
-        if (system("/usr/bin/man numrange")!=0){
+        if (execlp("man","man","numrange",NULL)==-1){
           perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
+          return EXIT_FAILURE;
         }
         return 0;
       break;

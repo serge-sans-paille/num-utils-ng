@@ -57,7 +57,7 @@ if (stream==stdin)
 while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
   if(fscanf(stream, "%c",&c)!=1){
     perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 }
 return 0;
@@ -77,7 +77,7 @@ static double median(FILE* stream,int b){ 				//this function calculates the med
         nballoc*=2;
         if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
           perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
+          return EXIT_FAILURE;
         }
       }
       tab[nbdouble-1]=d;
@@ -117,11 +117,11 @@ static double mode(FILE* stream){				//this functionn calculates the mode.
           nballoc*=2;
           if(!(tab=(double*) realloc(tab,(nballoc)*sizeof(double)))){
             perror("num-utils-ng"); 
-            exit(EXIT_FAILURE);
+            return EXIT_FAILURE;
           }
           if(!(nb=(int*) realloc(nb,(nballoc)*sizeof(int)))){
             perror("num-utils-ng"); 
-            exit(EXIT_FAILURE);
+            return EXIT_FAILURE;
           }
         }
         tab[nbdouble-1]=d;
@@ -192,9 +192,9 @@ int main(int argc,char *argv[]){
       break;
 
       case 'h':
-        if (system("/usr/bin/man numaverage")!=0){
+        if (execlp("man","man","numaverage",NULL)==-1){
           perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
+          return EXIT_FAILURE;
         }
         return 0;
       break;
@@ -208,7 +208,7 @@ int main(int argc,char *argv[]){
   if (argc>optind){
     if (!(stream = fopen(argv[optind], "r"))){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   }  
   
@@ -226,7 +226,7 @@ int main(int argc,char *argv[]){
   if (argc>1){
     if (fclose(stream)!=0){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   }
 

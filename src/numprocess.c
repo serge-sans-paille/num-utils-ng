@@ -50,7 +50,7 @@ if (stream==stdin)
 while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
   if(fscanf(stream, "%c",&c)!=1){
     perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 }
 return 0;
@@ -164,7 +164,7 @@ static int process(FILE* stream, char* expression){
         }
         break;
      default:
-        exit(EXIT_FAILURE);
+        return EXIT_FAILURE;
         break;
       }
     }
@@ -184,9 +184,9 @@ int opt;
 while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
     switch(opt) {
       case 'h':
-        if (system("/usr/bin/man numprocess")!=0){
+        if (execlp("man","man"," numprocess",NULL)==-1){
           perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
+          return EXIT_FAILURE;
         }
         return 0;
       break;
@@ -210,7 +210,7 @@ while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
   else{
     if (!(stream=fopen(argv[optind+1],"r"))){
       perror("num-utils-ng"); 
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
     process(stream,argv[optind]);
     fclose(stream);
