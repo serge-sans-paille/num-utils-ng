@@ -48,12 +48,7 @@ return 0;
 
 static int interval(FILE* stream){ 	
   double oldnumber,newnumber,interval;
-  FILE *tempinterval;
   int test;
-  if (!(tempinterval=fopen("./tempinterval","w"))){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }  
   if (fscanf(stream,"%lf",&oldnumber)!=1)
     exit(EXIT_FAILURE);  
   while((test=fscanf(stream,"%lf",&newnumber))!=EOF){
@@ -61,21 +56,9 @@ static int interval(FILE* stream){
       skipWord(stream);
     else{
       interval=newnumber-oldnumber;
-      fprintf(tempinterval, "%lf\n", interval);
+      fprintf(stdout, "%lf\n", interval);
       oldnumber=newnumber;
     }
-  }
-  if (fclose(tempinterval)!=0){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-  if (system("/bin/cat ./tempinterval")!=0){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-  if (!remove("/bin/rm ./tempinterval")){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
   }
   return 0;
 }
