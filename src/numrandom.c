@@ -38,12 +38,10 @@
 
 enum {ERROR_ARG=1,OPTION_ERROR};
 
-static int numberRandom(FILE* stream, char* expression){
+static int numberRandom(char expression[]){
   int number1,number2;
   double numberL=0.,numberH=0, numberStep=0.;
-  int integerPortion;
-  double decimalPortion;
-  int i,count=0,mode;
+  size_t i, count=0;
   char *token;
   char *savestr=NULL;
   char *str;
@@ -57,7 +55,6 @@ static int numberRandom(FILE* stream, char* expression){
         expression[i]=',';
 	break;
       case '.':
-        mode=2;
 	break;
       case ':':
 	break;
@@ -86,7 +83,7 @@ static int numberRandom(FILE* stream, char* expression){
   }
   if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
     perror("num-utils-ng");
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
   
   for (i=0,str=expression;;i++,str=NULL) {
@@ -98,7 +95,7 @@ static int numberRandom(FILE* stream, char* expression){
   
   if(!(randomNumber=(double *)calloc(count+1,sizeof(double)))){
     perror("num-utils-ng");;
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }  
 
   srand(time(NULL));
@@ -109,8 +106,6 @@ static int numberRandom(FILE* stream, char* expression){
       
       /* a decimal number between numberL and number with a step of numberStep */
       sscanf(*(tab+i),"%lf:%lfi%lf",&numberL,&numberH,&numberStep);
-      integerPortion=(int)numberStep;
-      decimalPortion=numberStep-(double)integerPortion;
       int count2=0;
       double numberL2 =numberL;
       while(numberL2<numberH){
@@ -139,13 +134,12 @@ int main(int argc,char *argv[]){
   int optch;
   while((optch=getopt(argc,argv,"h"))!=-1){
     switch(optch){
-
       case 'h':
-        if (system("/usr/bin/man numrandom")!=0){
+        if (execlp("man","man","numrandom",NULL)==-1){
           perror("num-utils-ng"); 
           exit(EXIT_FAILURE);
         }
-        return 0;
+        return EXIT_SUCCESS;
       break;
       
       default :		  	//option fail.
@@ -162,7 +156,6 @@ int main(int argc,char *argv[]){
     char arg2[]="/1:100/";
     arg=arg2;
   }
-  numberRandom(stdin,arg);
-  fclose(stdin);
+  exit(numberRandom(arg));
   return EXIT_SUCCESS;
 }
