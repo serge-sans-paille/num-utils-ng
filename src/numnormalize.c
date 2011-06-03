@@ -35,107 +35,132 @@
 #include <unistd.h>
 #include <ctype.h>
 
-enum {TYPE_ERROR=1,OPTION_ERROR,WRONG_FILE};
+enum
+{ TYPE_ERROR = 1, OPTION_ERROR, WRONG_FILE };
 
 
-static int skipWord(FILE* stream){            //this function tests if there is letters in the file.
-char c='a';
-if (stream==stdin)
-  fprintf(stderr,"This is not a number!\n");
-while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
-  if(fscanf(stream, "%c",&c)!=1){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-}
-return 0;
-}
-
-
-static void afficher(double *tab, int count){
-  int i=0;
-  for(i=0;i<count-1;i++){
-    printf("%lf \n",tab[i]);
-  }
+static int
+skipWord (FILE * stream)
+{				//this function tests if there is letters in the file.
+  char c = 'a';
+  if (stream == stdin)
+    fprintf (stderr, "This is not a number!\n");
+  while (!isdigit (c) && !isspace (c) && !(c == 46) && !(c == 45))
+    {
+      if (fscanf (stream, "%c", &c) != 1)
+	{
+	  perror ("num-utils-ng");
+	  exit (EXIT_FAILURE);
+	}
+    }
+  return 0;
 }
 
 
-static void normalize(FILE* stream,int l, int h){		//this function normalize
-  double *tab=NULL;
-  double number=0.;
-  double sum=0.;
-  int count=0,lengthTab=1;
+static void
+afficher (double *tab, int count)
+{
+  int i = 0;
+  for (i = 0; i < count - 1; i++)
+    {
+      printf ("%lf \n", tab[i]);
+    }
+}
+
+
+static void
+normalize (FILE * stream, int l, int h)
+{				//this function normalize
+  double *tab = NULL;
+  double number = 0.;
+  double sum = 0.;
+  int count = 0, lengthTab = 1;
   int i;
   int test;
 
-  if(!(tab=(double*) malloc(sizeof(double)))){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-
-  while(!feof(stream)){
-    if((test=fscanf(stream,"%lf",&number))!=EOF)
-      if(!test)
-       skipWord(stream);
-    sum+=number;
-    tab[count] = number;
-    count++;
-    if(count ==lengthTab){
-      lengthTab*=2;
-      if(!(tab =(double*)realloc(tab,(lengthTab)*sizeof(double)))){
-        perror("num-utils-ng"); 
-        exit(EXIT_FAILURE);
-      }
+  if (!(tab = (double *) malloc (sizeof (double))))
+    {
+      perror ("num-utils-ng");
+      exit (EXIT_FAILURE);
     }
-  }
-  sum-=number;
-  for(i=0; i<count;i++){
-    *(tab+i)=*(tab+i)*(h-l)/(double)sum + l;
-  }
-  afficher(tab,count);
-  free(tab);	
+
+  while (!feof (stream))
+    {
+      if ((test = fscanf (stream, "%lf", &number)) != EOF)
+	if (!test)
+	  skipWord (stream);
+      sum += number;
+      tab[count] = number;
+      count++;
+      if (count == lengthTab)
+	{
+	  lengthTab *= 2;
+	  if (!
+	      (tab = (double *) realloc (tab, (lengthTab) * sizeof (double))))
+	    {
+	      perror ("num-utils-ng");
+	      exit (EXIT_FAILURE);
+	    }
+	}
+    }
+  sum -= number;
+  for (i = 0; i < count; i++)
+    {
+      *(tab + i) = *(tab + i) * (h - l) / (double) sum + l;
+    }
+  afficher (tab, count);
+  free (tab);
 }
 
 
-int main(int argc,char *argv[]){
-  FILE *stream=stdin;
+int
+main (int argc, char *argv[])
+{
+  FILE *stream = stdin;
   int optch;
-  int numberL=0;
-  int numberH=1;
-	
-  while((optch=getopt(argc,argv,"R:h"))!=-1){
-    switch(optch){
-      case 'R':                                                //Specify a different normalization 
-        if(optarg){
-	  if(!sscanf(optarg,"%d..%d",&numberL,&numberH)){
-            perror("invalid argument\n");
-            exit(EXIT_FAILURE);
-	  }
-        }
-      break;
+  int numberL = 0;
+  int numberH = 1;
 
-      case 'h':
-        if (!system("/usr/bin/man numnormalize")){
-          perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
-        }
-        return 0;
-      break;
-      
-      default :				//option fail.
-        fprintf(stderr, "Invalid option\n");
-        return OPTION_ERROR;
-      break;
-    }
-  }
+  while ((optch = getopt (argc, argv, "R:h")) != -1)
+    {
+      switch (optch)
+	{
+	case 'R':		//Specify a different normalization 
+	  if (optarg)
+	    {
+	      if (!sscanf (optarg, "%d..%d", &numberL, &numberH))
+		{
+		  perror ("invalid argument\n");
+		  exit (EXIT_FAILURE);
+		}
+	    }
+	  break;
 
-  if (argc>optind){
-    if(!(stream = fopen(argv[optind], "r"))){
-      perror("num-utils-ng");
-      return WRONG_FILE;
+	case 'h':
+	  if (!system ("/usr/bin/man numnormalize"))
+	    {
+	      perror ("num-utils-ng");
+	      exit (EXIT_FAILURE);
+	    }
+	  return 0;
+	  break;
+
+	default:		//option fail.
+	  fprintf (stderr, "Invalid option\n");
+	  return OPTION_ERROR;
+	  break;
+	}
     }
-  }
-  normalize(stream,numberL,numberH);
-  fclose(stream);
-  return EXIT_SUCCESS;			
+
+  if (argc > optind)
+    {
+      if (!(stream = fopen (argv[optind], "r")))
+	{
+	  perror ("num-utils-ng");
+	  return WRONG_FILE;
+	}
+    }
+  normalize (stream, numberL, numberH);
+  fclose (stream);
+  return EXIT_SUCCESS;
 }

@@ -37,156 +37,182 @@
 #include <ctype.h>
 
 
-enum {ERROR_1=1,WRONG_ARG,ERROR_3,WRONG_FILE,OPTION_ERROR};
+enum
+{ ERROR_1 = 1, WRONG_ARG, ERROR_3, WRONG_FILE, OPTION_ERROR };
 
 
-static int skipWord(FILE* stream){
-char c='a';
-if (stream==stdin)
-  fprintf(stderr,"This is not a number!\n");
-while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
-  if(fscanf(stream, "%c",&c)!=1){
-    perror("num-utils-ng"); 
-    exit(EXIT_FAILURE);
-  }
-}
-return 0;
-}
-
-
-static int numgrep(FILE* stream, char* expression){
-  int numberRead,number1,number2;
-  int mode;
-  int j;
-  size_t i,count=0;
-  char *token;
-  char *savestr=NULL;
-  char *str;
-  char **tab=NULL;
-  int test;
-
-  for (i=0;i<strlen(expression);i++){
-    switch(expression[i])
+static int
+skipWord (FILE * stream)
+{
+  char c = 'a';
+  if (stream == stdin)
+    fprintf (stderr, "This is not a number!\n");
+  while (!isdigit (c) && !isspace (c) && !(c == 46) && !(c == 45))
     {
-      case '/':
-        expression[i]=',';
-	break;
-      case '.':
-	mode=3;
-	break;
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
-        break;
-      case '-':
-	break;
-      case 'f':                
-        mode=1;
-	break;
-      case 'm':
-        mode=2;  
-        break;
-      case ',':
-        count++;
-        break;
-      default:
-        return EXIT_SUCCESS;
+      if (fscanf (stream, "%c", &c) != 1)
+	{
+	  perror ("num-utils-ng");
+	  exit (EXIT_FAILURE);
+	}
     }
-  }
-  if(!(tab =(char **)calloc(count+1,sizeof(char*)))){
-    perror("num-utils-ng");
-    exit(EXIT_FAILURE); 
-  }
-  for (i=0,str=expression;;i++,str=NULL) {
-    token=strtok_r(str,",", &savestr);
-    if (token == NULL)
-      break;
-    *(tab+i)=token;
-  }
-
-  while((test=fscanf(stream,"%d",&numberRead))!=EOF ){
-    if(!test)
-      skipWord(stream);
-    for(i=0;i<=count;i++){
-
-      if(strstr(*(tab+i),"f")!=NULL){
-        sscanf(*(tab+i),"f%d",&number1);
-        if((number1>=numberRead)&&(number1%numberRead==0))
-          printf( "%d\n",numberRead);
-      }
-
-      else if(strstr(*(tab+i),"m")!=NULL){
-        sscanf(*(tab+i),"m%d",&number1);
-        if((numberRead>=number1)&&(numberRead%number1==0))
-          printf( "%d\n",numberRead);
-      }
-
-      else if(strstr(*(tab+i),"..")!=NULL){
-        sscanf(*(tab+i),"%d..%d",&number1,&number2);
-        if(number1<number2){
-          for(j=number1;j<=number2;j++){
-            if(numberRead==j)
-              printf( "%d\n",numberRead);
-          }
-        }
-      }
-
-      else{
-        sscanf(*(tab+i),"%d",&number1);
-        if(numberRead==number1)
-         printf( "%d\n",numberRead);
-      }
-    }
-  }
-  free(tab);
   return 0;
 }
 
 
-int main(int argc,char *argv[]){
-  FILE* stream=stdin;
-  char *arg=NULL;
+static int
+numgrep (FILE * stream, char *expression)
+{
+  int numberRead, number1, number2;
+  int mode;
+  int j;
+  size_t i, count = 0;
+  char *token;
+  char *savestr = NULL;
+  char *str;
+  char **tab = NULL;
+  int test;
+
+  for (i = 0; i < strlen (expression); i++)
+    {
+      switch (expression[i])
+	{
+	case '/':
+	  expression[i] = ',';
+	  break;
+	case '.':
+	  mode = 3;
+	  break;
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	  break;
+	case '-':
+	  break;
+	case 'f':
+	  mode = 1;
+	  break;
+	case 'm':
+	  mode = 2;
+	  break;
+	case ',':
+	  count++;
+	  break;
+	default:
+	  return EXIT_SUCCESS;
+	}
+    }
+  if (!(tab = (char **) calloc (count + 1, sizeof (char *))))
+    {
+      perror ("num-utils-ng");
+      exit (EXIT_FAILURE);
+    }
+  for (i = 0, str = expression;; i++, str = NULL)
+    {
+      token = strtok_r (str, ",", &savestr);
+      if (token == NULL)
+	break;
+      *(tab + i) = token;
+    }
+
+  while ((test = fscanf (stream, "%d", &numberRead)) != EOF)
+    {
+      if (!test)
+	skipWord (stream);
+      for (i = 0; i <= count; i++)
+	{
+
+	  if (strstr (*(tab + i), "f") != NULL)
+	    {
+	      sscanf (*(tab + i), "f%d", &number1);
+	      if ((number1 >= numberRead) && (number1 % numberRead == 0))
+		printf ("%d\n", numberRead);
+	    }
+
+	  else if (strstr (*(tab + i), "m") != NULL)
+	    {
+	      sscanf (*(tab + i), "m%d", &number1);
+	      if ((numberRead >= number1) && (numberRead % number1 == 0))
+		printf ("%d\n", numberRead);
+	    }
+
+	  else if (strstr (*(tab + i), "..") != NULL)
+	    {
+	      sscanf (*(tab + i), "%d..%d", &number1, &number2);
+	      if (number1 < number2)
+		{
+		  for (j = number1; j <= number2; j++)
+		    {
+		      if (numberRead == j)
+			printf ("%d\n", numberRead);
+		    }
+		}
+	    }
+
+	  else
+	    {
+	      sscanf (*(tab + i), "%d", &number1);
+	      if (numberRead == number1)
+		printf ("%d\n", numberRead);
+	    }
+	}
+    }
+  free (tab);
+  return 0;
+}
+
+
+int
+main (int argc, char *argv[])
+{
+  FILE *stream = stdin;
+  char *arg = NULL;
   int optch;
-  
-  while((optch=getopt(argc,argv,"h"))!=-1){
-    switch(optch){
 
-      case 'h':
-        if (system("/usr/bin/man numgrep")!=0){
-          perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
-        }
-        return 0;
-      break;
-      
-      default :		  	//option fail.
-        perror("invalid option\n");
-        return OPTION_ERROR;
-      break;
+  while ((optch = getopt (argc, argv, "h")) != -1)
+    {
+      switch (optch)
+	{
+
+	case 'h':
+	  if (system ("/usr/bin/man numgrep") != 0)
+	    {
+	      perror ("num-utils-ng");
+	      exit (EXIT_FAILURE);
+	    }
+	  return 0;
+	  break;
+
+	default:		//option fail.
+	  perror ("invalid option\n");
+	  return OPTION_ERROR;
+	  break;
+	}
     }
-  }
 
 
-  if(argv[optind][0]=='/');
-      arg=argv[optind];
-  if(!arg){
-    perror("num-utils-ng");
-    return WRONG_ARG;
-  }
-  if (argc>optind+1){
-    if(!(stream=fopen(argv[optind+1],"r"))){
-      perror("num-utils-ng");
-      return WRONG_FILE;
+  if (argv[optind][0] == '/');
+  arg = argv[optind];
+  if (!arg)
+    {
+      perror ("num-utils-ng");
+      return WRONG_ARG;
     }
-  }
-  numgrep(stream,arg);
-  fclose(stream);
+  if (argc > optind + 1)
+    {
+      if (!(stream = fopen (argv[optind + 1], "r")))
+	{
+	  perror ("num-utils-ng");
+	  return WRONG_FILE;
+	}
+    }
+  numgrep (stream, arg);
+  fclose (stream);
   return EXIT_SUCCESS;
 }

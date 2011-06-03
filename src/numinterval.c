@@ -33,69 +33,87 @@
 #include <unistd.h>
 #include <ctype.h>
 
-static int skipWord(FILE* stream){
-char c='a';
-if (stream==stdin)
-  fprintf(stderr,"This is not a number!\n");
-while(!isdigit(c) && !isspace(c) && !(c==46) && !(c==45)){
-  if(fscanf(stream, "%c",&c)!=1){
-    perror("num-utils-ng"); 
-    return EXIT_FAILURE;
-  }
-}
-return 0;
-}
-
-static int interval(FILE* stream){ 	
-  double oldnumber,newnumber,interval;
-  int test;
-  if (fscanf(stream,"%lf",&oldnumber)!=1){
-    perror("num-utils-ng");
-    exit(EXIT_FAILURE);  
-  }
-  while((test=fscanf(stream,"%lf",&newnumber))!=EOF){
-    if(test==0)
-      skipWord(stream);
-    else{
-      interval=newnumber-oldnumber;
-      fprintf(stdout, "%lf\n", interval);
-      oldnumber=newnumber;
+static int
+skipWord (FILE * stream)
+{
+  char c = 'a';
+  if (stream == stdin)
+    fprintf (stderr, "This is not a number!\n");
+  while (!isdigit (c) && !isspace (c) && !(c == 46) && !(c == 45))
+    {
+      if (fscanf (stream, "%c", &c) != 1)
+	{
+	  perror ("num-utils-ng");
+	  return EXIT_FAILURE;
+	}
     }
-  }
   return 0;
 }
 
-int main(int argc,char *argv[]){
-  int opt;
-  FILE* stream = stdin;
-  while((opt=getopt(argc,argv,"iIMmlh"))!=-1){
-    switch(opt) {
-      case 'h':
-        if (execlp("man","man","numinterval",NULL)==-1){
-          perror("num-utils-ng"); 
-          exit(EXIT_FAILURE);
-        }
-        return 0;
-      break;
+static int
+interval (FILE * stream)
+{
+  double oldnumber, newnumber, interval;
+  int test;
+  if (fscanf (stream, "%lf", &oldnumber) != 1)
+    {
+      perror ("num-utils-ng");
+      exit (EXIT_FAILURE);
+    }
+  while ((test = fscanf (stream, "%lf", &newnumber)) != EOF)
+    {
+      if (test == 0)
+	skipWord (stream);
+      else
+	{
+	  interval = newnumber - oldnumber;
+	  fprintf (stdout, "%lf\n", interval);
+	  oldnumber = newnumber;
+	}
+    }
+  return 0;
+}
 
-      default :				//option fail.
-        fprintf(stderr, "Invalid option\n");
-        return 1;
-      break;
+int
+main (int argc, char *argv[])
+{
+  int opt;
+  FILE *stream = stdin;
+  while ((opt = getopt (argc, argv, "iIMmlh")) != -1)
+    {
+      switch (opt)
+	{
+	case 'h':
+	  if (execlp ("man", "man", "numinterval", NULL) == -1)
+	    {
+	      perror ("num-utils-ng");
+	      exit (EXIT_FAILURE);
+	    }
+	  return 0;
+	  break;
+
+	default:		//option fail.
+	  fprintf (stderr, "Invalid option\n");
+	  return 1;
+	  break;
+	}
     }
-  }
-  if(argc>optind){
-    if (!(stream = fopen(argv[optind], "r"))){
-      perror("num-utils-ng"); 
-      return EXIT_FAILURE;
+  if (argc > optind)
+    {
+      if (!(stream = fopen (argv[optind], "r")))
+	{
+	  perror ("num-utils-ng");
+	  return EXIT_FAILURE;
+	}
     }
-  }
-  interval(stream);
-  if(argc>optind){
-    if (fclose(stream)!=0){
-      perror("num-utils-ng"); 
-      return EXIT_FAILURE;
+  interval (stream);
+  if (argc > optind)
+    {
+      if (fclose (stream) != 0)
+	{
+	  perror ("num-utils-ng");
+	  return EXIT_FAILURE;
+	}
     }
-  }
   return 0;
 }
