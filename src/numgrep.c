@@ -52,15 +52,15 @@ skipWord (FILE * stream)
       if (fscanf (stream, "%c", &c) != 1)
 	{
 	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	  return EXIT_FAILURE;
 	}
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
 static int
-numgrep (FILE * stream, char *expression)
+numgrep (FILE * stream, char expression[])
 {
   int numberRead, number1, number2;
   int mode;
@@ -111,7 +111,7 @@ numgrep (FILE * stream, char *expression)
   if (!(tab = (char **) calloc (count + 1, sizeof (char *))))
     {
       perror ("num-utils-ng");
-      exit (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   for (i = 0, str = expression;; i++, str = NULL)
     {
@@ -164,7 +164,7 @@ numgrep (FILE * stream, char *expression)
 	}
     }
   free (tab);
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
@@ -181,12 +181,12 @@ main (int argc, char *argv[])
 	{
 
 	case 'h':
-	  if (system ("/usr/bin/man numgrep") != 0)
+	  if (execlp ("man", "man", "numgrep", NULL) == -1)
 	    {
 	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
+	      return EXIT_FAILURE;
 	    }
-	  return 0;
+	  return EXIT_SUCCESS;
 	  break;
 
 	default:		//option fail.

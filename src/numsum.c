@@ -29,8 +29,8 @@
 */
 
 
-# include <stdlib.h>
-# include <stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include  <unistd.h>
 #include <string.h>
 #include <ctype.h>
@@ -51,10 +51,10 @@ skipWord (FILE * stream)
       if (fscanf (stream, "%c", &c) != 1)
 	{
 	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	  return EXIT_FAILURE;
 	}
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
@@ -84,7 +84,7 @@ column (FILE * stream, int *tab)
   if (!(tabNumber = (double *) calloc (1, sizeof (double))))
     {
       perror ("num-utils-ng");
-      exit (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
   while ((test = fscanf (stream, "%lf", &number)) != EOF)
     {
@@ -98,7 +98,7 @@ column (FILE * stream, int *tab)
 	       (double *) realloc (tabNumber, lengthTab * sizeof (double))))
 	    {
 	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
+	      return EXIT_FAILURE;
 	    }
 	}
       if (fgetc (stream) != '\n')
@@ -119,7 +119,7 @@ column (FILE * stream, int *tab)
     {
       if (!tab || (col == tab[j]))
 	{
-	  printf ("3 %lf\n", tabNumber[i]);
+	  printf ("%lf\n", tabNumber[i]);
 	  j++;
 	}
       col++;
@@ -229,8 +229,12 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  printf (" sorry, the help page is not yet available.\n");
-	  return 0;
+	  if (execlp ("man", "man", "numsum", NULL) == -1)
+	    {
+	      perror ("num-utils-ng");
+	      return EXIT_FAILURE;
+	    }
+	  return EXIT_SUCCESS;
 	  break;
 
 	default:		//option fail.
@@ -270,7 +274,7 @@ main (int argc, char *argv[])
       if (!(tab = (int *) calloc (count + 1, sizeof (int))))
 	{
 	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	  return EXIT_FAILURE;
 	}
       for (i = 0, str = numColumn;; i++, str = NULL)
 	{
@@ -286,7 +290,7 @@ main (int argc, char *argv[])
       if (!(stream = fopen (argv[optind], "r")))
 	{
 	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	  return EXIT_FAILURE;
 	}
     }
 
@@ -309,7 +313,7 @@ main (int argc, char *argv[])
       if (fclose (stream) != 0)
 	{
 	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	  return EXIT_FAILURE;
 	}
     }
 

@@ -108,12 +108,12 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  if (system ("/usr/bin/man numaverage") != 0)
+	  if (execlp ("man", "man", "numbound", NULL) == -1)
 	    {
 	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
+	      return EXIT_FAILURE;
 	    }
-	  return 0;
+	  return EXIT_SUCCESS;
 	  break;
 
 	default:		//option fail.
@@ -141,7 +141,6 @@ main (int argc, char *argv[])
 	  return CLOSE_ERROR;
 	}
     }
-
-  printf ("result : %lf\n", res);
-  return 0;
+  printf ("%lf\n", res);
+  return EXIT_SUCCESS;
 }

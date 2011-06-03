@@ -50,10 +50,10 @@ skipWord (FILE * stream)
       if (fscanf (stream, "%c", &c) != 1)
 	{
 	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	  return EXIT_FAILURE;
 	}
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 
@@ -81,7 +81,7 @@ normalize (FILE * stream, int l, int h)
   if (!(tab = (double *) malloc (sizeof (double))))
     {
       perror ("num-utils-ng");
-      exit (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
   while (!feof (stream))
@@ -99,7 +99,7 @@ normalize (FILE * stream, int l, int h)
 	      (tab = (double *) realloc (tab, (lengthTab) * sizeof (double))))
 	    {
 	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
+	      return EXIT_FAILURE;
 	    }
 	}
     }
@@ -131,18 +131,18 @@ main (int argc, char *argv[])
 	      if (!sscanf (optarg, "%d..%d", &numberL, &numberH))
 		{
 		  perror ("invalid argument\n");
-		  exit (EXIT_FAILURE);
+		  return EXIT_FAILURE;
 		}
 	    }
 	  break;
 
 	case 'h':
-	  if (!system ("/usr/bin/man numnormalize"))
+	  if (execlp ("man", "man", "numnormalize", NULL) == -1)
 	    {
 	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
+	      return EXIT_FAILURE;
 	    }
-	  return 0;
+	  return EXIT_SUCCESS;
 	  break;
 
 	default:		//option fail.
