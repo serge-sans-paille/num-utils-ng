@@ -10,7 +10,7 @@ num-utils-ng.dvi: num-utils-ng index references
 num-utils-ng:$(srcdir)/num-utils-ng.tex
 	TEXINPUTS=$(srcdir):: latex $(srcdir)/num-utils-ng.tex
 
-index:
+index:num-utils-ng
 	makeindex num-utils-ng.idx
 
 references: num-utils-ng
