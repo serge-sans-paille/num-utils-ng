@@ -71,7 +71,7 @@ static double bound(FILE* stream, int mode){		//this function calculates the upp
       upperBound=number;
     if (number<lowerBound)
       lowerBound=number;
-    if(fscanf(stream,"%lf",&number)!=EOF);
+    if(fscanf(stream,"%lf",&number)!=EOF){}
   }
   if (mode==1)
     return lowerBound;

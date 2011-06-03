@@ -59,7 +59,8 @@ return 0;
 
 static int process(FILE* stream, char* expression){
   double res,d,p=0;
-  int i,j,test;
+  int j,test;
+  size_t i;
   FILE* streamout=NULL;
   if (stream==stdin)
     streamout=stdout;

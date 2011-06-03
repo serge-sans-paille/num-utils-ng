@@ -41,7 +41,8 @@ enum {OPTION_ERROR=1,
 
 static int range(char* expression,char separator, char* exceptions){
   double numberL=0,numberH=0, numberStep=0;
-  int i=0,count=0,j,isException=0,l=0;
+  int j,isException=0,l=0;
+  size_t i,count=0;
   char *token=NULL;
   char *savestr=NULL;
   char *str=NULL;

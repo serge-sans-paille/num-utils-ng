@@ -58,13 +58,13 @@ static double sum ( FILE* stream){		//this function calculates the sum of number
   double number=0.;
   while (!feof(stream)){
     sum = sum + number ;					
-    if(fscanf (stream,"%lf",&number)!=EOF);
+    if(fscanf (stream,"%lf",&number)!=EOF) {}
   }
  return sum;
 }
 
 
-static double column(FILE* stream,int *tab,int count2){     // this function print out the sum of each column.
+static double column(FILE* stream,int *tab){     // this function print out the sum of each column.
   double *tabNumber=NULL;
   double number;
   int lengthTab=1, countMax=0, count=0;
@@ -106,7 +106,7 @@ static double column(FILE* stream,int *tab,int count2){     // this function pri
   return 0;
 }
 
-static double row(FILE* stream,int *tab,int count){              // this function print ou the sum of each row or specified row.
+static double row(FILE* stream,int *tab){              // this function print ou the sum of each row or specified row.
   double somme=0.,number;
   int test,line=1,i=0;
   while((test=fscanf(stream,"%lf",&number))!=EOF){
@@ -159,7 +159,7 @@ int main(int argc,char *argv[]){
   	char *savestr=NULL;
   	char *str; 
 	int count=0;
-	int i;
+	size_t i;
 
 						// for options (normal, integer portion and decimal portion).;
 	while((opt = getopt(argc,argv,"iIcx:ry:h"))!=-1){
@@ -252,11 +252,11 @@ int main(int argc,char *argv[]){
 		res = sum(stream);
 	if (m==1){
 		s=3;
-		res = column(stream,tab,count+1); // argument 2 : number of column , argument 3 : 
+		res = column(stream,tab); // argument 2 : number of column , argument 3 : 
 	}	
 	if (m==2){
 		s=3;
-		res = row(stream,tab,count+1);
+		res = row(stream,tab);
 	}
 	
   if (argc>1){

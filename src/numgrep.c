@@ -56,8 +56,9 @@ return 0;
 
 static int numgrep(FILE* stream, char* expression){
   int numberRead,number1,number2;
-  int mode,count=0;
-  int i,j;
+  int mode;
+  int j;
+  size_t i,count=0;
   char *token;
   char *savestr=NULL;
   char *str;
