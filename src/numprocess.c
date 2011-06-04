@@ -43,6 +43,120 @@ enum
   EXPR_ERROR,
 };
 
+static double
+calculate (double res, char *expression)
+{
+  size_t i;
+  double p = 0;
+  for (i = 0; i < strlen (expression); i++)
+    {
+      switch (expression[i])
+	{
+	case '/':
+	case ',':
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	case 'e':
+	  break;
+	case '*':
+	  if (isdigit (expression[i + 1]))
+	    p = atoi (expression + i + 1);
+	  if (expression[i + 1] == 'e')
+	    {
+	      p = 2.718282;
+	      i++;
+	    }
+	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
+	    {
+	      p = 3.141593;
+	      i = i + 2;
+	    }
+	  res = res * p;
+	  break;
+	case '%':
+	  if (isdigit (expression[i + 1]))
+	    p = atoi (expression + i + 1);
+	  if (expression[i + 1] == 'e')
+	    {
+	      p = 2.718282;
+	      i++;
+	    }
+	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
+	    {
+	      p = 3.141593;
+	      i = i + 2;
+	    }
+	  res = res / p;
+	  break;
+	case '+':
+	  if (isdigit (expression[i + 1]))
+	    p = atoi (expression + i + 1);
+	  if (expression[i + 1] == 'e')
+	    {
+	      p = 2.718282;
+	      i++;
+	    }
+	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
+	    {
+	      p = 3.141593;
+	      i = i + 2;
+	    }
+	  res = res + p;
+	  break;
+	case '-':
+	  if (isdigit (expression[i + 1]))
+	    p = atoi (expression + i + 1);
+	  if (expression[i + 1] == 'e')
+	    {
+	      p = 2.718282;
+	      i++;
+	    }
+	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
+	    {
+	      p = 3.141593;
+	      i = i + 2;
+	    }
+	  res = res - p;
+	  break;
+	case '^':
+	  p = (double) atoi (expression + i + 1);
+	  res = powl (res, p);
+	  break;
+	case 's':
+	  if ((expression[i + 1] == 'i') && (expression[i + 2] == 'n'))
+	    {
+	      res = sin (res);
+	      i = i + 2;
+	    }
+	  if ((expression[i + 1] == 'q') && (expression[i + 2] == 'r')
+	      && (expression[i + 3] == 't'))
+	    {
+	      res = sqrt (abs (res));
+	      i = i + 3;
+	    }
+	  break;
+	case 'c':
+	  if ((expression[i + 1] == 'o') && (expression[i + 2] == 's'))
+	    {
+	      res = cos (res);
+	      i = i + 2;
+	    }
+	  break;
+	default:
+	  return EXIT_FAILURE;
+	  break;
+	}
+    }
+  return res;
+}
 
 static int
 skipWord (FILE * stream)
@@ -63,146 +177,56 @@ skipWord (FILE * stream)
 
 
 static int
-process (FILE * stream, char *expression)
+stdinprocess (char *expression)
 {
-  double res, d, p = 0;
-  int j, test;
-  size_t i;
-  FILE *streamout = NULL;
-  if (stream == stdin)
-    streamout = stdout;
-  else
-    {
-      streamout = fopen ("./temp", "w");
-    }
-  while ((test = fscanf (stream, "%lf", &res)) != EOF)
+  double res;
+  int test;
+  while ((test = fscanf (stdin, "%lf", &res)) != EOF)
     {
       if (test == 0)
-	skipWord (stream);
+	skipWord (stdin);
       else
 	{
-	  for (i = 0; i < strlen (expression); i++)
-	    {
-	      switch (expression[i])
-		{
-		case '/':
-		case ',':
-		case '0':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-		case 'e':
-		  break;
-		case '*':
-		  if (isdigit (expression[i + 1]))
-		    p = atoi (expression + i + 1);
-		  if (expression[i + 1] == 'e')
-		    {
-		      p = 2.718282;
-		      i++;
-		    }
-		  if ((expression[i + 1] == 'p')
-		      && (expression[i + 2] == 'i'))
-		    {
-		      p = 3.141593;
-		      i = i + 2;
-		    }
-		  res = res * p;
-		  break;
-		case '%':
-		  if (isdigit (expression[i + 1]))
-		    p = atoi (expression + i + 1);
-		  if (expression[i + 1] == 'e')
-		    {
-		      p = 2.718282;
-		      i++;
-		    }
-		  if ((expression[i + 1] == 'p')
-		      && (expression[i + 2] == 'i'))
-		    {
-		      p = 3.141593;
-		      i = i + 2;
-		    }
-		  res = res / p;
-		  break;
-		case '+':
-		  if (isdigit (expression[i + 1]))
-		    p = atoi (expression + i + 1);
-		  if (expression[i + 1] == 'e')
-		    {
-		      p = 2.718282;
-		      i++;
-		    }
-		  if ((expression[i + 1] == 'p')
-		      && (expression[i + 2] == 'i'))
-		    {
-		      p = 3.141593;
-		      i = i + 2;
-		    }
-		  res = res + p;
-		  break;
-		case '-':
-		  if (isdigit (expression[i + 1]))
-		    p = atoi (expression + i + 1);
-		  if (expression[i + 1] == 'e')
-		    {
-		      p = 2.718282;
-		      i++;
-		    }
-		  if ((expression[i + 1] == 'p')
-		      && (expression[i + 2] == 'i'))
-		    {
-		      p = 3.141593;
-		      i = i + 2;
-		    }
-		  res = res - p;
-		  break;
-		case '^':
-		  d = res;
-		  p = atoi (expression + i + 1);
-		  for (j = 1; j < p; j++)
-		    {
-		      res = res * d;
-		    }
-		  break;
-		case 's':
-		  if ((expression[i + 1] == 'i')
-		      && (expression[i + 2] == 'n'))
-		    {
-		      res = sin (res);
-		      i = i + 2;
-		    }
-		  if ((expression[i + 1] == 'q') && (expression[i + 2] == 'r')
-		      && (expression[i + 3] == 't'))
-		    {
-		      res = sqrt (abs (res));
-		      i = i + 3;
-		    }
-		  break;
-		case 'c':
-		  if ((expression[i + 1] == 'o')
-		      && (expression[i + 2] == 's'))
-		    {
-		      res = cos (res);
-		      i = i + 2;
-		    }
-		  break;
-		default:
-		  return EXIT_FAILURE;
-		  break;
-		}
-	    }
-	  fprintf (streamout, "%lf\n", res);
+	  fprintf (stdout, "%lf\n", calculate (res, expression));
 	}
     }
-  if (stream != stdin)
-    fclose (streamout);
+  return 1;
+}
+
+static int
+fileprocess (FILE * stream, char *expression)
+{
+  double res = 0;
+  int end = 0;
+  char c;
+  FILE *streamout = NULL;
+  streamout = fopen ("./tempprocess", "w");
+  while ((fscanf (stream, "%c", &c) != EOF) && end != 1)
+    {
+      while (!isdigit (c) && !(c == 46) && !(c == 45))
+	{
+	  fprintf (streamout, "%c", c);
+	  if (fscanf (stream, "%c", &c) == EOF)
+	    {
+	      end = 1;
+	      c = '1';
+	    }
+	}
+
+      fseek (stream, -1 * sizeof (char), SEEK_CUR);
+
+      if (fscanf (stream, "%lf", &res) == EOF)
+	{
+	  end = 1;
+	  c = '1';
+	}
+
+      if (end != 1)
+	{
+	  fprintf (streamout, "%lf", calculate (res, expression));
+	}
+    }
+  fclose (streamout);
   return 1;
 }
 
@@ -243,7 +267,7 @@ main (int argc, char *argv[])
       return EXPR_ERROR;
     }
   if (argc == (optind + 1))
-    process (stdin, argv[optind]);
+    stdinprocess (argv[optind]);
   else
     {
       if (!(stream = fopen (argv[optind + 1], "r")))
@@ -251,10 +275,10 @@ main (int argc, char *argv[])
 	  perror ("num-utils-ng");
 	  return EXIT_FAILURE;
 	}
-      process (stream, argv[optind]);
+      fileprocess (stream, argv[optind]);
       fclose (stream);
       remove (argv[optind + 1]);
-      rename ("./temp", argv[optind + 1]);
+      rename ("./tempprocess", argv[optind + 1]);
     }
   return 0;
 }
