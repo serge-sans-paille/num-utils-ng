@@ -137,11 +137,7 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  if (execlp ("man", "man", "numnormalize", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numnormalize - Normalize a set of numbers. By default between 0 and 1.\nSynopsis : numnormalize [-hR] [FILE or STDIN]\nOptions available :  \n\t-R <range> This allows you to specify a different normalized range  instead of from 0 to 1.\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return EXIT_SUCCESS;
 	  break;
 

@@ -108,11 +108,7 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  if (execlp ("man", "man", "numbound", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numbound - Find boundary numbers in files or STDIN.\nSynopsis : numbound [-hl] [FILE or STDIN]\nOptions available :  \n\t-l  Return the lower bound number in the set (the minimum number).\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return EXIT_SUCCESS;
 	  break;
 

@@ -150,11 +150,7 @@ main (int argc, char *argv[])
       switch (optch)
 	{
 	case 'h':
-	  if (execlp ("man", "man", "numrandom", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
-	    }
+	  fprintf(stdout,"numrandom - Print out a random number.\nSynopsis : numrandom [-h] /[expression]/\nOptions available :  \n\t-h     Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return EXIT_SUCCESS;
 	  break;
 

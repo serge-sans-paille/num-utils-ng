@@ -181,11 +181,7 @@ main (int argc, char *argv[])
 	{
 
 	case 'h':
-	  if (execlp ("man", "man", "numgrep", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numgrep - This program is the numeric equivalent of the grep utility.\nSynopsis : numgrep [-h] /<expression>/\nOptions available :  \n\t/<expression>/  Put your expression or set of expressions between these two forward slashes.\n\t..  Range expression. A number must be used on the left and/or right of this  expression  to specify that numbers between, greater than or less than the numbers specified should be matched.\n\t, Expression separator. The comma sepearates  one  complete  expression from another in a set enclosed by //.\n\tm<n>  Multiples  of  <n>.  This operator, followed by a number <n> will match any number <x> that is an integer multiple of <n>.  Meaning  that <x> = <n> times <y>, where <y> is any integer.\n\tf<n>  Factors  of  <n>.   This  operator, followed by a number <n> will match any number <x> that is an integer factor of  <n>.   Meaning  that <x> = <n> divided by <y>, where <y> is any integer.\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return EXIT_SUCCESS;
 	  break;
 

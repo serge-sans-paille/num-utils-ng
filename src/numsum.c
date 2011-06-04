@@ -229,11 +229,7 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  if (execlp ("man", "man", "numsum", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numsum - Find the average of a set of numbers.\nSynopsis : numsum [-iIchrxy] [FILE or STDIN]\nOptions available :  \n\t-i     Only return the integer portion of the final sum.\n\t-I     Only return the decimal portion of the final sum.\n\t-c     Print out the sum of each column.\n\t-r     Print out the sum of each row.\n\t-x <n> Specify a comma seperated list of columns to print.\n\t-y <n> Specify a comma seperated list of rows to print.\n\t-h     Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return EXIT_SUCCESS;
 	  break;
 
