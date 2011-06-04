@@ -230,11 +230,7 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  if (execlp ("man", "man", "numaverage", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numaverage - Find the average of a set of numbers.\nSynopsis : numaverage [-hiIlmM] [FILE or STDIN]\nOptions available :  \n\t-i  Only return the integer portion of the final sum\n\t-I  Only return the decimal portion of the final sum\n\t-m  Find the mode (most occuring) of the list of numbers\n\t-M  Find the median (middle number) of the list of numbers\n\t-l  When finding the median and the count of numbers in the set is even\n\t    use the lower middle number instead of the upper middle number\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return 0;
 	  break;
 

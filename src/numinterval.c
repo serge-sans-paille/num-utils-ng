@@ -84,11 +84,7 @@ main (int argc, char *argv[])
       switch (opt)
 	{
 	case 'h':
-	  if (execlp ("man", "man", "numinterval", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      exit (EXIT_FAILURE);
-	    }
+	  fprintf(stdout,"numinterval - Show the numeric intervals between each line in a file.\nSynopsis : numinterval [-dhV] <FILE>\nThe only option is the help (-h) option and you are looking at it.\nNote : The calculation is made at the same time you're inputing numbers, in order to have a more esthetic result you can redirect the output.\nYou can consult the man page for further information.\n");
 	  return 0;
 	  break;
 

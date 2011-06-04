@@ -185,11 +185,7 @@ main (int argc, char *argv[])
       switch (opt)
 	{
 	case 'h':
-	  if (execlp ("man", "man", "numrange", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numrange - Print out a range of numbers for use in for loops and such.\nSynopsis : numrange [-heNn] /<expression>/\nOptions available :  \n\t-e <set>  Exclude the <set> of numbers from the range output. <set>  is a set of numbers separated by commas (for instance /1,2,3/)\n\t-n <n> Use <n> as the separator between numbers.  By default, it will use a space.\n\t-N  Just a quick option for using a newline as the separator.\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return 0;
 	  break;
 

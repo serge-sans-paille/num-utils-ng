@@ -71,12 +71,12 @@ calculate (double res, char *expression)
 	    p = atoi (expression + i + 1);
 	  if (expression[i + 1] == 'e')
 	    {
-	      p = 2.718282;
+	      p = M_E;
 	      i++;
 	    }
 	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
 	    {
-	      p = 3.141593;
+	      p = M_PI;
 	      i = i + 2;
 	    }
 	  res = res * p;
@@ -86,12 +86,12 @@ calculate (double res, char *expression)
 	    p = atoi (expression + i + 1);
 	  if (expression[i + 1] == 'e')
 	    {
-	      p = 2.718282;
+	      p = M_E;
 	      i++;
 	    }
 	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
 	    {
-	      p = 3.141593;
+	      p = M_PI;
 	      i = i + 2;
 	    }
 	  res = res / p;
@@ -101,12 +101,12 @@ calculate (double res, char *expression)
 	    p = atoi (expression + i + 1);
 	  if (expression[i + 1] == 'e')
 	    {
-	      p = 2.718282;
+	      p = M_E;
 	      i++;
 	    }
 	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
 	    {
-	      p = 3.141593;
+	      p = M_PI;
 	      i = i + 2;
 	    }
 	  res = res + p;
@@ -116,12 +116,12 @@ calculate (double res, char *expression)
 	    p = atoi (expression + i + 1);
 	  if (expression[i + 1] == 'e')
 	    {
-	      p = 2.718282;
+	      p = M_E;
 	      i++;
 	    }
 	  if ((expression[i + 1] == 'p') && (expression[i + 2] == 'i'))
 	    {
-	      p = 3.141593;
+	      p = M_PI;
 	      i = i + 2;
 	    }
 	  res = res - p;
@@ -242,11 +242,7 @@ main (int argc, char *argv[])
       switch (opt)
 	{
 	case 'h':
-	  if (execlp ("man", "man", " numprocess", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numprocess - This program mutates numbers as it encounters them.\nSynopsis : numprocess [-h] /<expression>/ [FILE or STDIN]\nThe expression has to take this form : /+1,%%2,*pi/\nThe possibilities for the operatos are : +,-,*,%%,sin,cos,sqrt and ^\nYou can also use the constants pi and e.\nThe only option is the help (-h) option and you are looking at it.\nReturn values : \n\t 1 : Option error \n\t 2 : Missing expression \n\t 3 : Wrong expression.\nNote 1 : If you are using numprocess on files, everything that is not a number will be ignored (Only the number will be processed), but if you use stdin as an input the words will be deleted.\nNote 2 : Don't begin an expression with the operation \"*e\", it will search for a file in the root directory.\nYou can consult the man page for further information.\n");
 	  return 0;
 	  break;
 

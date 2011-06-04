@@ -103,11 +103,7 @@ main (int argc, char *argv[])
 	{
 
 	case 'h':
-	  if (execlp ("man", "man", "numround", NULL) == -1)
-	    {
-	      perror ("num-utils-ng");
-	      return EXIT_FAILURE;
-	    }
+	  fprintf(stdout,"numround - A program that rounds off numbers it encounter.\nSynopsis : numround [-hcfn] <FILE> or STDIN\nOptions available :  \n\t-c Force the number to be rounded up. Ceiling.\n\t-f  Force the number to be rounded down. Floor.\n\t-n <n>  Round numbers to the nearest factor of <n>.\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
 	  return 0;
 	  break;
 
