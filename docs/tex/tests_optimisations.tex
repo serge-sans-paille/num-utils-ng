@@ -8,22 +8,21 @@
 \index{valgrind}\index{time}
 Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant pr\'esenter les premiers tests de performances effectu\'es 
 avant la fin de l'optimisation.
-Ces tests sont effectu\'es \`a l'aide de la fonction time pour les temps d'ex\'ecution et valgrind\citep{valgrind} pour les tests de m\'emoire.
-Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inferieurs pour l'ex\'ecution de chaque programme, c'est ce que nous allons
+Ces tests sont effectu\'es \`a l'aide de la fonction time pour les temps d'ex\'ecution et valgrind \citep{valgrind} pour les tests de m\'emoire.
+Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inf\'erieurs pour l'ex\'ecution de chaque programme, c'est ce que nous allons
  v\'erifier.
-L'utilisation faite de la m\'emoire telle que le nombre d'allocations ou l'espace allou\'e par chaque programme ne d\'epend pas \`a priori du langage
- utilis\'e mais plut\^ot de l'algorithmie cach\'ee dans le code, c'est pourquoi il ne devrait pas y avoir beacoup d'am\`elioration de ce c\^ot\'e l\`a,
+L'utilisation faite de la m\'emoire telle que le nombre d'allocations ou l'espace allou\'e par chaque programme ne d\'epend pas a priori du langage
+ utilis\'e mais plut\^ot de l'algorithmie cach\'ee dans le code. C'est pourquoi il ne devrait pas y avoir beaucoup d'am\'elioration de ce c\^ot\'e l\`a,
 n\'eanmoins elle reste toujours un param\`etre important faisant partie des performances d'un programme.
 Nous avons ici class\'e les programmes comme dans le chapitre \ref{chap:num-utils}.
-Pour les tests portant sur les temps d'ex\'ecution nous utiliserons la fonction time pr\'esente dans toutes les distributions GNU/Linux \'ecrite par David MacKenzie 
-et qui permet d'\'evaluer avec plus ou moins de pr\'ecision le temps d'ex\'ecution d'un programme.
-Les tests portant sur la m\'emoire seront eux effectu\'es avec l'outil valgrind, d'habitude utilis\'e pour le d\'eboguage et la chasse aux erreurs de segmentations(lecture ou \'ecriture non autoris\'ee dans la m\'emoire).
-Valgrind regroupe en fait six outils de d\'eveloppement et a \'et\'e d\'evelopp\'e par un groupe de programmeurs, il n'est pas fait \`a priori pour l'utilisation que l'on en fait dans la partie suivante (lenteur d'ex\'ecution) mais fonctionne quand m\^eme bien.
+Pour les tests portant sur les temps d'ex\'ecution nous utiliserons la fonction time. Elle est pr\'esente dans toutes les distributions GNU/Linux et permet d'\'evaluer avec plus ou moins de pr\'ecision le temps d'ex\'ecution d'un programme.
+Les tests portant sur la m\'emoire seront eux effectu\'es avec l'outil valgrind. Habituellement utilis\'e pour le d\'eboguage et la chasse aux erreurs de segmentations (lecture ou \'ecriture non autoris\'ee dans la m\'emoire).
+Valgrind regroupe en fait six outils de d\'eveloppement et a \'et\'e d\'evelopp\'e par un groupe de programmeurs. Il n'est pas fait a priori pour l'utilisation que l'on en fait dans la partie suivante (lenteur d'ex\'ecution) mais fonctionne quand m\^eme bien.
  
 
 \subsection{Calculs simples sur des nombres d\'ecimaux}
 
-La fonction numsum n'\'etant pas encore fiinalis\'ee cette section ne fera pas figurer de tests sur ce programme.
+La fonction numsum n'\'etant pas encore finalis\'ee cette section ne fera pas figurer de tests sur ce programme.
 \newline
 
 Ici le temps d'ex\'ecution varie selon le nombre de chiffre sur lequel on fait fonctionner un programme, c'est ce que nous allons observer.
@@ -31,8 +30,7 @@ La fonction numaverage comprend deux options principales. Elle permet de calcule
 \newline
 
 Voici un graphe en \'echelle logarithmique (figure \ref{tab:medmoy}) repr\'esentant le comportement des calculs de la m\'ediane et de la moyenne en fonction du nombre de 
-donn\'ees. la fonction mode n'apparait pas car elle ne supporte pas bien les grands nombres de donn\'ees et il n'y avait pas assez de points pour 
-faire une courbe.
+donn\'ees. La fonction mode n'apparait pas car elle ne supporte pas bien les grands nombres de donn\'ees et il n'y avait pas assez de points pour faire une courbe.
 
 \begin{figure}[h]
 \begin{center}
@@ -42,9 +40,9 @@ faire une courbe.
 \label{tab:medmoy}
 \end{figure}
 
-Le tableau \ref{tab:numaverage} montre les performances de chacune de ces options (og et ng signifiant respectivement << old generation >> et << new generation >> ) : 
+Le tableau \ref{tab:numaverage} montre les performances de chacune de ces options (\textbf{og} et \textbf{ng} signifiant respectivement << \textbf{old generation} >> et << \textbf{new generation} >> ) : 
 \newline
-On observe successivement pour chaque test le temps d'ex\'ecution (en ms) sur en premi\`ere ligne , le nombre d'allocations sur la deuxi\`eme et la m\'emoire
+On observe successivement pour chaque test le temps d'ex\'ecution (en ms) sur en premi\`ere ligne , le nombre d'allocations m\'emoire sur la deuxi\`eme et la m\'emoire
 allou\'ee sur la troisi\`eme.
 \newline
 
@@ -78,10 +76,10 @@ Nb de donn\'ees & moy (og) & moy (ng) & m\'ed (og) & m\'ed (ng) & mod (og) & mod
 \caption{Performances de M\'ediane et Moyenne}
 \label{tab:numaverage}
 \end{table}
-Remarque : Faute de temps (l'\'execution de valgrind \'etant tr\`es lente) les tests de m\'emoire n'ont pas \'et\'e fait pour de grandes s\'eries de nombres.
+Remarque : faute de temps (l'\'execution de valgrind \'etant tr\`es lente) les tests de m\'emoire n'ont pas \'et\'e fait pour de grandes s\'eries de nombres.
 \newline
-On peut remarquer que conform\'ement \`a nos attentes les temps d'ex\'ecution des nouveaux programmes sont bien inferieurs \`a ceux des anciens,
- n\'enamoins certains d'entre-eux ont des consommations de m\'emoire beaucoup plus importantes, cela est d\^u au fait que certains de nos programmes 
+On peut remarquer que conform\'ement \`a nos attentes les temps d'ex\'ecution des nouveaux programmes sont bien inf\'erieurs \`a ceux des anciens,
+ n\'eanmoins certains d'entre-eux ont des consommations de m\'emoire beaucoup plus importantes, cela est d\^u au fait que certains de nos programmes 
 ne supportent pas encore les flux de donn\'ees (en particulier la fonction qui calcule le mode), nous en reparlerons dans la partie optimisation.
 Le probl\`eme de la gestion des flux de donn\'ees est un probl\`eme r\'ecurrent en algorithmie : certains programmes ont besoin d'un historique 
 des donn\'ees pour faire leur calcul, ce qui devient un probl\`eme pour un grand nombre de donn\'ees.
@@ -146,7 +144,7 @@ Nb de donn\'ees & numinterval (og) & numinterval (ng) & numnormalize (og) & numn
  & 210ko & 40Go & 183ko & 16Mo \\
 \hline
 \end{tabular}
-\caption{Utilisation de la m\'emoire de numinterval et de numnormalize (nombre d'allocations et m\'emoire allou\'ee}
+\caption{Utilisation de la m\'emoire de numinterval et de numnormalize, nombre d'allocations m\'moire et m\'emoire allou\'ee}
 \end{center}
 \label{tab:numinterval}
 \end{table}
@@ -206,7 +204,7 @@ dans notre biblioth\`eque.
 
 \section{Optimisations}
 
-Nous avons vu les probl\`emes li\'es \`a la gestion des flux, il y a diff\'erents moyens pour pallier \`a ce probl\`eme, 
+Nous avons vu les probl\`emes li\'es \`a la gestion des flux, il y a diff\'erents moyens pour pallier \`a ce probl\`eme.
 C'est ce que nous allons voir dans cette partie.
 
 L'optimisation n'ayant pas \'et\'e encore termin\'ee cette partie n'est pas encore r\'edig\'ee.

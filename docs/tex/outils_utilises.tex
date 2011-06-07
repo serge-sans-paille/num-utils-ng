@@ -5,14 +5,14 @@
 \subsection{Pr\'esentation}
 \index{gestionnaire de version}
 La r\'ealisation de notre projet informatique a en premier lieu n\'ecessit\'e la mise en place d'une interface centralisant tous nos
-documents en temps r\'eel. Pour cela nous avons utilis\'e ce que l'on appelle un gestionnaire de version. Plusieurs logiciels de gestions 
-de versions existent aujourd'hui : CVS, Subversion, Mercurial, Bazar et enfin Git\cite{git}, ayant chacun leurs avantages et inconv\'enients. 
+documents en temps r\'eel. Pour cela nous avons utilis\'e ce que l'on appelle un gestionnaire de version. Plusieurs logiciels de gestion 
+de versions existent aujourd'hui : CVS, Subversion, Mercurial, Bazar et enfin Git \cite{git}, ayant chacun leurs avantages et inconv\'enients. 
 
 Ils permettent d'archiver et de conserver les diff\'erentes \'etapes de d\'eveloppement d'un projet. Ainsi il est possible de pouvoir revenir
 \`a une version ant\'erieure \`a tout moment. Ils permettent \'egalement de visualiser les diff\'erences entre les r\'evisions. Cela permet un  
 travail collaboratif tr\`es efficace : chaque d\'eveloppeur dispose du projet en local et peut quand il le souhaite les partager sur un serveur.
 
-Nous avons utilis\'e pour notre projet\citep{projet11efr}, le logiciel Git.
+Nous avons utilis\'e pour notre projet \citep{projet11efr}, le logiciel Git.
 
 \subsection{Le logiciel Git}
 \index{git@Git}
@@ -20,7 +20,7 @@ Git est un logiciel libre cr\'ee par Linus Torvalds, le fondateur de Linux. C'es
  pas n\'ecessaire d'utiliser un serveur pour partager nos documents : on peut chacun se synchroniser entre nous.
 
 Au premier abord l'utilisation de git n'est pas \'evidente : toutes les manipulations se font \`a travers la console et le vocabulaire utilis\'e 
-est totalement nouveau. 
+est totalement nouveau pour nous. 
 
 Apr\`es l'installation de git, il est n\'ecessaire de s'enregistrer (mail et nom) et de cr\'eer un dossier de travail dans lequel nous 
 initialisons git en utilisant la commande
@@ -33,7 +33,7 @@ Ces deux commandes furent utilis\'ees maintes fois lors de notre projet.
 
 Cependant tout cela reste local : il faut mettre \`a jour le git en utilisant
 \begin{verbatim} git push \end{verbatim}
-pour rajouter dans le dossier racine, contenant tous le travail des diff\'erents membres du projet, nos nouveaux fichiers. 
+On ajoute ainsi dans le dossier racine, contenant tous le travail des diff\'erents membres du projet, nos nouveaux fichiers. 
 De m\^eme, pour t\'el\'echarger ce qui fut r\'ealis\'e par les autres membres du projet nous avons utilis\'e la commande
 \begin{verbatim} git pull \end{verbatim}
 
@@ -50,7 +50,7 @@ Nous constatons sur la figure \ref{fig:branche} que cette op\'eration a \'et\'e 
 \label{fig:branche}
 \end{figure}
 
-Ceci constituent les commandes de bases utilis\'es lors de notre projet. Une fois le principe assimil\'e git devient tr\`es simple d'utilisation,
+Ceci constitue les commandes de bases utilis\'es lors de notre projet. Une fois le principe assimil\'e git devient tr\`es simple d'utilisation,
  tr\`es rapide mais surtout tr\`es efficace.
 
 Enfin une des particularit\'es de Git est l'existence de sites web collaboratifs bas\'es sur Git comme Github ou Gitorious. 
@@ -111,7 +111,7 @@ En effet, la commande << \textbf{make} >> cr\'ee l'ex\'ecutable de tous les fich
 
 Toutefois, l'\'ecriture manuelle d'un Makefile devient impossible si l'on veut ult\'erieurement cr\'eer un paquet debian.
 En effet, le principal probl\`eme de ce type de Makefile est qu'il est identique pour chaque syst\`eme d'exploitation. Or certains fichiers
-syst\`emes sont n\'ecessaires pour l'utilisation de notre biblioth\`equ num-utils-ng, mais ils ne sont pas forc\'ement dans le r\'epertoire pour
+syst\`emes sont n\'ecessaires pour l'utilisation de notre biblioth\`eque num-utils-ng, mais ils ne sont pas forc\'ement dans le r\'epertoire pour
 chaqu syst\`eme d'exploitation.
 \newline 	
 Par cons\'equent, il nous a \'et\'e propos\'e d'utiliser des \textbf{autotools} pour cr\'eer des Makefiles << dynamiques >>, qui d\'ependent du syst\`eme
@@ -137,11 +137,12 @@ qui va ajouter l'ensemble des macros n\'ecessaires pour autoconf. C'est ce fichi
 plus simple et plus efficace (il existe notamment de nombreuses variables pr\'ed\'efinies comme << bin\_DIRS >> ou << man\_MANS >> qui permettent l'installation
 dans le bon r\'epertoire des ex\'ecutables ou des pages du manuel).  
 \newline
-\newline
+
+\end{itemize}
 \textbf{Remarque importante} : un des avantages des autotools est que le d\'eveloppeur a peu de texte \`a \'ecrire. Nous avons seulement eu \`a \'ecrire dans
 deux fichiers : configure.ac et dans chaque fichier Makefile.am. Tous les autres fichiers on \'et\'e g\'en\'er\'e.
 \newline
-\end{itemize}
+\newline
 Une fois ces deux \'etapes effectu\'es, il ne nous reste plus qu'\`a g\'en\'erer les diff\'erents fichiers de configuration \`a l'aide des commandes :
 \begin{itemize}
  \item [-] \textbf{aclocal} : g\'en\'ere le fichier << aclocal.m4 >> contenant les macros n\'ecessaires pour automake,
@@ -151,9 +152,9 @@ Remarque : nous n'avons pas eu besoin  d'utiliser la commande << autoheader >> c
  \item [-] \textbf{automake} : produit les fichiers Makefile.in (Makefile interm\'ediaire qui seront utilis\'es par le fichier << configure >>.
 \newline
 \end{itemize}
-Ainsi, tout utilisateur peut utiliser notre biblioth\`eque en ex\'cutant le script :
+Ainsi, tout utilisateur peut utiliser notre biblioth\`eque en ex\'ecutant le script :
 \begin{verbatim}./configure\end{verbatim}
-pour cr\'eer les Makefiles dans les diff\'rents r\'epertoire de notre projet.
+Cette commande cr\'ee les Makefiles dans les diff\'erents r\'epertoires de notre projet.
 Le tableau \ref{tab:commandes} montre les principales commandes qui peuvent maintenant \^etre ex\'ecut\'ees :
 \begin{table}[h]
 \begin{center}
@@ -177,27 +178,27 @@ Le tableau \ref{tab:commandes} montre les principales commandes qui peuvent main
 
 \section{Cr\'eation du paquet debian}
 
-L'ultime \'etape de notre projet de conception a \'et\`e la cr\'eation du paquet Debian de la biblioth\`eque num-utils-ng.
-Sa cr\'eation n\'ecessite de suivre une d\'marche rigoureuse et sp\'ecifique, notamment si nous voulons le publier notre paquet afin
+L'ultime \'etape de notre projet de conception a \'et\'e la cr\'eation du paquet Debian de la biblioth\`eque num-utils-ng.
+Sa cr\'eation n\'ecessite de suivre une d\'emarche rigoureuse et sp\'ecifique, notamment si nous voulons publier notre paquet afin
 qu'il apparaisse plus tard dans les d\'ep\^ots Debian.
 \newline
 Premi\`erement, il nous a fallu cr\'eer un repertoire << /debian >> contenant plusieurs fichiers de configuration :
 \begin{itemize}\index{CDBS}
  \item [-] \textbf{rules} : ce fichier inclut les r\`egles qui vont servir pour compiler notre paquet,
  \item [-] \textbf{control} : control contient les d\'ependences du paquet (CDBS et debhelper pour nous),
- \item [-] \textbf{changelog} : changelog contient la liste des diff\'rentes versions du paquet, 
- \item [-] \textbf{copyright} : ce fichier pr\'cise la licence sous laquelle est publi\'e le paquet (GNU General Public License version 3).
+ \item [-] \textbf{changelog} : changelog contient la liste des diff\'erentes versions du paquet, 
+ \item [-] \textbf{copyright} : ce fichier pr\'ecise la licence sous laquelle est publi\'e le paquet (GNU General Public License version 3).
 Tous ces fichiers sont n\'ecessaires lors  de la cr\'eation d'un paquet Debian. Toutefois, nous avons utilis\'e le logiciel 
 CDBS, Common Debian Build System\citep{cdbs} qui permet de simplifier l'\'etape de cr\'eation du paquet et d'\'ecriture des fichiers de configuration.
 \newline
 \end{itemize}
 Une fois le dossier /debian compl\`et\'e, il reste \`a compiler le paquet avec la commande
 \begin{verbatim}debuild -us -uc\end{verbatim}
-afin de cr\'eer une archive ayant l'extension \textbf{.deb}, notre paquet binaire Debian.
+Ceci cr\'ee une archive ayant l'extension \textbf{.deb}, notre paquet binaire Debian.
 \newline
-Remarque importante : L'\'etape de cr\'ation du paquet binaire .deb s'est faite sur une ordinateur fonctionnant avec Ubuntu. Il nous a fallu utiliser le logiciel pbuilder. Ce logiciel
+Remarque importante : L'\'etape de cr\'eation du paquet binaire .deb s'est faite sur une ordinateur fonctionnant avec Ubuntu. Il nous a fallu utiliser le logiciel pbuilder. Ce logiciel
 permet de << simuler >> l'\'etat du syst\`eme d'exploitation juste apr\`es son installation (on cr\'ee un environnement isol\'e, appel\'e chroot en anglais).
-Ainsi, on peut v\'erifier que toutes les d\'ependances de notre paquet sont bien d\'finies dans le fichier << control >>, 
+Ainsi, on peut v\'erifier que toutes les d\'ependances de notre paquet sont bien d\'efinies dans le fichier << control >>, 
 \newline
 
 Tout utilisateur d'un syst\`eme Unix peut maintenant installer notre paquet num-utils-ng en utilisant dpkg, le syst\`eme de gestion de paquets Debian 
