@@ -13,8 +13,8 @@ num-utils-ng:$(srcdir)/num-utils-ng.tex
 index:num-utils-ng
 	makeindex num-utils-ng.idx
 
-references: num-utils-ng
-	BSTINPUTS=$(srcdir):: bibtex num-utils-ng
+references:num-utils-ng
+	BIBINPUTS=$(srcdir):: BSTINPUTS=$(srcdir):: bibtex num-utils-ng
 
 ps: num-utils-ng.dvi
 	dvips num-utils-ng.dvi
