@@ -25,7 +25,7 @@
 *
 * Contributor: Edern Hotte, Flavien Moullec, Reuven Benichou.
 *
-n***** END GPL LICENSE BLOCK *****
+* ***** END GPL LICENSE BLOCK *****
 */
 
 #include <stdlib.h>
@@ -45,12 +45,7 @@ decimalPortion (double d)
 static int
 isHigher (const void *a, const void *b)
 {
-  if (*(double const *) a > *(double const *) b)
-    return 1;
-  else if (*(double const *) a < *(double const *) b)
-    return -1;
-  else
-    return 0;
+    return (*(double const *) a) - (*(double const *) b);
 }
 
 
@@ -60,9 +55,9 @@ skipWord (FILE * stream)
   char c = 'a';
   if (stream == stdin)
     fprintf (stderr, "This is not a number!\n");
-  while (!isdigit (c) && !isspace (c) && !(c == 46) && !(c == 45))
+  while (!isdigit (c) && !isspace (c) && (c != '.') && (c != '-'))
     {
-      if (fscanf (stream, "%c", &c) != 1)
+      if ( (c=fgetc (stream)) != EOF)
 	{
 	  perror ("num-utils-ng");
 	  return EXIT_FAILURE;
@@ -112,62 +107,64 @@ median (FILE * stream, int b)
 static double
 mode (FILE * stream)
 {				//this functionn calculates the mode.
-  int *nb = NULL, nballoc = 1;	// nb is an array of occurences bound to tab.
-  double *tab = NULL;		//tab keeps in memory everyr different number in the stream.
-  double d = 0;
-  int i, nbmod = 0, done = 0, nbdouble = 0, test;
-  while ((test = fscanf (stream, "%lf", &d)) != EOF)
+    int *nb = NULL, nballoc = 1;	// nb is an array of occurences bound to tab.
+    double *tab = NULL;		//tab keeps in memory everyr different number in the stream.
+    double d = 0;
+    int  nbmod = 0, nbdouble = 0, test;
+    while ((test = fscanf (stream, "%lf", &d)) != EOF)
     {
-      if (test == 0)
-	skipWord (stream);
-      else
-	{
-	  i = 0;
-	  done = 0;
-	  while ((i < nbdouble) && (done != 1))
-	    {
-	      if (d == tab[i])
-		{
-		  nb[i]++;
-		  done = 1;
-		}
-	      i++;
-	    }
-	  if (done == 0)
-	    {
-	      nbdouble++;
-	      if (nbdouble == nballoc)
-		{
-		  nballoc *= 2;
-		  if (!
-		      (tab =
-		       (double *) realloc (tab, (nballoc) * sizeof (double))))
-		    {
-		      perror ("num-utils-ng");
-		      return EXIT_FAILURE;
-		    }
-		  if (!(nb = (int *) realloc (nb, (nballoc) * sizeof (int))))
-		    {
-		      perror ("num-utils-ng");
-		      return EXIT_FAILURE;
-		    }
-		}
-	      tab[nbdouble - 1] = d;
-	      nb[nbdouble - 1] = 1;
-	    }
-	}
+        if (test == 0)
+            skipWord (stream);
+        else
+        {
+            int i = 0;
+            int done = 0;
+            while ((i < nbdouble) && (done != 1))
+            {
+                if (d == tab[i])
+                {
+                    nb[i]++;
+                    done = 1;
+                }
+                i++;
+            }
+            if (done == 0)
+            {
+                nbdouble++;
+                if (nbdouble == nballoc)
+                {
+                    nballoc *= 2;
+                    if (!
+                            (tab =
+                             (double *) realloc (tab, (nballoc) * sizeof (double))))
+                    {
+                        perror ("num-utils-ng");
+                        return EXIT_FAILURE;
+                    }
+                    if (!(nb = (int *) realloc (nb, (nballoc) * sizeof (int))))
+                    {
+                        perror ("num-utils-ng");
+                        return EXIT_FAILURE;
+                    }
+                }
+                tab[nbdouble - 1] = d;
+                nb[nbdouble - 1] = 1;
+            }
+        }
     }
-  i = 0;
-  while (i < nbdouble)
     {
-      if (nb[i] > nb[nbmod])
-	nbmod = i;
-      i++;
+        int i = 0;
+        while (i < nbdouble)
+        {
+            if (nb[i] > nb[nbmod])
+                nbmod = i;
+            i++;
+        }
     }
-  d = tab[nbmod];
-  free (tab);
-  free (nb);
-  return d;
+    d = tab[nbmod];
+    free (tab);
+    free (nb);
+    return d;
 }
 
 static double
@@ -230,7 +227,19 @@ main (int argc, char *argv[])
 	  break;
 
 	case 'h':
-	  fprintf(stdout,"numaverage - Find the average of a set of numbers.\nSynopsis : numaverage [-hiIlmM] [FILE or STDIN]\nOptions available :  \n\t-i  Only return the integer portion of the final sum\n\t-I  Only return the decimal portion of the final sum\n\t-m  Find the mode (most occuring) of the list of numbers\n\t-M  Find the median (middle number) of the list of numbers\n\t-l  When finding the median and the count of numbers in the set is even\n\t    use the lower middle number instead of the upper middle number\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
+	  fprintf(stdout,
+              "numaverage - Find the average of a set of numbers.\n"
+              "Synopsis : numaverage [-hiIlmM] [FILE or STDIN]\n"
+              "Options available :  \n"
+              "\t-i  Only return the integer portion of the final sum\n"
+              "\t-I  Only return the decimal portion of the final sum\n"
+              "\t-m  Find the mode (most occurring) of the list of numbers\n"
+              "\t-M  Find the median (middle number) of the list of numbers\n"
+              "\t-l  When finding the median and the count of numbers in the set is even\n"
+              "\t    use the lower middle number instead of the upper middle number\n"
+              "\t-h  Help: You're looking at it.\n"
+              "You can consult the man page for further information.\n"
+              );
 	  return 0;
 	  break;
 
