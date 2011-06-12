@@ -1,38 +1,39 @@
 \chapter{Introduction}
 \label{chap:introduction}
 
-\section{Motivations }
+\section{Contexte du projet }
 
-Le projet 11 \citep{projet11}, intitul\'e << Optimisation de biblioth\`eque de calcul num\'erique >>, est un projet informatique bas\'e sur le langage C qui vise \`a am\'eliorer 
-les performances de calcul de la biblioth\`eque num-utils \citep{numutils}, travaillant sur des flots de donn\'ees \citep{dataflux}.
-Il aboutira au d\'eveloppement d'un vrai logiciel qui sera publi\'e dans les archives Debian \citep{debian}.
+La gestion des flots de donn\'ees est primordiale dans le domaine informatique. Tout d\'eveloppeur doit effectuer des calculs triviaux sur ce type de donn\'ees. Une 
+biblioth\`eque de calcul num\'erique a \'et\'e cr\'e\'ee en 2002 par Suso Banderas. Elle propose dix utilitaires pour effectuer ces calculs : la biblioth\`eque num-utils \citep{numutils}.
+\newline
+Le projet 11 \citep{projet11}, intitul\'e << Optimisation de biblioth\`eque de calcul num\'erique >>, est  un projet informatique bas\'e sur le langage C qui vise \`a 
+am\'eliorer les performances de calcul de la biblioth\`eque num-utils, travaillant sur des flots de donn\'ees \citep{dataflux}. En effet cette derni\`ere utilise un langage interpr\'et\'e, le Perl, qui r\'eduit consid\'erablement ses performances globales. 
+\newline
+L'objectif de notre projet est donc de proposer une alternative \`a cette biblioth\`eque, \'ecrite en C.
 
-Ceci est \'evidemment une source de motivation non n\'egligeable. Mais \`a travers cet aspect concret de notre projet, c'est tout l'environnement d'un 
-projet informatique, les contraintes impos\'ees , l'interface existante entre les d\'eveloppeurs, le travail d'optimisation, qui sont les raisons 
-d'\^etre de ce travail.
-Il s'inscrit alors dans un contexte pr\'ecis : le d\'eveloppement d'un projet informatique en vue de sa publication.
+\section{Probl\'ematique et approche}
 
-\section{Objectifs}
-
-Bien que le projet repose sur une optimisation de performances, l'objectif principal reste la mise en place des outils n\'ecessaires en vue de la 
-r\'ealisation et de la publication d'un logiciel dans les archives Debian.  
-
-En effet derri\`ere la probl\'ematique d'optimisation se cache une autre probl\'ematique qui sera le point de d\'epart de notre projet : comment mettre
- en \oe{}uvre un projet informatique ? 
-Notre d\'emarche consistera en premier lieu en la d\'ecouverte et l'utilisation des outils n\'ecessaires \`a la r\'ealisation d'un projet informatique afin 
-de mettre en ligne une biblioth\`eque num-utils cod\'e en C.
-\newline 	
+Notre projet repose sur une optimisation de performances. Mais l'objectif principal reste la mise en place des outils n\'ecessaires en vue de la 
+r\'ealisation et de la publication d'un logiciel dans les archives Debian \citep{debian}.
+En effet, derri\`ere le probl\`eme d'optimisation se cache une autre probl\'ematique qui sera le point de d\'epart de notre projet : comment mettre
+en \oe{}uvre un projet informatique ?
+Notre d\'emarche consistera en premier lieu \`a d\'ecouvrir et \`a utiliser des outils n\'ecessaires \`a la r\'ealisation d'un projet informatique.
+\newline
 Tout d'abord une impl\'ementation des algorithmes sera fournie en langage C avec l'ensemble des outils de d\'eveloppement mis en \oe{}uvre. Ensuite, 
 un paquet Debian fournissant une distribution open source sera mise en ligne. 
-Outre les d\'ecouvertes techniques, cette premi\`ere approche sera l'occasion de constater toute l'importance de la forme ( page de manuel, readme,...) 
-lors de la conception d'un logiciel informatique publi\'e.
+Outre les d\'ecouvertes techniques, cette premi\`ere approche est l'occasion de constater toute l'importance de la forme (page de manuel, readme,...) 
+lors de la conception d'un logiciel informatique publi\'e. Ces \'elements facilitent l'utilisation d'un programme lors de sa diffusion publique.
+\newline
+La seconde \'etape du projet est l'optimisation des performances de calculs de nos programmes. Cette phase, plus courte, se veut diff\'erente de la 
+premi\`ere : elle n\'ecessite avant tout un travail de r\'eflexion. C'est  un travail de fond o\`u l'objectif principal est une division par 10 du temps
+d'ex\'ecution des utilitaires de notre biblioth\`eque.
 
-La seconde \'etape du projet sera l'optimisation des performances de calculs de nos codes C . Cette phase, plus courte, se veut diff\'erente de la 
-premi\`ere : elle n\'ecessite avant tout un travail de r\'eflexion. C'est  un travail de fond o\`u l'objectif principal sera une division par 10 du temps
- d'ex\'ecution. 
+\section{Structure du rapport}
 
-Notre d\'emarche sera donc constitu\'ee de deux \'etapes : la mise en place d'un socle de travail, puis le travail de fond d'optimisation. Ces deux phases 
-s'inscrivent dans le contexte du projet qui est le d\'eveloppement d'un projet informatique afin de r\'epondre \`a la probl\'ematique explicite du sujet 
-qui est l'optimisation d'une biblioth\`eque de calcul num\'erique.
-
-
+Nous avons s\'epar\'e le rapport technique en trois sections.
+\newline
+Premi\`erement, nous pr\'esentons en d\'etail la biblioth\`eque num-utils, notamment ses diff\'erentes fonctions et les options associ\'ees.
+\newline
+La deuxi\`eme partie concerne les outils que nous avons utilis\'es lors du d\'eveloppement de notre projet. Ces outils regroupent le gestionnaire de version, les autotools permettant d'automatiser la compilation des programmes et les utilitaires de tests. 
+\newline
+Dans la derni\`ere partie, nous analysons les r\'esultats des test effectu\'es sur les dix fonctions \'ecrites en C. Nous comparons les performances de l'ancienne biblioth\`eque et de la nouvelle. Nous y expliquons \'egalement nos choix de conception.
