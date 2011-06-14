@@ -206,24 +206,25 @@ dans notre biblioth\`eque.
 
 \section{Optimisations}
 
-Nous avons vu les probl\`emes li\'es \`a la gestion des flux, il y a diff\'erents moyens pour pallier \`a ce probl\`eme.
+Nous avons vu les probl\`emes li\'es \`a la gestion des flux. Il y a diff\'erents moyens pour pallier \`a ce probl\`eme.
 C'est ce que nous allons voir dans cette partie.
 
-Il y a trois types d'optimisation majeure que nous avons utilis\'e :
+Nous r\'ealisons trois optimisations diff\'erentes.
 
-La r\'eduction du nombre d'allocation qui peut se r\'ev\'eler \^etre faramineux quand on fait des tests sur de grands nombres de donn\'ees \'etait notre priorit\'e.
-Pour ce faire, nous avons multipli\'e la taille des allocations par deux \`a chaque allocation ainsi nous avons divis\'e le nombre d'allocations par une puissance de deux.
-Par exemple une ex\'ectution d'un programme n\'ecessitant 1024 allocations n'a besoins plus que de 11 allocations. Bien s\^ur la taille des allocations est tr\`es sup\'erieure mais le nombre d'op\'erations d'allocation qui est chronophage a \'et\'e grandement r\'eduit :
-On r\'eduit le temps d'ex\'ecution mais pas la m\'emoire allou\'ee qui peut d'ailleur \^etre augment\'ee.
+La r\'eduction du nombre d'allocations m\'emoire, qui peut \^etre important lorsqu'on fait des tests sur de grands nombres de donn\'ees, \'etait notre priorit\'e.
+Pour ce faire, nous avons multipli\'e la taille des allocations m\'emoire par deux \`a chaque allocation ainsi nous avons divis\'e le nombre d'allocations par une puissance de deux.
+Par exemple l'ex\'ecution d'un programme n\'ecessitant 1024 allocations ne n\'ecessite plus que 11 allocations. Bien s\^ur la taille des allocations m\'emoire est alors bien 
+sup\'erieure mais le nombre d'op\'erations d'allocation de m\'emoire, qui est chronophage, a \'et\'e grandement r\'eduit :
+On r\'eduit le temps d'ex\'ecution mais pas la m\'emoire allou\'ee qui peut d'ailleurs \^etre augment\'ee.
 
-La modification d'algorithmes, par exemple dans numround, permet un code plus lisible et facile \`a comprendre mais n'am\'eliore pas les performances car nous nous en sommes tenu aux premiers algorithmes trouv\'es pour les calculs des r\'esultats.
-Les programmes sont maintenant \`a l'\'epreuve des utilisateurs non avertis : par exemple une faute de frappe n'entra\^inera pas une boucle infinie mais un message d'erreur appropri\'e sera affich\'e.
+La modification d'algorithmes, par exemple dans numround, permet un code plus lisible et facile \`a comprendre mais n'am\'eliore pas les performances car nous nous sommes tenus aux premiers algorithmes trouv\'es pour les calculs des r\'esultats.
+Les programmes sont maintenant \`a l'\'epreuve des utilisateurs non avertis : par exemple une faute de frappe n'entra\^inera pas une boucle infinie. Un message d'erreur appropri\'e sera affich\'e.
 
-Enfin, l'utilisation de fichiers temporaires pas forc\'ement n\'ecessaires a \'et\'e bannie : le r\'esultat est peut-\^etre moins joli mais les performances sont grandement am\'elior\'ee.
+Enfin, l'utilisation de fichiers temporaires, pas forc\'ement n\'ecessaires, a \'et\'e bannie : le r\'esultat est peut-\^etre moins << joli >> mais les performances sont grandement am\'elior\'ees.
 
 Afin de donner un exemple de ces am\'eliorations, voici les r\'esultats obtenus sur la fonction numaverage : 
 En bleu la version initiale, en rouge la premi\`ere version que nous avons faite et en jaune la version optimis\'ee.
-Comme pour les graphes p\'ec\'edents, on peut observer le nombre de donn\'ees en abscisse et le temps requis en ordonn\'ee.
+Comme pour les graphes pr\'ec\'edents, on peut observer le nombre de donn\'ees en abscisse et le temps requis en ordonn\'ee.
 
 \begin{figure}[h]
 \begin{center}
