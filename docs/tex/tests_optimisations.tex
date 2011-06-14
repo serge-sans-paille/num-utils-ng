@@ -89,7 +89,7 @@ des donn\'ees pour faire leur calcul, ce qui devient un probl\`eme pour un grand
 \subsection{Comparaisons de nombres d\'ecimaux}
 
 Dans cette partie la probl\'ematique est quasiment la m\^eme que dans la partie pr\'ec\'edente, \`a l'exception pr\`es qu'ici seulement les fonctions 
-numinterval et numnormalize sont sujette au probl\`eme des flots de donn\'ees. Les tests effectu\'ees sur numbound et numround tableau \ref{fig:bouround}
+numinterval et numnormalize sont sujette au probl\`eme des flots de donn\'ees. Les tests effectu\'es sur numbound et numround tableau \ref{fig:bouround}
 et figure \ref{fig:bouround} sont donn\'es en ms.
 \newline
 
@@ -199,9 +199,9 @@ Les tableaux de performances se trouvent en annexe.
 \end{figure}
 
 Les r\'esultats en terme de temps pour numgrep (figure \ref{fig:numgrep}) et numprocess (figure \ref{fig:numprocess}) sont plut\^ot bons, il ny a quasiment pas d'utilisation de la m\'emoire dans numprocess et numrange contrairement aux anciennes versions. 
-Nous avions aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est lin\'eaire, les programmes se comportent donc bien s'il y a beaucoup d'intervalles.
+Nous avons aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est lin\'eaire, les programmes se comportent donc correctement s'il y a beaucoup d'intervalles.
 
-On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esent 
+On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esentes 
 dans notre biblioth\`eque.
 
 \section{Optimisations}
@@ -215,7 +215,7 @@ La r\'eduction du nombre d'allocations m\'emoire, qui peut \^etre important lors
 Pour ce faire, nous avons multipli\'e la taille des allocations m\'emoire par deux \`a chaque allocation ainsi nous avons divis\'e le nombre d'allocations par une puissance de deux.
 Par exemple l'ex\'ecution d'un programme n\'ecessitant 1024 allocations ne n\'ecessite plus que 11 allocations. Bien s\^ur la taille des allocations m\'emoire est alors bien 
 sup\'erieure mais le nombre d'op\'erations d'allocation de m\'emoire, qui est chronophage, a \'et\'e grandement r\'eduit :
-On r\'eduit le temps d'ex\'ecution mais pas la m\'emoire allou\'ee qui peut d'ailleurs \^etre augment\'ee.
+on r\'eduit le temps d'ex\'ecution mais pas la m\'emoire allou\'ee qui peut d'ailleurs \^etre augment\'ee.
 
 La modification d'algorithmes, par exemple dans numround, permet un code plus lisible et facile \`a comprendre mais n'am\'eliore pas les performances car nous nous sommes tenus aux premiers algorithmes trouv\'es pour les calculs des r\'esultats.
 Les programmes sont maintenant \`a l'\'epreuve des utilisateurs non avertis : par exemple une faute de frappe n'entra\^inera pas une boucle infinie. Un message d'erreur appropri\'e sera affich\'e.
