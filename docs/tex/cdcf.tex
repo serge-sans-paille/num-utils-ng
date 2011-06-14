@@ -14,28 +14,27 @@ Voici le diagramme b\^ete \`a corne qui pr\'esente de fa\c con tr\`es g\'en\'era
 \label{fig:numprocess}
 \end{figure}
 
-Nous avons distingu\'e plusieurs fonctions contraintes pour notre biblioth\`eque : 
+Nous avons distingu\'e plusieurs fonctions de contraintes pour notre biblioth\`eque : 
 \newline
-FP1 : Pouvoir effectuer des calculs simples sur des flots de donn\'ees.
+FP1 : effectuer des calculs simples sur des flots de donn\'ees.
+\newline
+FC1 : les utilitaires propos\'es doivent \^etre plus rapide que les anciens.
+\newline
+FC2 : la biblioth\`eque doit \^etre op\'erationnelle sous un certain d\'elai.
+\newline
+FC3 : cette biblioth\`eque doit \^etre \'ecrite dans un certain langage.
+\newline
+FC4 : les programmes doivent \^etre libres.
+\newline
+FC5 : les utilisateurs doivent pouvoir se servir facilement de ces utilitaires.
+\newline
+FC6 : la biblioth\`eque finale devra \^etre accessible  \`a tous.
+\newline
+FC7 : la biblioth\`eque finale ne doit pas contenir de bogues.
 \newline
 
-FC1 : Les utilitaires propos\'es doivent \^etre plus rapide que les anciens.
-\newline
-FC2 : La biblioth\`eque doit \^etre pr\^ete sous un certain d\'elai.
-\newline
-FC3 : Cette biblioth\`eque doit \^etre \'ecrite dans un certain langage.
-\newline
-FC4 : Les programmes doivent \^etre libre.
-\newline
-FC5 : Les utilisateurs doivent pouvoir se servir facilement de ces utilitaires.
-\newline
-FC6 : La biblioth\`eque finale devra \^etre accessible  \`a tous.
-\newline
-FC7 : Il ne doit pas y avoir de bogues.
-\newline
 
-
-Les fonctions contraintes sont expos\'ees plus pr\'ecis\'ement dans le tableau fonctionnel ci-dessous.
+Les fonctions contraintes sont d\'efinies plus pr\'ecis\'ement dans le tableau fonctionnel ci-dessous.
 
 \begin{table}[h]
 \begin{center}
@@ -51,7 +50,7 @@ Les fonctions contraintes sont expos\'ees plus pr\'ecis\'ement dans le tableau f
 \hline
  FC4 & Licence & GNU General Public License & 0 \\
 \hline
- FC5 & Facilit\'e d'utilisation & M\^eme commandes qu'avant & 2 \\
+ FC5 & Facilit\'e d'utilisation & M\^eme commandes qu'auparavant & 2 \\
 \hline
  FC6 & Accessibilit\'e & Disponible sur le d\'ep\^ot officiel Debian & 1 \\
 \hline
@@ -70,43 +69,43 @@ Flexibilit\'e : \newline
 3 = tr\`es n\'egociable\newline
 
 \section{Comparaison avec la version finale}
-Nous voici \`a la fin de notre projet et d'une mani\`ere g\'en\'erale nous avons aboutit \`a une version op\'erationnelle de la biblioth\`eque mais nous 
-allons maintenant voir si elle est conforme au cahier des charge que nous avions r\'edig\'e.
+Nous voici \`a la fin de notre projet et d'une mani\`ere g\'en\'erale nous avons abouti \`a une version op\'erationnelle de la biblioth\`eque mais nous 
+allons maintenant voir si elle est conforme au cahier des charges que nous avions r\'edig\'e.
 
 La fonction principale est bien entendu v\'erifi\'ee puisque nos utilitaires fonctionnent tous.
 
-Prenons les fonctions contraintes une \`a une afin de v\'erifier si elles sont respect\'ees :
+Prenons les fonctions de contraintes une \`a une afin de v\'erifier si elles sont respect\'ees :
 
 \begin{itemize}
-\item [\textbullet] \textbf{FC1 : Les utilitaires propos\'es doivent \^etre plus rapides que les anciens.}
+\item [\textbullet] \textbf{FC1 : les utilitaires propos\'es doivent \^etre plus rapide que les anciens.}
 \newline
 \normalsize
 Nous avions esp\'er\'e aboutir \`a des programmes dix fois plus rapides que ceux de la version ant\'erieure mais cela n'a pas \'et\'e le cas : 
-en moyenne nous atteignons des temps d'ex\'ecutions trois fois moins \'elev\'es. N\'eanmoins cette condition est n\'egociable et ne discr\'edite pas notre solution.
-\item [\textbullet] \textbf{FC2 : La biblioth\`eque doit \^etre pr\^ete sous un certain d\'elai.}
+en moyenne nous atteignons des temps d'ex\'ecution trois fois moins \'elev\'es. N\'eanmoins cette condition est n\'egociable et ne discr\'edite pas notre solution.
+\item [\textbullet] \textbf{FC2 : la biblioth\`eque doit \^etre op\'erationnelle sous un certain d\'elai.}
 \newline
 \normalsize
 Le d\'elai impos\'e de cinq mois a bien \'et\'e respect\'e.
-\item [\textbullet] \textbf{FC3 : Cette biblioth\`eque doit \^etre \'ecrite dans un certain langage.}
+\item [\textbullet] \textbf{FC3 : cette biblioth\`eque doit \^etre \'ecrite dans un certain langage.}
 \newline
 \normalsize
 Le langage C a bien \'et\'e utilis\'e et nous a permis un grand gain de vitesse.
-\item [\textbullet] \textbf{FC4 : Les programmes doivent \^etre libre.}
+\item [\textbullet] \textbf{FC4 : les programmes doivent \^etre libres.}
 \newline
 \normalsize
 La licence sous laquelle est diffus\'ee notre biblioth\`eque est GNU General Public License, ce crit\`ere est donc respect\'e.
-\item [\textbullet] \textbf{FC5 : Les utilisateurs doivent pouvoir se servir facilement de ces utilitaires.}
+\item [\textbullet] \textbf{FC5 : les utilisateurs doivent pouvoir se servir facilement de ces utilitaires.}
 \newline
 \normalsize
-Les commandes et options utilis\'ees sont exactement les m\^emes que dans la version ant\'erieure à l'exception des ``..'' remplac\'es par les `` : '' dans les expressions pour numrange et numrandom.
-\item [\textbullet] \textbf{FC6 : La biblioth\`eque finale devra \^etre accessible  \`a tous.}
+Les commandes et options utilis\'ees sont exactement les m\^emes que dans la version ant\'erieure \`a l'exception des << .. >> remplac\'es par les << : >> dans les expressions pour numrange et numrandom.
+\item [\textbullet] \textbf{FC6 : la biblioth\`eque finale devra \^etre accessible  \`a tous.}
 \newline
 \normalsize
 Le biblioth\`eque est disponible sur le d\'ep\^ot officiel Debian.
-\item [\textbullet] \textbf{FC7 : Il ne doit pas y avoir de bogues.}
+\item [\textbullet] \textbf{FC7 : la biblioth\`eque finale ne doit pas contenir de bogues.}
 \newline
 \normalsize
-Il reste quelques bogues mineurs dont pour lesquels nous n'avons pas trouv\'es de solutions, ils r\'esultent pour la plupart d'un mauvaise utilisation des utilitaires propos\'es.
+Il reste quelques bogues mineurs pour lesquels nous n'avons pas trouv\'es de solutions, ils r\'esultent pour la plupart d'un mauvaise utilisation des utilitaires propos\'es.
 \end{itemize}
 
-En conclusion on peut voir que la version finale de la biblioth\`eque est conforme au cahier des charges fonctionnels, notre solution est donc viable.
+En conclusion on peut voir que la version finale de la biblioth\`eque est conforme au cahier des charges fonctionnel, notre solution est donc viable.
