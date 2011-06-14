@@ -4,14 +4,14 @@
 
 \section{Pr\'esentation}
 
-Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant pr\'esenter les premiers tests de performances effectu\'es 
+Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant analyser les premiers tests de performances effectu\'es 
 avant la fin de l'optimisation.
-L'objectif de cette partie est de pr\'esenter les r\'esultats obtenus, en terme d'espace m\'emoire utilis\'e et de temps d'ex\'ecution, de notre biblioth\`eque.
-Nous la comparons aux performances de l'ancienne biblioth\`eque. La section explique \'egalement les optimisations r\'ealis\'ees.
+L'objectif de cette partie est d'\'evaluer les r\'esultats obtenus, en terme d'espace m\'emoire utilis\'e et de temps d'ex\'ecution, de notre biblioth\`eque.
+Nous la comparons aux performances de l'ancienne biblioth\`eque. Cette section explique \'egalement les optimisations r\'ealis\'ees.
 
-\section{Premiers Tests de performance}
+\section{Premiers tests de performance}
 
-\subsection{Pr\'esentation et Valgrind}
+\subsection{Tests et valgrind}
 \index{valgrind}\index{time}
 Les tests de performances sont effectu\'es \`a l'aide de la fonction time pour les temps d'ex\'ecution et valgrind \citep{valgrind} pour les tests de m\'emoire.
 Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inf\'erieurs pour l'ex\'ecution de chaque programme. C'est ce que nous allons
@@ -19,15 +19,15 @@ Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inf\'
 L'utilisation faite de la m\'emoire telle que le nombre d'allocations ou l'espace allou\'e par chaque programme ne d\'epend pas a priori du langage
  utilis\'e, mais plut\^ot de l'algorithmie cach\'ee dans le code. C'est pourquoi il ne devrait pas y avoir beaucoup d'am\'eliorations de ce c\^ot\'e l\`a.
 N\'eanmoins l'algorithmie reste toujours un param\`etre important faisant partie des performances d'un programme.
-Nous avons ici class\'e les programmes comme dans le chapitre \ref{chap:num-utils}.
+Nous avons ici class\'e les programmes comme dans la section \ref{chap:num-utils}.
 Pour les tests portant sur les temps d'ex\'ecution nous utiliserons la fonction time. Elle est pr\'esente dans toutes les distributions GNU/Linux et permet d'\'evaluer avec plus ou moins de pr\'ecision le temps d'ex\'ecution d'un programme.
-Les tests portant sur la m\'emoire seront eux effectu\'es avec l'outil valgrind. Habituellement utilis\'e pour le d\'eboguage et la chasse aux erreurs de segmentations (lecture ou \'ecriture non autoris\'ee dans la m\'emoire).
-Valgrind regroupe en fait six outils de d\'eveloppement et a \'et\'e d\'evelopp\'e par un groupe de programmeurs. Il n'est pas fait a priori pour l'utilisation que l'on en fait dans la partie suivante (lenteur d'ex\'ecution) mais fonctionne quand m\^eme bien.
+Les tests portant sur la m\'emoire seront eux effectu\'es avec l'outil valgrind, habituellement utilis\'e pour le d\'eboguage et la chasse aux erreurs de segmentations (lecture ou \'ecriture non autoris\'ee dans la m\'emoire).
+Valgrind regroupe en fait six outils de d\'eveloppement et a \'et\'e d\'evelopp\'e par un groupe de programmeurs. Il n'est fait a priori pour l'utilisation faite dans la partie suivante (lenteur d'ex\'ecution) mais fonctionne quand m\^eme correctement.
  
 
 \subsection{Calculs simples sur des nombres d\'ecimaux}
 
-Ici le temps d'ex\'ecution varie selon le nombre de chiffre sur lequel on fait fonctionner un programme, c'est ce que nous allons observer.
+Ici le temps d'ex\'ecution varie selon le nombre de chiffre en entr\'ee du programme, c'est ce que nous allons observer.
 La fonction numaverage comprend deux options principales. Elle permet de calculer \`a la fois, la moyenne, la m\'ediane et le mode d'une s\'erie de nombre.
 \newline
 
@@ -42,9 +42,9 @@ donn\'ees. L'analyse des r\'esultats obtenus se trouve ci-dessous.
 \label{tab:medmoy}
 \end{figure}
 
-Le tableau \ref{tab:numaverage} montre les performances de chacune de ces options (\textbf{og} et \textbf{ng} signifiant respectivement << \textbf{old generation} >> et << \textbf{new generation} >> ) : 
+Le tableau \ref{tab:numaverage} montre les performances de chacune de ces options (\textbf{og} et \textbf{ng} signifiant respectivement << \textbf{old generation} >> et << \textbf{new generation} >> ).
 \newline
-On observe successivement pour chaque test le temps d'ex\'ecution (en ms) sur en premi\`ere ligne , le nombre d'allocations m\'emoire sur la deuxi\`eme et la m\'emoire
+On observe successivement pour chaque test le temps d'ex\'ecution (en ms) sur la premi\`ere ligne , le nombre d'allocations m\'emoire sur la deuxi\`eme et la m\'emoire
 allou\'ee sur la troisi\`eme.
 \newline
 
@@ -89,7 +89,7 @@ des donn\'ees pour faire leur calcul, ce qui devient un probl\`eme pour un grand
 \subsection{Comparaisons de nombres d\'ecimaux}
 
 Dans cette partie la probl\'ematique est quasiment la m\^eme que dans la partie pr\'ec\'edente, \`a l'exception pr\`es qu'ici seulement les fonctions 
-numinterval et numnormalize sont sujette au probl\`eme des flots de donn\'ees. Les tests effectu\'ees sur numbound et numround tableau \ref{fig:bouround}
+numinterval et numnormalize sont sujette au probl\`eme des flots de donn\'ees. Les tests effectu\'es sur numbound et numround tableau \ref{fig:bouround}
 et figure \ref{fig:bouround} sont donn\'es en ms.
 \newline
 
@@ -199,9 +199,9 @@ Les tableaux de performances se trouvent en annexe.
 \end{figure}
 
 Les r\'esultats en terme de temps pour numgrep (figure \ref{fig:numgrep}) et numprocess (figure \ref{fig:numprocess}) sont plut\^ot bons, il ny a quasiment pas d'utilisation de la m\'emoire dans numprocess et numrange contrairement aux anciennes versions. 
-Nous avions aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est lin\'eaire, les programmes se comportent donc bien s'il y a beaucoup d'intervalles.
+Nous avons aussi fait des tests en changeant le nombre d'intervalles dans les expressions et on peut voir que la progression est lin\'eaire, les programmes se comportent donc correctement s'il y a beaucoup d'intervalles.
 
-On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esent 
+On peut ajouter que les programmes de l'ancienne biblioth\`eque comportent tous des fuites de m\'emoires (memory leaks) qui ne sont plus pr\'esentes 
 dans notre biblioth\`eque.
 
 \section{Optimisations}
@@ -215,7 +215,7 @@ La r\'eduction du nombre d'allocations m\'emoire, qui peut \^etre important lors
 Pour ce faire, nous avons multipli\'e la taille des allocations m\'emoire par deux \`a chaque allocation ainsi nous avons divis\'e le nombre d'allocations par une puissance de deux.
 Par exemple l'ex\'ecution d'un programme n\'ecessitant 1024 allocations ne n\'ecessite plus que 11 allocations. Bien s\^ur la taille des allocations m\'emoire est alors bien 
 sup\'erieure mais le nombre d'op\'erations d'allocation de m\'emoire, qui est chronophage, a \'et\'e grandement r\'eduit :
-On r\'eduit le temps d'ex\'ecution mais pas la m\'emoire allou\'ee qui peut d'ailleurs \^etre augment\'ee.
+on r\'eduit le temps d'ex\'ecution mais pas la m\'emoire allou\'ee qui peut d'ailleurs \^etre augment\'ee.
 
 La modification d'algorithmes, par exemple dans numround, permet un code plus lisible et facile \`a comprendre mais n'am\'eliore pas les performances car nous nous sommes tenus aux premiers algorithmes trouv\'es pour les calculs des r\'esultats.
 Les programmes sont maintenant \`a l'\'epreuve des utilisateurs non avertis : par exemple une faute de frappe n'entra\^inera pas une boucle infinie. Un message d'erreur appropri\'e sera affich\'e.

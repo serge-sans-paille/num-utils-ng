@@ -12,7 +12,7 @@ Elle impl\'emente un certain nombre d'algorithmes num\'eriques travaillant sur d
 Ces algorithmes sont r\'epartis dans dix programmes diff\'erents s'intitulant : numaverage, numbound, numgrep, numinterval, numnormalize,
 numprocess, numrandom, numrange, numround et numsum.
 
-La premi\`ere am\'elioration que l'on pouvait apporter \`a la biblioth\`eque \'etait de passer d'un langage interpr\'et\'e en un langage compil\'e.
+La premi\`ere am\'elioration que l'on pouvait apporter \`a la biblioth\`eque \'etait de passer d'un langage interpr\'et\'e \`a un langage compil\'e.
 Nous avons ainsi cod\'e, en langage C, l'ensemble de ces utilitaires.
 
 Nous avons respect\'e dans la mesure du possible les m\^emes notations et les m\^emes noms d'options que ceux de la biblioth\`eque num-utils.
@@ -40,11 +40,11 @@ Ce programme propose cinq options :
   \item[-] << \textbf{-I} >> : retourne la partie d\'ecimale de la moyenne,
   \item[-] << \textbf{-m} >> : retourne le nombre qui appara\^it le plus souvent,
   \item[-] << \textbf{-M} >> : retourne le nombre m\'edian,
-  \item[-] << \textbf{-l} >> : retourne le nombre m\'edian le plus petit (utile quand le nombre total d\'el\'ements est pair).
+  \item[-] << \textbf{-l} >> : retourne le nombre m\'edian le plus petit (utile quand le nombre total d'\'el\'ements est pair).
 \newline
 \end{itemize}\index{numnormalize}
 \item[\textbullet] \textbf{numnormalize :} numnormalize prend un ensemble de nombres en entr\'ee et retourne l'ensemble de ces nombres, 
-normalis\'es entre 0 et 1 par d\'efaut. Il propose une seule option :
+(normalis\'es entre 0 et 1 par d\'efaut). Il propose une seule option :
 \begin{itemize}
  \item[-] << \textbf{-R <n1>..<n2>} >> : la normalisation est effectu\'ee entre les nombres <n1> et <n2>.
 \newline
@@ -54,9 +54,9 @@ Six options sont propos\'ees :
 \begin{itemize}
  \item[-] << \textbf{-i} >> : retourne la partie enti\`ere de la somme,
  \item[-] << \textbf{-I} >> : retourne la partie d\'ecimale de la somme,
- \item[-] << \textbf{-c} >> : retourne la somme de chaque colomne,
+ \item[-] << \textbf{-c} >> : retourne la somme de chaque colonne,
  \item[-] << \textbf{-r} >> : retourne la somme de chaque ligne,
- \item[-] << \textbf{-x <n>} >> : retourne la somme des colomnes d\'efinies dans l'ensemble <n>,
+ \item[-] << \textbf{-x <n>} >> : retourne la somme des colonnes d\'efinies dans l'ensemble <n>,
  \item[-] << \textbf{-y <n>} >> : retourne la somme des lignes d\'efinies dans l'ensemble <n>.
 \end{itemize}
 \end{itemize}
@@ -75,10 +75,10 @@ Ce programme propose une seule option :
  \item[\textbullet] \textbf{numinterval :} numinterval calcule et affiche l'intervalle entre un nombre et le suivant du flux d'entr\'ee.
 Ce programme ne poss\`ede pas d'options sp\'ecifiques.
 \newline\index{numround}
- \item[\textbullet] \textbf{numround :} numround arrondit le nombre d\'ecimal pass\'e en entr\'e en l'entier le plus proche.
+ \item[\textbullet] \textbf{numround :} numround arrondit le nombre d\'ecimal pass\'e en entr\'ee en l'entier le plus proche.
 Ce programme propose trois options :
 \begin{itemize}
- \item[-] << \textbf{-c} >> : renvoie la partie enti`ere du nombre en entr\'ee,
+ \item[-] << \textbf{-c} >> : renvoie la partie enti\`ere du nombre en entr\'ee,
  \item[-] << \textbf{-f} >> : renvoie l'entier imm\'ediatement sup\'erieur \`a la valeur du nombre en entr\'ee, 
  \item[-] << \textbf{-n <n>} >> : renvoie le multiple de l'entier <n> le plus proche du nombre en entr\'ee.
 \end{itemize}
@@ -92,13 +92,13 @@ Cette partie regroupe quatre programmes : numgrep, numprocess, numrandom et numr
  \item[\textbullet] \textbf{numgrep :} numgrep retourne l'ensemble des nombres v\'erifiant la condition pass\'ee en argument. La condition est de la
 forme << /expression/ >>. Les diff\'erentes expressions possibles sont les suivantes :
   \begin{itemize}
-  \item[-] << \textbf{/<n1>..<n2>/} >> : retourne l'ensemble des nombres appartenant \`a l'intervalle [n1,n2], n1 et n2 \'etant des entiers.
+  \item[-] << \textbf{/<n1>..<n2>/} >> : retourne l'ensemble des nombres appartenant \`a l'intervalle [n1,n2], n1 et n2 \'etant des entiers,
   \item[-] << \textbf{/m<n>/} >> : retourne l'ensemble des multiples du nombre <n>,
   \item[-] << \textbf{/f<n>/} >> : retourne l'ensemble des diviseurs du nombre <n>.
   \end{itemize}
 Remarque : Ces expressions peuvent \^etre combin\'ees en les s\'eparant par une virgule << \textbf{,} >>.
 \newline\index{numprocess}
- \item[\textbullet] \textbf{numprocess :} numprocess effectue une liste d'op\'erations sur l'ensemble des nombres pass\'es en entr\'ee.
+ \item[\textbullet] \textbf{numprocess :} numprocess effectue une liste d'op\'erations sur les nombres pass\'es en entr\'ee.
 Les op\'erations possibles sont d\'ecrites dans le tableau \ref{tab:symboles} ci-dessous. Deux constantes sont \'egalement d\'efinies : << \textbf{pi} >> 
 et << \textbf{e} >>, repr\'esentant respectivement $\Pi$ et $e^1$.
 \begin{table}[h]
@@ -148,7 +148,7 @@ Trois options sont \'egalement propos\'ees :
 \section{Utilit\'e de ces programmes}
 
 Les dix programmes pr\'esent\'es ci-dessus sont relativement simples \`a utiliser. Chacun ne pr\'esente qu'une fonction principale ainsi que quelques options.
-Ce type de programme est donc appr\'eci\'e des programmeurs, par sa facilt\'e et sa rapidit\'e d'ex\'ecution. Dans le chapitre \ref{chap:tests et optimisations}
+Ce type de programme est donc appr\'eci\'e des programmeurs, par sa facilt\'e et sa rapidit\'e d'ex\'ecution. Dans la section \ref{chap:tests et optimisations}
 nous pr\'esenterons en d\'etail les performances obtenues.
 \newline
 Exemples d'utilisation de ces programmes :
