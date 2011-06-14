@@ -2,18 +2,23 @@
 \chapter{Tests et optimisations}
 \label{chap:tests et optimisations}
 
+\section{Pr\'esentation}
+
+Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant pr\'esenter les premiers tests de performances effectu\'es 
+avant la fin de l'optimisation.
+L'objectif de cette partie est de pr\'esenter les r\'esultats obtenus, en terme d'espace m\'emoire utilis\'e et de temps d'ex\'ecution, de notre biblioth\`eque.
+Nous la comparons aux performances de l'ancienne biblioth\`eque. La section explique \'egalement les optimisations r\'ealis\'ees.
+
 \section{Premiers Tests de performance}
 
 \subsection{Pr\'esentation et Valgrind}
 \index{valgrind}\index{time}
-Apr\`es avoir pr\'esent\'e les outils que nous avons utilis\'es, nous allons maintenant pr\'esenter les premiers tests de performances effectu\'es 
-avant la fin de l'optimisation.
-Ces tests sont effectu\'es \`a l'aide de la fonction time pour les temps d'ex\'ecution et valgrind \citep{valgrind} pour les tests de m\'emoire.
-Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inf\'erieurs pour l'ex\'ecution de chaque programme, c'est ce que nous allons
+Les tests de performances sont effectu\'es \`a l'aide de la fonction time pour les temps d'ex\'ecution et valgrind \citep{valgrind} pour les tests de m\'emoire.
+Du fait de l'utilisation du langage C nous esp\'erons avoir des temps bien inf\'erieurs pour l'ex\'ecution de chaque programme. C'est ce que nous allons
  v\'erifier.
 L'utilisation faite de la m\'emoire telle que le nombre d'allocations ou l'espace allou\'e par chaque programme ne d\'epend pas a priori du langage
- utilis\'e mais plut\^ot de l'algorithmie cach\'ee dans le code. C'est pourquoi il ne devrait pas y avoir beaucoup d'am\'elioration de ce c\^ot\'e l\`a,
-n\'eanmoins elle reste toujours un param\`etre important faisant partie des performances d'un programme.
+ utilis\'e, mais plut\^ot de l'algorithmie cach\'ee dans le code. C'est pourquoi il ne devrait pas y avoir beaucoup d'am\'eliorations de ce c\^ot\'e l\`a.
+N\'eanmoins l'algorithmie reste toujours un param\`etre important faisant partie des performances d'un programme.
 Nous avons ici class\'e les programmes comme dans le chapitre \ref{chap:num-utils}.
 Pour les tests portant sur les temps d'ex\'ecution nous utiliserons la fonction time. Elle est pr\'esente dans toutes les distributions GNU/Linux et permet d'\'evaluer avec plus ou moins de pr\'ecision le temps d'ex\'ecution d'un programme.
 Les tests portant sur la m\'emoire seront eux effectu\'es avec l'outil valgrind. Habituellement utilis\'e pour le d\'eboguage et la chasse aux erreurs de segmentations (lecture ou \'ecriture non autoris\'ee dans la m\'emoire).
@@ -27,7 +32,7 @@ La fonction numaverage comprend deux options principales. Elle permet de calcule
 \newline
 
 Voici un graphe en \'echelle logarithmique (figure \ref{tab:medmoy}) repr\'esentant le comportement des calculs de la m\'ediane et de la moyenne en fonction du nombre de 
-donn\'ees. La fonction mode n'apparait pas car elle ne supporte pas bien les grands nombres de donn\'ees et il n'y avait pas assez de points pour faire une courbe.
+donn\'ees. L'analyse des r\'esultats obtenus se trouve ci-dessous.
 
 \begin{figure}[h]
 \begin{center}
@@ -73,7 +78,7 @@ Nb de donn\'ees & moy (og) & moy (ng) & m\'ed (og) & m\'ed (ng) & mod (og) & mod
 \caption{Performances de M\'ediane et Moyenne}
 \label{tab:numaverage}
 \end{table}
-Remarque : faute de temps (l'\'execution de valgrind \'etant tr\`es lente) les tests de m\'emoire n'ont pas \'et\'e fait pour de grandes s\'eries de nombres.
+Remarque : faute de temps (l'ex\'ecution de valgrind \'etant tr\`es lente) les tests de m\'emoire n'ont pas \'et\'e fait pour de grandes s\'eries de nombres.
 \newline
 On peut remarquer que conform\'ement \`a nos attentes les temps d'ex\'ecution des nouveaux programmes sont bien inf\'erieurs \`a ceux des anciens,
  n\'eanmoins certains d'entre-eux ont des consommations de m\'emoire beaucoup plus importantes, cela est d\^u au fait que certains de nos programmes 
