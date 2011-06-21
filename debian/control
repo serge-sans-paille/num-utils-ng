@@ -3,15 +3,15 @@ Section: math
 Priority: extra
 Maintainer: serge guelton <serge.guelton@enst-bretagne.fr>
 Build-Depends: cdbs, debhelper (>= 7.0.50~), autotools-dev
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Homepage: http://projet11efr.github.com/project11/
-Conflict: num-utils
 #Vcs-Git: git://git.debian.org/collab-maint/num-utils-ng.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/num-utils-ng.git;a=summary
 
 Package: num-utils-ng
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: num-utils
 Description: Programs for dealing with numbers from the command line.
   The 'num-utils' are a set of programs for dealing with numbers from the
   Unix command line. Much like the other Unix command line utilities like
