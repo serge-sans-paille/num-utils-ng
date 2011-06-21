@@ -68,7 +68,7 @@ afficher (double *tab, int count)
 }
 
 
-static void
+static int
 normalize (FILE * stream, int l, int h)
 {				//this function normalize
   double *tab = NULL;
@@ -110,6 +110,7 @@ normalize (FILE * stream, int l, int h)
     }
   afficher (tab, count);
   free (tab);
+  return EXIT_SUCCESS;
 }
 
 
@@ -156,7 +157,9 @@ main (int argc, char *argv[])
 	  return WRONG_FILE;
 	}
     }
-  normalize (stream, numberL, numberH);
-  fclose (stream);
-  return EXIT_SUCCESS;
+  {
+      int errcode = normalize (stream, numberL, numberH);
+      fclose (stream);
+      return errcode;
+  }
 }

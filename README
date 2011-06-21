@@ -1,7 +1,7 @@
 ﻿Num-utils-ng README 
 	
 
-WHAT IS PROJECT11 ?
+WHAT IS NUM-UTILS-NG ?
 
 The purpose of this project is to analyze and improve the conceptions choices used for the num-utils library development. This library implement severals numbers of numeric algorithms from float data. 
 An important point of this project is the performances improvement.
@@ -9,7 +9,7 @@ An important point of this project is the performances improvement.
 
 HOW TO USE IT 
 
-The sources for num-utils-ng are available from https://projet11efr@github.com/projet11efr/project11.git
+The sources for num-utils-ng are available from git://github.com/serge-sans-paille/num-utils-ng.git
 
 COPYRIGHT AND LICENCE
 

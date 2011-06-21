@@ -198,7 +198,11 @@ main (int argc, char *argv[])
 {
   int opt;
   int m = 0;			// for options (average, median and mode).
-  int s = 0;			// for options (normal, integer portion and decimal portion).
+  enum {
+      NORMAL,
+      INTEGER_PORTION,
+      DECIMAL_PORTION
+  } out_mode = NORMAL;			// for options (normal, integer portion and decimal portion).
   int low = 0;
   double res = 0;
   FILE *stream = stdin;		// input stream (stdin or file).
@@ -207,11 +211,11 @@ main (int argc, char *argv[])
       switch (opt)
 	{
 	case 'i':		// option "-i" (integer portion of the average)
-	  s = 1;
+	  out_mode = INTEGER_PORTION;
 	  break;
 
 	case 'I':		//option "-I" (decimal portion of the average)
-	  s = 2;
+	  out_mode = DECIMAL_PORTION;
 	  break;
 
 	case 'M':		//option "-M" (median)
@@ -279,11 +283,16 @@ main (int argc, char *argv[])
 	}
     }
 
-  if (s == 0)
-    printf ("result : %lf\n", res);
-  if (s == 1)
-    printf ("result : %d\n", (int) res);
-  if (s == 2)
-    printf ("result : %lf\n", decimalPortion (res));
+  switch(out_mode){
+      case NORMAL:
+    printf ("%lf\n", res);
+    break;
+      case INTEGER_PORTION:
+    printf ("%d\n", (int) res);
+break;
+      case DECIMAL_PORTION:
+    printf ("%lf\n", decimalPortion (res));
+    break;
+  }
   return EXIT_SUCCESS;
 }

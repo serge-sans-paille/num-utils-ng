@@ -63,7 +63,6 @@ static int
 numgrep (FILE * stream, char expression[])
 {
   int numberRead, number1, number2;
-  int mode;
   int j;
   size_t i, count = 0;
   char *token;
@@ -80,7 +79,6 @@ numgrep (FILE * stream, char expression[])
 	  expression[i] = ',';
 	  break;
 	case '.':
-	  mode = 3;
 	  break;
 	case '0':
 	case '1':
@@ -96,10 +94,8 @@ numgrep (FILE * stream, char expression[])
 	case '-':
 	  break;
 	case 'f':
-	  mode = 1;
 	  break;
 	case 'm':
-	  mode = 2;
 	  break;
 	case ',':
 	  count++;
@@ -193,8 +189,9 @@ main (int argc, char *argv[])
     }
 
 
-  if (argv[optind][0] == '/');
+  if (argv[optind][0] == '/') {
   arg = argv[optind];
+  }
   if (!arg)
     {
       perror ("num-utils-ng");
