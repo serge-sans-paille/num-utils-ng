@@ -1,8 +1,4 @@
 /**
-*
-*
-* ***** BEGIN GPL LICENSE BLOCK *****
-*
 * This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
@@ -23,276 +19,250 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor: Edern Hotte, Flavien Moullec, Reuven Benichou.
-*
-* ***** END GPL LICENSE BLOCK *****
+* Contributor: Edern Hotte, Flavien Moullec, Reuven Benichou and Serge Guelton.
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <ctype.h>
 
+#include <search.h>
 
-static double
-decimalPortion (double d)
+static const size_t default_container_size = 1024;
+
+static double decimalPortion(double d)
 {
-  int i = (int) d;
-  double res = d - (double) i;
-  return res;
+	return d - (double)(int)d;
 }
 
-static int
-isHigher (const void *a, const void *b)
+static int isHigher(const void *a, const void *b)
 {
-    return (*(double const *) a) - (*(double const *) b);
+	return (*(double const *)a) - (*(double const *)b);
 }
 
-
-static int
-skipWord (FILE * stream)
+static void skipWord(FILE * stream)
 {
-  char c = 'a';
-  if (stream == stdin)
-    fprintf (stderr, "This is not a number!\n");
-  while (!isdigit (c) && !isspace (c) && (c != '.') && (c != '-'))
-    {
-      if ( (c=fgetc (stream)) != EOF)
-	{
-	  perror ("num-utils-ng");
-	  return EXIT_FAILURE;
+	char c;
+	do {
+		if ((c = fgetc(stream)) == EOF)
+			perror(PACKAGE_NAME);
+	} while (!isdigit(c) && !isspace(c) && (c != '.') && (c != '-'));
+}
+
+static double median(FILE * stream, bool lower)
+{
+	size_t nballoc = default_container_size, nbdouble = 0;
+	double med, d;
+	double *tab = malloc(sizeof(*tab) * nballoc);
+	if (!tab) {
+		perror(PACKAGE_NAME);
+		exit(EXIT_FAILURE);
 	}
-    }
-  return 0;
-}
 
-static double
-median (FILE * stream, int b)
-{				//this function calculates the median.
-  int nballoc = 1, nbdouble = 0, test;
-  double med, d;
-  double *tab = NULL;
-
-  while ((test = fscanf (stream, "%lf", &d)) != EOF)
-    {
-      if (test == 0)
-	skipWord (stream);
-      else
-	{
-	  nbdouble++;
-	  if (nbdouble == nballoc)
-	    {
-	      nballoc *= 2;
-	      if (!
-		  (tab =
-		   (double *) realloc (tab, (nballoc) * sizeof (double))))
-		{
-		  perror ("num-utils-ng");
-		  return EXIT_FAILURE;
+	int test;
+	while ((test = fscanf(stream, "%lf", &d)) != EOF) {
+		if (!test)
+			skipWord(stream);
+		else {
+			nbdouble++;
+			if (nbdouble == nballoc) {
+				nballoc *= 2;
+				if (!
+				    (tab =
+				     realloc(tab, nballoc * sizeof(*tab)))) {
+					perror(PACKAGE_NAME);
+					exit(EXIT_FAILURE);
+				}
+			}
+			tab[nbdouble - 1] = d;
 		}
-	    }
-	  tab[nbdouble - 1] = d;
 	}
-    }
 
-  qsort (tab, nbdouble, sizeof (double), isHigher);
-  if (decimalPortion (nbdouble / 2.0) == 0)
-    med = tab[(nbdouble / 2) - b];
-  else
-    med = tab[(nbdouble - 1) / 2];
-  free (tab);
-  return med;
+	qsort(tab, nbdouble, sizeof(double), isHigher);
+	if (decimalPortion(nbdouble / 2) == 0)
+		med = tab[(nbdouble / 2) - (int)lower];
+	else
+		med = tab[(nbdouble - 1) / 2];
+	free(tab);
+	return med;
 }
 
-static double
-mode (FILE * stream)
-{				//this functionn calculates the mode.
-    int *nb = NULL, nballoc = 1;	// nb is an array of occurences bound to tab.
-    double *tab = NULL;		//tab keeps in memory everyr different number in the stream.
-    double d = 0;
-    int  nbmod = 0, nbdouble = 0, test;
-    while ((test = fscanf (stream, "%lf", &d)) != EOF)
-    {
-        if (test == 0)
-            skipWord (stream);
-        else
-        {
-            int i = 0;
-            int done = 0;
-            while ((i < nbdouble) && (done != 1))
-            {
-                if (d == tab[i])
-                {
-                    nb[i]++;
-                    done = 1;
-                }
-                i++;
-            }
-            if (done == 0)
-            {
-                nbdouble++;
-                if (nbdouble == nballoc)
-                {
-                    nballoc *= 2;
-                    if (!
-                            (tab =
-                             (double *) realloc (tab, (nballoc) * sizeof (double))))
-                    {
-                        perror ("num-utils-ng");
-                        return EXIT_FAILURE;
-                    }
-                    if (!(nb = (int *) realloc (nb, (nballoc) * sizeof (int))))
-                    {
-                        perror ("num-utils-ng");
-                        return EXIT_FAILURE;
-                    }
-                }
-                tab[nbdouble - 1] = d;
-                nb[nbdouble - 1] = 1;
-            }
-        }
-    }
-    {
-        int i = 0;
-        while (i < nbdouble)
-        {
-            if (nb[i] > nb[nbmod])
-                nbmod = i;
-            i++;
-        }
-    }
-    d = tab[nbmod];
-    free (tab);
-    free (nb);
-    return d;
-}
+typedef struct {
+	double val;
+	size_t count;
+} trecord;
 
-static double
-mean (FILE * stream)
-{				//this function calculates the average from a File or stdin depending on the argument.
-  double l = 0;
-  double average = 0;
-  double d = 0;
-  int test;
-
-  while ((test = fscanf (stream, "%lf", &d)) != EOF)
-    {
-      if (test == 0)
-	{
-	  skipWord (stream);
-	}
-      else
-	{
-	  average += d;
-	  l++;
-	}
-    }
-  average /= l;
-  rewind (stream);
-  return average;
-}
-
-
-int
-main (int argc, char *argv[])
+static int trecord_cmp(const void *self, const void *other)
 {
-  int opt;
-  int m = 0;			// for options (average, median and mode).
-  enum {
-      NORMAL,
-      INTEGER_PORTION,
-      DECIMAL_PORTION
-  } out_mode = NORMAL;			// for options (normal, integer portion and decimal portion).
-  int low = 0;
-  double res = 0;
-  FILE *stream = stdin;		// input stream (stdin or file).
-  while ((opt = getopt (argc, argv, "iIMmlh")) != -1)
-    {
-      switch (opt)
-	{
-	case 'i':		// option "-i" (integer portion of the average)
-	  out_mode = INTEGER_PORTION;
-	  break;
+    return ((const trecord *)self)->val - ((const trecord *)other)->val;
+}
 
-	case 'I':		//option "-I" (decimal portion of the average)
-	  out_mode = DECIMAL_PORTION;
-	  break;
-
-	case 'M':		//option "-M" (median)
-	  m = 1;
-	  break;
-
-	case 'l':		//option "-l" (median)
-	  low = 1;
-	  break;
-
-	case 'm':		//option "-m" (mode)
-	  m = 2;
-	  break;
-
-	case 'h':
-	  fprintf(stdout,
-              "numaverage - Find the average of a set of numbers.\n"
-              "Synopsis : numaverage [-hiIlmM] [FILE or STDIN]\n"
-              "Options available :  \n"
-              "\t-i  Only return the integer portion of the final sum\n"
-              "\t-I  Only return the decimal portion of the final sum\n"
-              "\t-m  Find the mode (most occurring) of the list of numbers\n"
-              "\t-M  Find the median (middle number) of the list of numbers\n"
-              "\t-l  When finding the median and the count of numbers in the set is even\n"
-              "\t    use the lower middle number instead of the upper middle number\n"
-              "\t-h  Help: You're looking at it.\n"
-              "You can consult the man page for further information.\n"
-              );
-	  return 0;
-	  break;
-
-	default:		//option fail.
-	  fprintf (stderr, "Invalid option\n");
-	  return 1;
-	  break;
+static double tmax;
+static void trecord_max(const void *nodep, const VISIT which, const int __attribute__((unused)) depth)
+{
+	switch (which) {
+	case preorder:
+		break;
+	case postorder:
+		break;
+	case endorder:
+		break;
+	case leaf:{
+		double d = (*(const trecord **)nodep)->val;
+		if (d > tmax)
+			tmax = d;
+              } break;
 	}
-    }
-  if (argc > optind)
-    {
-      if (!(stream = fopen (argv[optind], "r")))
-	{
-	  perror ("num-utils-ng");
-	  return EXIT_FAILURE;
+}
+
+static double mode(FILE * stream)
+{
+	void *troot = NULL;
+	int test;
+	trecord tr = { 0., 0 };
+	while ((test = fscanf(stream, "%lf", &tr.val)) != EOF) {
+		if (!test)
+			skipWord(stream);
+		else {
+			(*(trecord **) tsearch(&tr, &troot, trecord_cmp))->
+			    count++;
+		}
 	}
-    }
+	tmax = tr.val;
+	twalk(troot, trecord_max);
+	return tmax;;
+}
 
-  if (m == 0)
-    res = mean (stream);
-  if (m == 1)
-    {
-      if (low == 1)
-	res = median (stream, 1);
-      else
-	res = median (stream, 0);
-    }
-  if (m == 2)
-    res = mode (stream);
-
-  if (argc > 1)
-    {
-      if (fclose (stream) != 0)
-	{
-	  perror ("num-utils-ng");
-	  return EXIT_FAILURE;
+static double mean(FILE * stream)
+{
+	double l = 0;
+	double average = 0;
+	double d = 0;
+	int test;
+	while ((test = fscanf(stream, "%lf", &d)) != EOF) {
+		if (!test) {
+			skipWord(stream);
+		} else {
+			average += d;
+			l++;
+		}
 	}
-    }
+	average /= l;
+	return average;
+}
 
-  switch(out_mode){
-      case NORMAL:
-    printf ("%lf\n", res);
-    break;
-      case INTEGER_PORTION:
-    printf ("%d\n", (int) res);
-break;
-      case DECIMAL_PORTION:
-    printf ("%lf\n", decimalPortion (res));
-    break;
-  }
-  return EXIT_SUCCESS;
+int main(int argc, char *argv[])
+{
+	/* option default values */
+	enum {
+		AVERAGE,
+		MEDIAN,
+		MODE
+	} exec_mode = AVERAGE;
+	enum {
+		NORMAL,
+		INTEGER_PORTION,
+		DECIMAL_PORTION
+	} out_mode = NORMAL;	// for options (normal, integer portion and decimal portion).
+	bool low = false;
+	FILE *stream = stdin;	// input stream (stdin or file).
+
+	/* parse options */
+	int opt;
+	while ((opt = getopt(argc, argv, "iIMmlh")) != -1) {
+		switch (opt) {
+		case 'i':	// option "-i" (integer portion of the average)
+			out_mode = INTEGER_PORTION;
+			break;
+
+		case 'I':	//option "-I" (decimal portion of the average)
+			out_mode = DECIMAL_PORTION;
+			break;
+
+		case 'M':	//option "-M" (median)
+			exec_mode = MEDIAN;
+			break;
+
+		case 'l':	//option "-l" (median)
+			low = true;
+			break;
+
+		case 'm':	//option "-m" (mode)
+			exec_mode = MODE;
+			break;
+
+		case 'h':
+			if (EOF == puts
+			    ("numaverage - Find the average of a set of numbers.\n"
+			     "Synopsis : numaverage [-hiIlmM] [FILE or STDIN]\n"
+			     "Options available :  \n"
+			     "\t-i  Only return the integer portion of the final sum\n"
+			     "\t-I  Only return the decimal portion of the final sum\n"
+			     "\t-m  Find the mode (most occurring) of the list of numbers\n"
+			     "\t-M  Find the median (middle number) of the list of numbers\n"
+			     "\t-l  When finding the median and the count of numbers in the set is even\n"
+			     "\t    use the lower middle number instead of the upper middle number\n"
+			     "\t-h  Help: You're looking at it.\n"
+			     "You can consult the man page for further information.\n")
+			    ) {
+				perror(PACKAGE_NAME);
+				exit(EXIT_FAILURE);
+			}
+			exit(EXIT_SUCCESS);
+			break;
+
+		default:	//option fail.
+			fputs("Invalid option\n",stderr);
+			exit(EXIT_FAILURE);
+			break;
+		}
+	}
+	if (argc > optind) {
+		if (!(stream = fopen(argv[optind], "r"))) {
+			perror(PACKAGE_NAME);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	double res;
+	switch (exec_mode) {
+	case AVERAGE:
+		res = mean(stream);
+		break;
+	case MEDIAN:
+		res = median(stream, low);
+		break;
+	case MODE:
+		res = mode(stream);
+        break;
+    default:
+        abort();
+	}
+
+	switch (out_mode) {
+	case NORMAL:
+		printf("%lf\n", res);
+		break;
+	case INTEGER_PORTION:
+		printf("%d\n", (int)res);
+		break;
+	case DECIMAL_PORTION:
+		printf("%lf\n", decimalPortion(res));
+		break;
+    default:
+        abort();
+	}
+
+	if (fclose(stream) != 0) {
+		perror(PACKAGE_NAME);
+		exit(EXIT_FAILURE);
+	}
+	exit(EXIT_SUCCESS);
+	return 0;		// makes the compiler happy
 }
