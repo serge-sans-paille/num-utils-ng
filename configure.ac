@@ -1,7 +1,7 @@
 
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.67])
-AC_INIT([num-utils-ng], [1.0], [edern.hotte@telecom-bretagne.eu,flavien.moullec@telecom-bretagne.eu or reuven-benichou@telecom-bretagne.eu])
+AC_INIT([num-utils-ng], [1.0], [serge.guelton@telecom-bretagne.eu])
 AM_INIT_AUTOMAKE([gnu])
 AC_CONFIG_HEADERS([config.h])
 

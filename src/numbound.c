@@ -1,8 +1,4 @@
 /**
-*
-*
-* ***** BEGIN GPL LICENSE BLOCK *****
-*
 * This file is part of num-utils-ng project
 *
 * This program is free software; you can redistribute it and/or
@@ -23,120 +19,88 @@
 *
 * The Original Code is: all of this file.
 *
-* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou.
+* Contributor(s): Edern Hotte, Flavien Moullec, Reuven Benichou and Serge Guelton.
 *
-* ***** END GPL LICENSE BLOCK *****
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
+#include "utils.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <ctype.h>
+#include <values.h>
 
-
-enum
-{ TYPE_ERROR = 1, OPTION_ERROR, WRONG_FILE, CLOSE_ERROR };
-
-
-static int
-skipWord (FILE * stream)
+static double bound(FILE * stream, bool upper_bound_p)
 {
-  char c = 'a';
-  if (stream == stdin)
-    fprintf (stderr, "This is not a number!\n");
-  while (!isdigit (c) && !isspace (c) && !(c == 46) && !(c == 45))
-    {
-      if (fscanf (stream, "%c", &c) != 1)
-	{
-	  perror ("num-utils-ng");
-	  exit (EXIT_FAILURE);
+	double lowerBound = DBL_MAX;
+	double upperBound = DBL_MIN;
+	double number = 0.;
+	int test;
+	while ((test = fscanf(stream, "%lf", &number)) != EOF) {
+		if (!test)
+			skipWord(stream);
+		if (number > upperBound)
+			upperBound = number;
+		if (number < lowerBound)
+			lowerBound = number;
 	}
-    }
-  return 0;
+	return upper_bound_p ? upperBound : lowerBound;
 }
 
-
-static double
-bound (FILE * stream, int mode)
-{				//this function calculates the upper or lower bound from a file or stdin depending on the argument
-  double lowerBound = 0.;
-  double upperBound = 0.;
-  double number = 0.;
-  int test;
-  if ((test = fscanf (stream, "%lf", &number)) != EOF)
-    {
-      if (!test)
-	skipWord (stream);
-      lowerBound = number;
-      upperBound = number;
-    }
-  while ((test = fscanf (stream, "%lf", &number)) != EOF)
-    {
-      if (!test)
-	skipWord (stream);
-      if (number > upperBound)
-	upperBound = number;
-      if (number < lowerBound)
-	lowerBound = number;
-      if (fscanf (stream, "%lf", &number) != EOF)
-	{
-	}
-    }
-  if (mode == 1)
-    return lowerBound;
-  else
-    return upperBound;
-}
-
-
-int
-main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-  FILE *stream = stdin;
-  int optch;
-  int m = 0;
-  double res;
+	FILE *stream = stdin;
+	enum {
+		UPPER_BOUND,
+		LOWER_BOUND
+	} exec_mode = UPPER_BOUND;
 
-  while ((optch = getopt (argc, argv, "lh")) != -1)
-    {
-      switch (optch)
-	{
-	case 'l':		//option "-l" (the lower bound number)
-	  m = 1;
-	  break;
+	int optch;
+	while ((optch = getopt(argc, argv, "lh")) != -1) {
+		switch (optch) {
+		case 'l':	//option "-l" (the lower bound number)
+			exec_mode = LOWER_BOUND;
+			break;
 
-	case 'h':
-	  fprintf(stdout,"numbound - Find boundary numbers in files or STDIN.\nSynopsis : numbound [-hl] [FILE or STDIN]\nOptions available :  \n\t-l  Return the lower bound number in the set (the minimum number).\n\t-h  Help: You're looking at it.\nYou can consult the man page for further information.\n");
-	  return EXIT_SUCCESS;
-	  break;
+		case 'h':
+			if (EOF ==
+			    puts
+			    ("numbound - Find boundary numbers in files or STDIN.\n"
+			     "Synopsis : numbound [-hl] [FILE or STDIN]\n"
+			     "Options available :  \n"
+			     "\t-l  Return the lower bound number in the set (the minimum number).\n"
+			     "\t-h  Help: You're looking at it.\n"
+			     "You can consult the man page for further information.\n")
+			    ) {
+				perror(PACKAGE_NAME);
+				exit(EXIT_FAILURE);
+			}
+			exit(EXIT_SUCCESS);
 
-	default:		//option fail.
-	  perror ("invalid option\n");
-	  return OPTION_ERROR;
-	  break;
+		default:	//option fail.
+			fputs(PACKAGE_NAME ": invalid option\n", stderr);
+			exit(EXIT_FAILURE);
+		}
 	}
-    }
-  if (argc > optind)
-    {
-      if (!(stream = fopen (argv[optind], "r")))
-	{
-	  perror ("num-utils-ng");
-	  return WRONG_FILE;
+	if (argc > optind) {
+		if (!(stream = fopen(argv[optind], "r"))) {
+			perror(PACKAGE_NAME);
+			exit(EXIT_FAILURE);
+		}
 	}
-    }
 
-  res = bound (stream, m);
+	double res = bound(stream, exec_mode == UPPER_BOUND);
 
-  if (argc > 1)
-    {
-      if (fclose (stream))
-	{
-	  perror ("num-utils-ng");
-	  return CLOSE_ERROR;
+	printf("%lf\n", res);
+	if (fclose(stream)) {
+		perror(PACKAGE_NAME);
+		exit(EXIT_FAILURE);
 	}
-    }
-  printf ("%lf\n", res);
-  return EXIT_SUCCESS;
+	exit(EXIT_SUCCESS);
+	return 0;		// makes the compiler happy
 }

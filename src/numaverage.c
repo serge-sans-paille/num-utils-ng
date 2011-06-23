@@ -26,13 +26,15 @@
 #include "config.h"
 #endif
 
+#include "utils.h"
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <ctype.h>
 
 #include <search.h>
+
 
 static const size_t default_container_size = 1024;
 
@@ -46,14 +48,6 @@ static int isHigher(const void *a, const void *b)
 	return (*(double const *)a) - (*(double const *)b);
 }
 
-static void skipWord(FILE * stream)
-{
-	char c;
-	do {
-		if ((c = fgetc(stream)) == EOF)
-			perror(PACKAGE_NAME);
-	} while (!isdigit(c) && !isspace(c) && (c != '.') && (c != '-'));
-}
 
 static double median(FILE * stream, bool lower)
 {
@@ -215,12 +209,10 @@ int main(int argc, char *argv[])
 				exit(EXIT_FAILURE);
 			}
 			exit(EXIT_SUCCESS);
-			break;
 
 		default:	//option fail.
-			fputs("Invalid option\n",stderr);
+			fputs(PACKAGE_NAME ": invalid option\n",stderr);
 			exit(EXIT_FAILURE);
-			break;
 		}
 	}
 	if (argc > optind) {
